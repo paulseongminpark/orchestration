@@ -1,0 +1,23 @@
+﻿[PACKET]
+PROJECT=context-repo
+COMMIT_MESSAGE: state: set objective 1-liner
+EVENTS:
+- [Decision] Set Objective 1-liner in context/STATE.md | scope=context/STATE.md | by=user_approved
+EXECUTE:
+- Apply patch, commit & push
+```diff
+diff --git a/context/STATE.md b/context/STATE.md
+--- a/context/STATE.md
++++ b/context/STATE.md
+@@ -1,7 +1,7 @@
+ # STATE — context-repo
+ 
+ ## Objective
+-- 1-liner -
+++ 1-liner - Maintain a live, minimal source of truth for AI orchestration.
+ 
+ ## Active Goal
+ - Goal:
+```
+[/PACKET]
+
