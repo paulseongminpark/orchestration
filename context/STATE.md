@@ -26,7 +26,9 @@
 - SNAPSHOT 헤더 제거 옵션(완전 무헤더) 검토
 
 ## Next
-- commit+push로 repo Clean 상태 확정
+- AHK Reload 완료 확인
+- Ctrl+Alt+V 재테스트(출력이 "시간 1줄 + STATE.md"인지 확인)
+- 정상이면 commit+push로 repo Clean 마감
 
 
 
