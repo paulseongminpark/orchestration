@@ -1,0 +1,3 @@
+﻿# EVENTS — context-repo
+# FORMAT:
+# [YYYY-MM-DD HH:mm] [Decision|Pending|Discarded] <statement> | scope=<...> | by=<...>
