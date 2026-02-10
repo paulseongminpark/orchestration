@@ -12,6 +12,7 @@
 - GPT = 브레인스토밍/기획 (사용제한 없음 활용)
 - Gemini = 리서치/검증
 - 로컬 단일 진실(SoT) + GitHub 미러 운영 원칙 유지
+- 모든 AI는 두 STATE URL을 참조하여 전체 진행상황 파악
 
 ## Open
 - GPT/Gemini 시스템 프롬프트 적용 후 실제 Packet 흐름 테스트 필요
@@ -21,24 +22,3 @@
 
 ## Next
 전체 Packet 흐름 테스트 (GPT → Packet → Claude Code → STATE 업데이트)
-
----
-
-# Portfolio
-
-## Scope
-- 대상: (포트폴리오 작업 대상 기입)
-- 범위: (작업 범위 기입)
-- 제외: (제외 사항 기입)
-
-## Decisions
-- (포트폴리오 관련 결정사항)
-
-## Open
-- (미결 사항)
-
-## Now
-(현재 작업)
-
-## Next
-(다음 행동)
