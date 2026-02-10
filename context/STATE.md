@@ -1,36 +1,25 @@
-# STATE — context-repo
+# AI Orchestration System
 
-## Objective
-- 로컬 단일 진실(SoT) 기반 코어 루프 안정화
-- test 1
+## Scope
+- 대상: Claude Code / GPT / Gemini 간 컨텍스트 공유 시스템
+- 범위: GitHub Pages 기반 STATE.md 자동 공유 + 각 AI 시스템 프롬프트 설정
+- 제외: API 연동, 유료 추가 도구
 
-## Active Goal
-- Goal: Ctrl+Alt+V로 최신 STATE.md 즉시 공유 (git pull 의존 제거)
-- Why now: 긴 CONTEXT_SNAPSHOT 래퍼 제거 후 로컬-only 스냅샷 확정 단계
-- Success metric: Ctrl+Alt+V 결과가 "시간 1줄 + STATE.md"만 출력, repo 항상 Clean
-- Constraints: GitHub 웹 편집 금지, 모든 변경은 로컬 commit+push만
-- DoD:
-  - sync_snapshot.ps1에서 git 로직 제거 완료
-  - SNAPSHOT 헤더 시간만 남기기 완료
-  - AHK Reload 후 Ctrl+Alt+V 정상 동작 확인
-- Next action:
-  - AHK Reload → Ctrl+Alt+V 재테스트 → 정상이면 commit+push로 마감
+## Decisions
+- GitHub Pages로 STATE.md를 공개 URL로 제공 (GPT/Gemini 브라우징 접근)
+- Obsidian → git push → Pages 자동 배포 흐름 확정
+- Claude Code = 오케스트레이터 (유일한 쓰기 권한)
+- GPT = 브레인스토밍/기획 (사용제한 없음 활용)
+- Gemini = 리서치/검증
+- 로컬 단일 진실(SoT) + GitHub 미러 운영 원칙 유지
+- AHK + PowerShell 스냅샷 파이프라인 유지
 
-## Current Truth
-- 운영 원칙: 로컬 단일 진실(Write) + GitHub 미러(백업/히스토리)
-- 모든 변경: GPT 패킷 → Claude Code 로컬 적용 → commit+push
-- sync_snapshot.ps1: git 로직 제거됨, 시간 1줄 + STATE.md 본문만 생성
-- inject_snapshot.ahk: RunWait ps1 → FileRead → Ctrl+V 파이프라인
+## Open
+- GPT/Gemini 시스템 프롬프트에 STATE URL 자동 참조 규칙 적용 필요
+- CLAUDE.md에 오케스트레이션 규칙 추가 필요
 
-## Pending
-- 실수로 GitHub 웹 수정 시 복구 절차(fetch/status → revert → push) 문서화
-- SNAPSHOT 헤더 제거 옵션(완전 무헤더) 검토
+## Now
+오케스트레이션 시스템 아키텍처 설계 + 각 AI 설정 적용
 
 ## Next
-- AHK Reload 완료 확인
-- Ctrl+Alt+V 재테스트(출력이 "시간 1줄 + STATE.md"인지 확인)
-- 정상이면 commit+push로 repo Clean 마감
-
-
-
-
+GPT Custom Instructions / Gemini Gems에 STATE URL 참조 규칙 작성
