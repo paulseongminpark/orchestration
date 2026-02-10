@@ -14,11 +14,31 @@
 - 로컬 단일 진실(SoT) + GitHub 미러 운영 원칙 유지
 
 ## Open
-- GPT/Gemini 시스템 프롬프트에 STATE URL 자동 참조 규칙 적용 필요
-- CLAUDE.md에 오케스트레이션 규칙 추가 필요
+- GPT/Gemini 시스템 프롬프트 적용 후 실제 Packet 흐름 테스트 필요
 
 ## Now
-오케스트레이션 시스템 아키텍처 설계 + 각 AI 설정 적용
+각 AI 시스템 프롬프트 적용 중
 
 ## Next
-GPT Custom Instructions / Gemini Gems에 STATE URL 참조 규칙 작성
+전체 Packet 흐름 테스트 (GPT → Packet → Claude Code → STATE 업데이트)
+
+---
+
+# Portfolio
+
+## Scope
+- 대상: (포트폴리오 작업 대상 기입)
+- 범위: (작업 범위 기입)
+- 제외: (제외 사항 기입)
+
+## Decisions
+- (포트폴리오 관련 결정사항)
+
+## Open
+- (미결 사항)
+
+## Now
+(현재 작업)
+
+## Next
+(다음 행동)
