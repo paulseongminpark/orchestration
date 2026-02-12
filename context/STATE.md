@@ -47,6 +47,8 @@ GitHub
 **2026-02-12**
 - 로그 이원화: LOGS (한줄요약) + EVIDENCE (세션상세)
 - EVIDENCE: copy-session-log.py (Paul/claude, KST, 평문, 원본보존)
+- EVIDENCE 하이브리드: 중요 작업 로그 기록 시 자동 갱신 (~100토큰/회)
+- "today" 명령어 자동화: 최근 2일 TODAY + EVIDENCE + STATE 읽기 → 오늘 TODAY 생성 → 작업 상황 출력
 - push-state.ps1 통합 (session+split+STATE, 1클릭 자동화)
 - Python: split-logs.py (인코딩 문제 해결)
 - 효율: CLAUDE.md 320토큰, echo 사용
