@@ -1,2 +1,5 @@
+context/TODAY
+context/LOGS
+context/EVENTS.log
+context/LATEST_CONTEXT.md
 context/SNAPSHOT.txt
-.obsidian/
