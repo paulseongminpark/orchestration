@@ -31,3 +31,14 @@
 ## Next
 - 전체 Packet 흐름 테스트 (GPT → Packet → Claude Code → STATE 업데이트)
 - 포트폴리오 UI 구현 착수
+
+## Key Decisions
+
+**2026-02-12: 로그 중앙 집중화 시스템 전환**
+- AI_작업실/LOGS를 단일 진실 소스로 확정
+- 심볼릭 링크 구조 도입 (context-repo/context/LOGS → AI_작업실/LOGS/BY_PROJECT/orchestration)
+- 자동 분기 스크립트 (split-logs.ps1) 도입
+- 프로젝트 태그: [orchestration], [portfolio], [workout-bot], [cowork]
+- Claude CLAUDE.md Logging 섹션 전면 개편
+- Multi-Agent 구조 정립 (reader/executor/architect)
+- 확장성: 무제한 프로젝트 추가 가능
