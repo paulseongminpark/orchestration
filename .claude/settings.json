@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(npx *)"
+    ],
+    "deny": [
+      "Read(.env*)",
+      "Read(C:\\dev\\03_evidence/**)",
+      "Bash(rm -rf *)",
+      "Bash(git push --force*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo STATE 변경됨. /sync 실행 권장."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:\\dev\\01_projects\\01_orchestration\\scripts\\copy-session-log.py orchestration"
+          }
+        ]
+      }
+    ]
+  }
+}
