@@ -12,9 +12,15 @@
     ],
     "deny": [
       "Read(.env*)",
-      "Read(C:\\dev\\03_evidence/**)",
+      "Read(C:/dev/03_evidence/**)",
+      "Read(**/.ssh/**)",
+      "Read(**/secrets/**)",
       "Bash(rm -rf *)",
-      "Bash(git push --force*)"
+      "Bash(rm -r *)",
+      "Bash(git push --force*)",
+      "Bash(git clean *)",
+      "Bash(curl *)",
+      "Bash(wget *)"
     ]
   },
   "hooks": {
@@ -24,7 +30,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo STATE 변경됨. /sync 실행 권장."
+            "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // empty\"); if echo \"$FILE\" | grep -qE \"(STATE\\.md|CLAUDE\\.md|docs/.*\\.md)\"; then echo \"⚠️ 중요 파일 변경. /sync 권장\"; fi'",
+            "async": true
           }
         ]
       }
@@ -34,7 +41,15 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python C:\\dev\\01_projects\\01_orchestration\\scripts\\copy-session-log.py orchestration"
+            "command": "python C:/dev/01_projects/01_orchestration/scripts/copy-session-log.py orchestration"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'DIRTY=0; for d in C:/dev/01_projects/*/; do if git -C \"$d\" status --porcelain context/STATE.md 2>/dev/null | grep -q .; then echo \"⚠️ $(basename $d): STATE.md 미커밋. /sync 필요\"; DIRTY=1; fi; done; if [ $DIRTY -eq 1 ]; then echo \"BLOCK: /sync 실행 후 종료하세요\"; exit 1; fi'"
           }
         ]
       }
