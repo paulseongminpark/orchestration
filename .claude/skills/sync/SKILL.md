@@ -6,6 +6,7 @@ allowed-tools: Read, Edit, Bash
 ---
 
 ## Steps
+0. (선택) /verify-project-rules 실행 (경고만, 차단 안 함)
 1. context/STATE.md 읽기
 2. 이번 세션 작업 반영 (완료/다음/막힌것 갱신)
 3. 날짜 업데이트

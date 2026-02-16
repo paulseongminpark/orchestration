@@ -1,6 +1,6 @@
 # STATE — AI Orchestration System
 
-## 지금 상태 (2026-02-15 기준)
+## 지금 상태 (2026-02-17 기준)
 
 **완료**
 - Phase 1: 폴더 구조 마이그레이션 (Jeff Su 방법론)
@@ -16,13 +16,16 @@
 - 학습 문서 8개 생성 (docs/)
 - AI 프롬프트 7개 생성/갱신
 - 구 시스템 잔재 아카이브 (hooks, agents, AI_작업실)
+- Phase 7: 검증 시스템 (/verify, /verify-project-rules, /verify-log-format)
+- /sync-all 글로벌화 (어디서든 실행 가능)
+- kimoring-ai-skills 패턴 적용 (verify-* 스킬 구조)
 
 **다음 할 일**
-- 각 AI 프롬프트 실전 적용 (GPT/Gemini/Perplexity에 붙여넣기)
+- /verify 스킬 실전 테스트 (orchestration, portfolio 프로젝트)
+- /sync에 자동 검증 통합 확인
+- verify-state-sync 스킬 추가 (STATE.md ↔ 실제 상태 일치)
 - Obsidian에서 볼트 사용성 확인 (docs/ 학습 시작)
 - Packet 흐름 실전 테스트 (GPT → Claude → STATE)
-- Skills 실전 테스트 (/sync, /status, /morning)
-- ytm_migrate 폴더 삭제 (재부팅 후)
 
 **막힌 것**
 - 없음
