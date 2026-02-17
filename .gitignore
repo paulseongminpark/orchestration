@@ -2,3 +2,5 @@ context/TODAY
 context/EVENTS.log
 context/LATEST_CONTEXT.md
 context/SNAPSHOT.txt
+.obsidian/
+t_v2*
