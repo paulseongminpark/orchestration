@@ -19,13 +19,16 @@
 - Phase 7: 검증 시스템 (/verify, /verify-project-rules, /verify-log-format)
 - /sync-all 글로벌화 (어디서든 실행 가능)
 - kimoring-ai-skills 패턴 적용 (verify-* 스킬 구조)
+- Phase 8: 문서 구조 확장 (PLANNING.md, KNOWLEDGE.md)
+- SuperClaude Framework 패턴 적용 (문서 3분화)
+- Phase 9: 행동 모드 스킬 (/token-mode, /research)
 
 **다음 할 일**
-- /verify 스킬 실전 테스트 (orchestration, portfolio 프로젝트)
-- /sync에 자동 검증 통합 확인
-- verify-state-sync 스킬 추가 (STATE.md ↔ 실제 상태 일치)
-- Obsidian에서 볼트 사용성 확인 (docs/ 학습 시작)
+- 전체 시스템 실전 테스트 (/verify, /token-mode, /research)
+- PLANNING.md 지속 업데이트 (새 결정 기록)
+- Obsidian 볼트 사용성 확인 (docs/ 학습)
 - Packet 흐름 실전 테스트 (GPT → Claude → STATE)
+- 포트폴리오 프로젝트 본격 시작
 
 **막힌 것**
 - 없음
