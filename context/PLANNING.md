@@ -4,6 +4,35 @@
 
 ---
 
+## D-019: 토큰 관리 자동화 (2026-02-17)
+
+**문제**: Opus 전환 시 비용 관리 필수, 수동 체크로는 부족
+
+**결정**: 10만 단위 토큰 관리 + 자동화
+- 0-100K: 일반 모드
+- 100K-150K: /token-mode 권장
+- 150K+: /compact 필수
+- SessionStart Hook: 자동 알림
+- token-monitor.sh: 백그라운드 모니터링
+
+**이유**:
+- 비용 관리: Opus는 Sonnet 대비 10배 비용
+- 명확한 기준: 10만 단위로 단순화
+- 자동화: 세션 시작 시 규칙 알림
+
+**영향**:
+- 글로벌 settings.json: model=opus, CLAUDE_CODE_EFFORT_LEVEL=high
+- SessionStart Hook: 토큰 규칙 알림
+- ~/.claude/scripts/token-monitor.sh: 실시간 모니터링
+- /token-check 스킬 추가
+
+**대안 고려**:
+- 턴 수 기반 추정: → 부분 채택 (token-monitor.sh)
+- 실시간 API 체크: → 불가능 (Claude Code API 없음)
+- MCP 서버 (메모리 관리): → 보류 (현재 시스템 충분)
+
+---
+
 ## D-018: 행동 모드 스킬 (2026-02-17)
 
 **문제**: 토큰 관리가 수동, 리서치 워크플로우 없음
