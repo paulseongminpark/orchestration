@@ -22,6 +22,10 @@
 - Phase 8: 문서 구조 확장 (PLANNING.md, KNOWLEDGE.md)
 - SuperClaude Framework 패턴 적용 (문서 3분화)
 - Phase 9: 행동 모드 스킬 (/token-mode, /research)
+- Phase 10: 토큰 관리 자동화 (10만 단위, 실시간 모니터링)
+- Opus + High Effort 모드 전환
+- SessionStart Hook: 토큰 규칙 알림
+- 백그라운드 모니터: token-monitor.sh
 
 **다음 할 일**
 - 전체 시스템 실전 테스트 (/verify, /token-mode, /research)
