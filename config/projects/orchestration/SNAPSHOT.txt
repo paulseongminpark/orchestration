@@ -1,0 +1,55 @@
+﻿<!-- updated=2026-02-09 23:15:25 KST -->
+# ORCHESTRATION - STATE (context-repo)
+# STATE — context-repo
+
+## Objective
+- 로컬 단일 진실(SoT) 기반 코어 루프 안정화
+- test 2
+
+## Active Goal
+- Goal: Ctrl+Alt+V로 최신 STATE.md 즉시 공유 (git pull 의존 제거)
+- Why now: 긴 CONTEXT_SNAPSHOT 래퍼 제거 후 로컬-only 스냅샷 확정 단계
+- Success metric: Ctrl+Alt+V 결과가 "시간 1줄 + STATE.md"만 출력, repo 항상 Clean
+- Constraints: GitHub 웹 편집 금지, 모든 변경은 로컬 commit+push만
+- DoD:
+  - sync_snapshot.ps1에서 git 로직 제거 완료
+  - SNAPSHOT 헤더 시간만 남기기 완료
+  - AHK Reload 후 Ctrl+Alt+V 정상 동작 확인
+- Next action:
+  - AHK Reload → Ctrl+Alt+V 재테스트 → 정상이면 commit+push로 마감
+
+## Current Truth
+- 포트폴리오 실행 목록은 `C:\dev\AI_작업실\02_PROJECTS\포트폴리오\STATE.md`에서 관리
+- 운영 원칙: 로컬 단일 진실(Write) + GitHub 미러(백업/히스토리)
+- 모든 변경: GPT 패킷 → Claude Code 로컬 적용 → commit+push
+- sync_snapshot.ps1: git 로직 제거됨, 시간 1줄 + STATE.md 본문만 생성
+- inject_snapshot.ahk: RunWait ps1 → FileRead → Ctrl+V 파이프라인
+
+## Pending
+- 실수로 GitHub 웹 수정 시 복구 절차(fetch/status → revert → push) 문서화
+- SNAPSHOT 헤더 제거 옵션(완전 무헤더) 검토
+
+## Next
+- AHK Reload 완료 확인
+- Ctrl+Alt+V 재테스트(출력이 "시간 1줄 + STATE.md"인지 확인)
+- 정상이면 commit+push로 repo Clean 마감
+
+# PORTFOLIO - STATE (AI_WORKSHOP)
+## Active Goal
+- Goal: seed.ts placeholder 8개(Work 5 + Writing 1 + Resume 1 + Contact 1)를 실콘텐츠로 교체
+- Why now: About 3개 + System 5개는 md 동적 로드/파싱 완료. placeholder만 남음
+- Success metric: 모든 섹션에서 "placeholder content" 문자열 0개 + 배포 URL 확보
+- Constraints: UI3 레이아웃(탭+TOC+섹션) 유지, vanilla CSS, 라우팅 없음, 한국어 기준
+- DoD:
+  - seed.ts Work/Writing/Resume/Contact description에 실텍스트 반영
+  - Page.tsx [Image: 16:9] placeholder를 실제 이미지 또는 의미있는 비주얼로 교체
+  - vite build → 배포 완료
+- Next action:
+  - seed.ts Work 5개(safety-1~5) id/title/description을 실제 프로젝트로 교체
+
+## Next
+- seed.ts: safety-1~5의 id/title/shortTitle/description을 실제 프로젝트(PMCC/빈집CPS/SkinDiary 등)로 교체
+- seed.ts: writing-1/resume-1/contact-1 description에 실텍스트 채우기
+- Page.tsx :174 탭 배열에 Resume/Contact 추가 여부 결정
+- 이미지 placeholder 교체 방안 결정 (실제 이미지 vs CSS 일러스트)
+- vite build 실행 → 배포 테스트
