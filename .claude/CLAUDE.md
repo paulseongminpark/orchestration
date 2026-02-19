@@ -24,5 +24,13 @@
 /handoff: AI 간 문서 생성
 /status: 프로젝트 현황
 
+## Config (AI 도구 설정)
+- Claude: config/claude/
+- GPT: config/gpt/
+- Gemini: config/gemini/
+- Perplexity: config/perplexity/
+
+(구 ai-config 저장소에서 흡수. ai-config는 ARCHIVED 상태)
+
 ## Pages URL
 https://paulseongminpark.github.io/orchestration/context/STATE.md
