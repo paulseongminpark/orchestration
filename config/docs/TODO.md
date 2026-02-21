@@ -16,5 +16,10 @@
   - v2.0 완료 기록: Agent Teams, hooks 7개, 에이전트 14개, /catchup, /gpt-review, /commit-push-pr, rules 구조화, MCP 2개
   - 오늘 세션 마무리 전 처리
 
+## 내일 할 것 (2026-02-23)
+- [ ] portfolio AI System 섹션 — 포트폴리오 디자인 실험 추가
+  - monet-lab에서 실험한 디자인 컴포넌트 내용 포함
+  - AI 방법론 섹션에 "디자인 실험" 파트로 삽입
+
 ## 백로그
 - 2026-02-21 09:11 데일리 리뷰 ko/en 내용 다름 ...
