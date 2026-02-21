@@ -103,12 +103,14 @@ Claude: /sync 실행
 | Symlink (mklink /D) | ✅ 필요 | 제한적 |
 | **Junction (mklink /J)** | ❌ 불필요 | **완전 지원** |
 
-### 현재 Junction
+### Junction (ARCHIVED — 2026-02-19 이후 제거됨)
 
 ```
-C:\dev\02_ai_config\projects\orchestration → 01_orchestration\context
-C:\dev\02_ai_config\projects\portfolio     → 02_portfolio\context
+(구) C:\dev\02_ai_config\projects\orchestration → 01_orchestration\context
+(구) C:\dev\02_ai_config\projects\portfolio     → 02_portfolio\context
 ```
+
+> ai-config가 ARCHIVED 처리되면서 junction도 제거됨. 현재 직접 경로 사용.
 
 ### 특성
 

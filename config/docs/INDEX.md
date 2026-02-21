@@ -29,7 +29,7 @@
 | Perplexity 포트폴리오 | `perplexity/spaces/portfolio.md` |
 | Gemini 글로벌 | `gemini/master_prompt.md` |
 | Gemini 체크리스트 | `gemini/validation_checklist.md` |
-| Claude 계층 설명 | `claude/hierarchy.md` |
+| Claude 계층 설명 | `config/claude/hierarchy.md` |
 
 ## 핵심 원칙 (한 눈에)
 

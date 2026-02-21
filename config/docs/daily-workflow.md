@@ -67,7 +67,7 @@ claude
 
 **파이프라인 (D-019)**:
 - 핸드폰 Claude Code → `claude/add-inbox-hello-71SP3` 브랜치 → `Inbox.md` 누적
-- `/todo` 실행 시: 브랜치 Inbox.md 읽기 → main과 diff → 새 항목 merge → 로컬 `C:\dev\02_ai_config\docs\TODO.md` 반영
+- `/todo` 실행 시: 브랜치 Inbox.md 읽기 → main과 diff → 새 항목 merge → 로컬 `C:\dev\02_ai_config\docs\TODO.md` 반영 (ARCHIVED 경로 — MEMORY.md 확인)
 
 ---
 

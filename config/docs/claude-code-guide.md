@@ -92,7 +92,7 @@ model: haiku                  ← (선택) 모델 지정
 | `/sync-all` | 3개 repo (orchestration, portfolio, ai-config) 일괄 커밋+푸시 |
 | `/memory-review` | Auto Memory 주간 정리 (pending.md → MEMORY.md 병합/정리) |
 | `/research` | Perplexity 스타일 리서치 워크플로우 |
-| `/todo` | C:/dev/02_ai_config/docs/TODO.md 관리 |
+| `/todo` | C:/dev/02_ai_config/docs/TODO.md 관리 (경로 ARCHIVED — MEMORY.md 참조) |
 | `/token-check` | 현재 컨텍스트 토큰 사용량 확인 |
 | `/token-mode` | 토큰 절약 모드 전환 (Haiku 서브에이전트 우선) |
 | `/verify` | 프로젝트 규칙 검증 |

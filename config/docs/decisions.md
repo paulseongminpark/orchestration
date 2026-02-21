@@ -313,7 +313,7 @@ C:\dev\CLAUDE.md                  # 모든 프로젝트 공통 (한국어, Git �
    - `C:/dev/.claude/settings.local.json`: SessionStart hook 추가
    - `/sync-memo` skill: 수동 실행 옵션
 
-3. **타겟**: `C:/dev/02_ai_config/docs/TODO.md`
+3. **타겟**: `C:/dev/02_ai_config/docs/TODO.md` (ARCHIVED — MEMORY.md의 TODO.md 위치 참조)
 
 **이유**:
 - 이동 중 떠오르는 아이디어를 핸드폰으로 즉시 기록
