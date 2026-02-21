@@ -2,13 +2,24 @@
 
 ---
 
-## v2.0 — 진행 중 (2026-02-21~)
+## v2.0 — 완료 (2026-02-21)
 
 ### 추가
 - cc-system 통합: crystalize-prompt, design-pipeline, skill-creator, subagent-creator, hook-creator
-- C:\dev 볼트 git repo 초기화 → Obsidian Git 자동 동기화
-- skills 11개 → 14개 (skill-creator, subagent-creator, hook-creator 신규)
-- 버전 관리 체계 (CHANGELOG.md, VERSIONS.md, ROADMAP.md)
+- C:\dev 볼트 git repo 초기화 → dev-vault GitHub 연결 (main 브랜치)
+- Skills 11개 → 14개 (skill-creator, subagent-creator, hook-creator 신규)
+- 버전 관리 체계 (CHANGELOG.md, ROADMAP.md)
+- Worker 에이전트 11개 구축:
+  - orchestrator (업그레이드: 라우터 전용 Haiku)
+  - morning-briefer (프로젝트 현황 + TODO 통합 브리핑)
+  - pf-context, pf-reviewer [Opus], pf-deployer (portfolio 전용)
+  - orch-state, orch-doc-writer [Opus], orch-skill-builder [Opus] (orchestration 전용)
+  - code-reviewer [Opus], commit-writer, compressor (cross-project)
+- /morning 스킬 → morning-briefer 에이전트 연동 + TODO 포함
+
+### 미완료 (v2 잔여)
+- Obsidian Git Auto push interval 설정 (사용자 직접)
+- monet-lab Worker 2개 (ml-experimenter, ml-porter) — 대기 중
 
 ---
 
