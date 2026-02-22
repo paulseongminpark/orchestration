@@ -2,6 +2,22 @@
 
 ---
 
+## v2.3 — 진행 중 (2026-02-22)
+
+### 완료
+- MCP 서버 3개 제거 (memory, desktop-commander, sequential-thinking)
+- example-skills 플러그인 비활성화 (document-skills와 100% 중복)
+- docs/SYSTEM-GUIDE.md 종합 사용 가이드 작성 (16개 섹션)
+- Gemini 교차 분석 완료 (10건 발견, 3건 처리)
+
+### 미완 (다음 세션)
+- 중복 플러그인 4개 비활성화 (code-review, commit-commands, skill-creator, hookify)
+- playground 플러그인 비활성화
+- 스킬-에이전트 통합 검토 (catchup+morning, creator 스킬들 → orch-skill-builder)
+- SessionEnd JSONL 레이스컨디션 검토
+
+---
+
 ## v2.2 — 완료 (2026-02-22)
 
 ### System Overhaul

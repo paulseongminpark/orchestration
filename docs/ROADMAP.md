@@ -22,13 +22,31 @@
 - [ ] Obsidian Git Auto push interval 설정 (사용자 직접)
 - [x] monet-lab Worker 2개 (ml-experimenter, ml-porter)
 
+## v2.2 ✅ (2026-02-22)
+**System Overhaul — 죽은 자동화 수리, 불필요 제거**
+- [x] 죽은 훅 6건 수리
+- [x] 불필요 파일 17건 삭제
+- [x] stale 문서 10건 최신화
+- [x] MCP 서버 3개 제거 (memory, desktop-commander, sequential-thinking)
+- [x] example-skills 플러그인 비활성화
+- [x] docs/SYSTEM-GUIDE.md 종합 사용 가이드 작성
+
+## v2.3 📋 (다음 세션)
+**플러그인 정리 + 스킬 통합**
+- [ ] 중복 플러그인 4개 비활성화 (code-review, commit-commands, skill-creator, hookify)
+- [ ] playground 플러그인 비활성화
+- [ ] catchup + morning 스킬 통합 여부 결정
+- [ ] skill-creator/hook-creator/subagent-creator → orch-skill-builder 통합 여부 결정
+- [ ] SessionEnd JSONL 레이스컨디션 검토
+
 ## v3.0 📋 (계획)
 **TBD — v2 완료 후 결정**
 - 후보: monet-lab Worker 완성
 - 후보: YouTube Collector (tech-review 콘텐츠 수집 자동화)
 - 후보: references 폴더 구조 전 스킬 적용
 - 후보: GPT/Gemini/Perplexity master_prompt crystalize 적용
+- 후보: Codex 전체 분석 (WSL 환경 구성)
 
 ---
 
-_업데이트: 2026-02-21_
+_업데이트: 2026-02-22_

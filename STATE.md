@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 마지막 갱신: 2026-02-22 (monet-lab page-12 구현 완료)
+> 마지막 갱신: 2026-02-22 (Gemini 분석 + 시스템 가이드 작성 완료)
 > /sync 스킬로 자동 갱신됩니다.
 
 ## 현재 상태
@@ -9,6 +9,15 @@
 **활성 프로젝트**: tech-review, portfolio, orchestration, monet-lab
 
 ## 진행 중
+
+### orchestration
+- Gemini 교차 분석 완료 (10건 발견, 3건 처리)
+- MCP 서버 3개 제거 (memory, desktop-commander, sequential-thinking)
+- example-skills 플러그인 비활성화
+- docs/SYSTEM-GUIDE.md 종합 사용 가이드 작성 완료
+- **미완**: 중복 플러그인 4개 비활성화 (code-review, commit-commands, skill-creator, hookify)
+- **미완**: playground 플러그인 비활성화
+- **미완**: 스킬-에이전트 통합 검토
 
 ### monet-lab
 - page-12 UI 개선 완료 (FadeIn style prop, 형광펜, SectionFlowGrid, portfolio 컴포넌트 이식)
@@ -26,17 +35,9 @@
 - **다음**: Tech Review System 스토리텔링 글 작성
 - **미완**: 07~10 스크린샷 → lab.md 이미지 링크 추가
 
-### orchestration
-- v2.2 시스템 오버홀 완료
-- **완료 항목**:
-  - 죽은 훅 6건 수리 (PostToolUse, SessionEnd, PreCompact, TeammateIdle, Stop, Notification)
-  - session-stop.sh + analyze-session.sh 수리 (Auto Memory 파이프라인 복구)
-  - 불필요 파일 17건 삭제 (에이전트 2, 스킬 4, 스크립트 1, 규칙 2, orchestration 파일 8)
-  - stale 문서 10건 최신화 (config/docs 4건, 스킬 3건, CLAUDE.md, KNOWLEDGE.md, HOME.md)
-  - decisions.md 미반영 항목 정리 (codex 3건 취소, 구현완료 2건 반영)
-
 ## 완료된 것
 
+- [2026-02-22] Gemini 교차 분석 + MCP 정리 + 종합 사용 가이드 작성
 - [2026-02-22] monet-lab page-12 UI 개선 및 portfolio 원본 컴포넌트 이식
 - [2026-02-22] v2.2 시스템 오버홀 완료
 - [2026-02-22] CHANGELOG.md v2.0 hooks 7종 완성

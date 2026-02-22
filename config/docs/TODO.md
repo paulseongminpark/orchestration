@@ -15,6 +15,17 @@
 - [x] CHANGELOG.md v2.0 내용 업데이트 + orchestration 커밋
   - 완료: 2026-02-22
 
+- [x] docs/SYSTEM-GUIDE.md 종합 사용 가이드 작성
+  - 완료: 2026-02-22
+
+- [ ] [orchestration] 중복 플러그인 비활성화
+  - code-review, commit-commands, skill-creator, hookify, playground
+  - 다음 세션 처리
+
+- [ ] [orchestration] 스킬-에이전트 통합 검토
+  - catchup + morning 통합 여부
+  - skill-creator/hook-creator/subagent-creator → orch-skill-builder 통합 여부
+
 - [ ] [긴급] portfolio에 Tech Review 설계 로직 섹션 추가
   - tech review 블로그의 설계 방법론을 포트폴리오에 스토리텔링으로 기록
   - 포함 내용: Smart Brevity 도입 배경, 요일별 큐레이션 구조, keywords-log 중복 방지 설계, Perplexity 활용법
