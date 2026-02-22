@@ -5,43 +5,47 @@
 
 === 컨텍스트 압축 요약 ===
 
-세션 목표: gemini-analyzer 비판 분석 결과를 전면 반영해 오케스트레이션 시스템 개선
+세션 목표: monet-lab UI 실험실 page-12 (OpenAI Pure 스타일) 설계 및 구현 준비
 
 완료:
-  - [분석] gemini-analyzer(Opus)로 오케스트레이션 시스템 전체 비판 분석 수행
-  - [계획] docs/plans/2026-02-22-orch-system-overhaul.md 작성 (11개 태스크)
-  - [보안] settings.json PAT 완전 제거 (env + pluginConfigs 2곳)
-  - [보안] PowerShell로 Windows 사용자 환경변수에 PAT 등록 안내
-  - [정리] context/SNAPSHOT.txt → context/archive/SNAPSHOT.2026-02-09.txt 아카이브 (커밋: 4d5e219)
-  - [보안] PreToolUse 페일클로즈 전환 (|| echo "" → RET=$?; [ $RET -ne 0 ] && exit 2)
-  - [자동화] SessionStart에 docs-review 7일 경과 경고 hook 추가
-  - [자동화] SessionEnd에 MEMORY.md 150줄 초과 경고 hook 추가
-  - [자동화] compressor 4곳 → 5곳 저장 (METRICS.md 추가)
-  - [statusline] statusline.py에 미커밋 수 ↑N 빨간색 표시 추가
-  - [디버깅] Auto Memory Phase 1 실제 작동 확인 (pending.md에 데이터 쌓임)
-  - [decisions] decisions.md git-tracked 전환 (orchestration/context/로 이동, 커밋: e0664b3)
-  - [정리] morning-briefer를 catchup+orch-state 통합 엔트리포인트로 업그레이드
-  - [정리] KNOWLEDGE.md stale 항목 정리 (ai-config, 모델버전, 경로) (커밋: 1e71ced)
+  - [분석] page-11 크리틱 분석 (UI 문제점 6가지 파악)
+  - [구현] page-11-v2 생성 (AI System 격리, 반응형, AI Section 토글, 카드 균형, TOC active)
+  - [구현] page-11-v2.1 (Track A: 전환 애니, Writing 상세, 타임라인 날짜, 스무스 스크롤)
+  - [구현] page-11-v2.2 (Track B: 사이드바 미니모드 ◀▶, 키보드 네비 j/k/?)
+  - [구현] page-11-v3 (Track C: AI 에이전트 다이어그램 클릭 모달, 콘텐츠 검색 /)
+  - [정리] 4개 버전 독립 페이지 분리 (11-v2 / 11-v2.1 / 11-v2.2 / 11-v3 그룹 "11")
+  - [리서치] OpenAI 웹사이트 완전 분해 (폰트, 색상, 타이포 스케일, 레이아웃, 컴포넌트)
+  - [설계] page-12 브레인스토밍 + 설계 승인
+  - [문서] docs/plans/2026-02-22-page-12-design.md 작성
+  - [문서] docs/plans/2026-02-22-page-12-implementation.md 작성
+  - 마지막 커밋: [monet-lab] page-12 구현 플랜 작성
 
-현재 상태: 오케스트레이션 시스템 overhaul 완료. 11개 태스크 전부 완료.
+현재 상태: monet-lab master 브랜치. page-12 디렉토리 미생성 (구현 전). 설계 완료 상태.
 
 다음 할 것:
-  1. [portfolio] localhost:5173 확인 → 필요시 UI 조정
-  2. [portfolio] Tech Review System 스토리텔링 글 작성
-  3. [portfolio] 07~10 스크린샷 → lab.md 이미지 링크 추가
-  4. [tech-review] 나머지 요일 프롬프트(월~토 6개) Smart Brevity 형식 업데이트
-  5. [tech-review] 2/23 GitHub Actions 자동 생성 결과 확인
+  1. page-12 구현 시작 (플랜: docs/plans/2026-02-22-page-12-implementation.md)
+  2. Task 1: 디렉토리 구조 + page-12.css + index.ts 등록
+  3. Task 2: SectionLabel + StatsBar + FadeIn 컴포넌트
+  4. Task 3: WorkCard (Featured + Grid + 그래디언트)
+  5. Task 4: WorkDetail 케이스스터디 상세
+  6. Task 5: index.tsx 전체 (Nav + Hero + About + Work + AI + Writing + Contact)
+  7. Task 6: 최종 통합 확인
 
 열린 결정:
-  - decisions.md 기존 orch 관련 ❌ 항목 반영 시점
+  - 실제 이미지 추가 시점 (현재 CSS 그래디언트 플레이스홀더 사용)
   - monet-lab GitHub 리모트 연결 여부 및 시점
 
 주의사항:
-  - decisions.md 경로 변경: ~/.claude/decisions.md → orchestration/context/decisions.md (git-tracked)
-  - compressor.md도 새 경로(orchestration/context/decisions.md) 참조하도록 업데이트됨
-  - compressor = 5곳 저장 (session-summary + LOG + STATE.md + decisions.md + METRICS.md)
-  - 터미널 재시작해야 PAT 환경변수 적용됨
-  - PreToolUse 페일클로즈: exit 2 = 차단, exit 0 = 허용 (echo "" 방식 제거됨)
-  - portfolio 브랜치: master, orchestration 브랜치: main
+  - 개발 서버: localhost:5174 (monet-lab)
+  - TypeScript 체크: npx tsc --noEmit
+  - 커밋 형식: [monet-lab] 한줄 설명
+  - 브랜치: monet-lab = master
+  - page-12 설계 핵심:
+      - OpenAI Pure: 사이드바 없음, Sticky Nav (64px, #080808)
+      - 팔레트: #080808 (Hero/AI/Contact) ↔ #ffffff (About/Work/Writing)
+      - 타이포: clamp(48px,6vw,72px) H1, clamp(36px,4vw,48px) H2, Inter semibold 600
+      - Work: Featured 16:9 (Empty House, 인디고 그래디언트) + 2열 4:3 (Skin Diary 에메랄드, PMCC 앰버)
+      - WorkDetail: 검정 히어로 + 풀블리드 이미지 + Stats 바 3개 + 680px 본문
+      - 이미지: CSS 그래디언트 플레이스홀더
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
