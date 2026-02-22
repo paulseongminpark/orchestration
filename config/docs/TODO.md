@@ -12,9 +12,14 @@
   - 목표: 원활한 키보드 워크플로우 구성
 
 ## 우선순위 높음 (2026-02-22 추가)
-- [ ] CHANGELOG.md v2.0 내용 업데이트 + orchestration 커밋
-  - v2.0 완료 기록: Agent Teams, hooks 7개, 에이전트 14개, /catchup, /gpt-review, /commit-push-pr, rules 구조화, MCP 2개
-  - 오늘 세션 마무리 전 처리
+- [x] CHANGELOG.md v2.0 내용 업데이트 + orchestration 커밋
+  - 완료: 2026-02-22
+
+- [ ] [긴급] portfolio에 Tech Review 설계 로직 섹션 추가
+  - tech review 블로그의 설계 방법론을 포트폴리오에 스토리텔링으로 기록
+  - 포함 내용: Smart Brevity 도입 배경, 요일별 큐레이션 구조, keywords-log 중복 방지 설계, Perplexity 활용법
+  - Claude와 나눈 tech review 관련 대화 전체 긁어서 스토리 구성
+  - 위치: portfolio AI System 섹션 내 "Tech Review 설계 케이스스터디" 서브섹션
 
 ## 내일 할 것 (2026-02-23)
 - [ ] portfolio AI System 섹션 — 포트폴리오 디자인 실험 추가
@@ -22,6 +27,7 @@
   - AI 방법론 섹션에 "디자인 실험" 파트로 삽입
 
 ## 백로그
+- 2026-02-22 13:33 분야 전문성과 기술 전문성 / 미디어 산업에서 테크 기술, 자동차 산업에서 영업 기술 등
 - 2026-02-22 02:23 Codex cli 랑 gemini cli 어떻게 사용할건지, perplexity cli 까지. 클로드가 결정하도록. - 최적화의 전략
 - 2026-02-22 12:28 오늘자 뉴스 영어 배너 누르면 한국어로 표기됨 - 다시 발생하지않게 조치
   - 내용 이전날이랑 비슷함 (2/20일자랑 비슷함) → 주제 겹치지 않게 하려면?
