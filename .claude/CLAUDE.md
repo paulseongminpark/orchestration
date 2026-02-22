@@ -1,7 +1,7 @@
 # Orchestration System
 
 ## Context
-- **STATE.md**: 지금 상태 (고수준)
+- **STATE.md**: 지금 상태 (루트, 고수준)
 - **PLANNING.md**: 아키텍처 결정 기록 (ADR)
 - **KNOWLEDGE.md**: 모범 사례, 규칙, 패턴
 - **logs/**: 시간순 상세 로그 (읽기 금지, append만)
@@ -22,7 +22,10 @@
 ## Skills
 /sync: STATE 갱신 + git push
 /handoff: AI 간 문서 생성
-/status: 프로젝트 현황
+/morning: 전체 프로젝트 브리핑
+/sync-all: 모든 프로젝트 동기화
+/verify: 통합 규칙 검증
+/todo: TODO 관리
 
 ## Config (AI 도구 설정)
 - Claude: config/claude/
@@ -30,7 +33,5 @@
 - Gemini: config/gemini/
 - Perplexity: config/perplexity/
 
-(구 ai-config 저장소에서 흡수. ai-config는 ARCHIVED 상태)
-
 ## Pages URL
-https://paulseongminpark.github.io/orchestration/context/STATE.md
+https://paulseongminpark.github.io/orchestration/STATE.md

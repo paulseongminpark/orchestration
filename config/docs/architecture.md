@@ -25,11 +25,9 @@ C:\dev\
 │   ├── 01_orchestration\           ← Git repo (GitHub: orchestration)
 │   │   ├── .claude\                ← Claude Code 설정
 │   │   │   ├── CLAUDE.md           ← 프로젝트 컨텍스트
-│   │   │   ├── settings.json       ← permissions + hooks
-│   │   │   ├── skills/             ← /sync, /handoff, /status
-│   │   │   └── agents/             ← architect, reviewer
-│   │   ├── context\                ← ★ SoT
-│   │   │   ├── STATE.md            ← ★ SoT (단일 진실 소스)
+│   │   │   └── skills/             ← /sync, /handoff
+│   │   ├── STATE.md                ← ★ SoT (단일 진실 소스, 루트)
+│   │   ├── context\                ← 컨텍스트 문서
 │   │   │   └── logs\YYYY-MM-DD.md  ← 상세 시간순 기록 (중앙)
 │   │   ├── config\                 ← AI 설정/프롬프트 (구 ai-config 흡수)
 │   │   │   ├── docs\               ← 시스템 문서
@@ -46,9 +44,8 @@ C:\dev\
 │   ├── 05_opcode\                  ← Tauri 앱
 │   └── 99_archive\
 │
-├── 02_ai_config\                   ← ARCHIVED (2026-02-19 이후)
-│   ├── README.md                   ← "orchestration/config/로 이동됨"
-│   └── docs\TODO.md                ← 로컬 TODO (계속 사용)
+├── 02_ai_config\                   ← ARCHIVED (orchestration/config/ 로 이전)
+│   └── README.md                   ← "이동됨" 안내
 │
 ├── 03_evidence\                    ← 세션 로그 (로컬 전용, Git 추적 안 함)
 │   ├── claude/orchestration/
@@ -84,13 +81,11 @@ C:\dev\
     │
     ├─ PostToolUse Hook ──→ "STATE 변경됨. /sync 실행 권장."
     │
-    ├─ Stop Hook #1 ──→ copy-session-log.py ──→ 03_evidence/
-    │                    (Layer 3: 프롬프트 단위 세션 회고)
+    ├─ SessionEnd Hook #1 ──→ 프로젝트별 미커밋 현황 출력
     │
-    ├─ Stop Hook #2 ──→ STATE.md 미커밋 감지 → exit 1 차단
-    │                    (/sync 강제 게이트)
+    ├─ SessionEnd Hook #2 ──→ /sync recommended 알림
     │
-    └─ Stop Hook #3 ──→ analyze-session.sh ──→ pending.md
+    ├─ SessionEnd Hook #3 ──→ analyze-session.sh ──→ pending.md
                          (Auto Memory: 세션 인사이트 자동 추출)
                               │
                          /sync-all 호출
@@ -121,7 +116,7 @@ C:\dev\
 |------|------------|------|-------|
 | 01_orchestration | orchestration | public | ✅ STATE.md 공개 |
 | 02_portfolio | portfolio_20260215 | public | ✅ STATE.md 공개 |
-| 02_ai_config | ai-config | private (ARCHIVED) | ❌ |
+| 02_ai_config | ai-config | private (ARCHIVED) | ❌ (orchestration/config/로 이전) |
 | 03_tech-review/blog | tech-review | public | ✅ Jekyll 블로그 |
 | — | portfolio (구) | archived | — |
 

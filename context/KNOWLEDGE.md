@@ -61,7 +61,7 @@ context/
     └── YYYY-MM-DD.md  # 시간순 상세 로그
 ```
 
-### STATE.md 형식
+### STATE.md 형식 (루트 STATE.md가 SoT)
 ```markdown
 ## 지금 상태 (YYYY-MM-DD 기준)
 
@@ -85,7 +85,7 @@ context/
 ```
 
 **태그**:
-- 프로젝트: `[orchestration]`, `[portfolio]`, `[tech-review]`
+- 프로젝트: `[orchestration]`, `[portfolio]`, `[tech-review]`, `[dev-vault]`
 - 결정: `[Decision]`, `[Pending]`, `[Discarded]`
 - 협업: `[cowork]` (다른 AI와 협업 시)
 
@@ -121,9 +121,9 @@ claude --context
 ```bash
 /morning              # 전체 프로젝트 브리핑
 /sync-all             # 전체 동기화
-/verify               # 통합 검증
-/verify-project-rules # 브랜치/STATE/커밋 검증
-/verify-log-format    # LOG 형식 검증
+/verify               # 통합 검증 (브랜치/STATE/커밋/LOG 형식)
+/docs-review          # stale 문서 점검
+/todo                 # TODO 관리
 ```
 
 ### 프로젝트별 스킬 (orchestration)
@@ -200,7 +200,7 @@ Claude Code (실행)
 ```
 
 ### STATE.md URL (읽기 전용)
-- **Orchestration**: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+- **Orchestration**: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/STATE.md
 - **Portfolio**: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 ### 핸드오프 패턴

@@ -2,6 +2,42 @@
 
 ---
 
+## v2.2 — 완료 (2026-02-22)
+
+### System Overhaul
+죽은 자동화 수리 + 불필요 제거 + stale 문서 수정.
+
+### 수리 (Phase 1)
+- PostToolUse: `$CLAUDE_TOOL_RESULT` → stdin JSON에서 `tool_input.file_path` 파싱
+- SessionEnd: `test -d context` 상대경로 → 절대경로
+- PreCompact: 동일 상대경로 → 절대경로
+- TeammateIdle: `exit 2` (차단) → `exit 0` (정보만)
+- session-stop.sh: stdin 비어있을 때 최신 세션 파일 fallback + 디버그 로그 추가
+- analyze-session.sh: `/tmp/` 하드코딩 → `${TMPDIR:-/tmp}/` MSYS 호환
+
+### 삭제 (Phase 2)
+- 에이전트: codex-reviewer (실행 불가), pf-orchestrator (비활성화)
+- 스킬: token-check, token-mode, verify-log-format, verify-project-rules
+- 스크립트: token-monitor.sh
+- 규칙: git_workflow.md, token_budget.md (CLAUDE.md와 중복)
+- orchestration: context/STATE.md (루트 STATE.md가 SoT), context/2026-02-22.md, config/docs/decisions.md
+- 기타: ~/.claude/decisions.md, memory/Today.md, Notification 훅, Stop 훅
+- verify 스킬에 verify-log-format + verify-project-rules 통합
+
+### 수정 (Phase 3)
+- settings.json: `language: "korea"` → `"ko"`
+- todo 스킬: TODO 경로 02_ai_config → 01_orchestration/config/docs/
+- sync-all 스킬: ai-config → dev-vault
+- workflow.md: brainstorming → superpowers:brainstorming
+- orchestration CLAUDE.md: Pages URL, Skills 목록 현행화
+- KNOWLEDGE.md: 스킬 목록, STATE.md URL 수정
+- HOME.md: 날짜, opcode 경로, Open Decisions 갱신
+- decisions.md: codex 3건 취소, 구현완료 2건 반영
+- config/docs/ 4건 최신화: ai-roles, claude-code-guide, daily-workflow, architecture
+- MEMORY.md: 에이전트 수 v2.2 반영, v3.0 후보 → 구현완료 항목 정리
+
+---
+
 ## v2.1 — 완료 (2026-02-22)
 
 ### 추가

@@ -67,7 +67,7 @@ claude
 
 **파이프라인 (D-019)**:
 - 핸드폰 Claude Code → `claude/add-inbox-hello-71SP3` 브랜치 → `Inbox.md` 누적
-- `/todo` 실행 시: 브랜치 Inbox.md 읽기 → main과 diff → 새 항목 merge → 로컬 `C:\dev\02_ai_config\docs\TODO.md` 반영 (ARCHIVED 경로 — MEMORY.md 확인)
+- `/todo` 실행 시: 브랜치 Inbox.md 읽기 → main과 diff → 새 항목 merge → 로컬 `C:\dev\01_orchestration/config\docs\TODO.md` 반영 (ARCHIVED 경로 — MEMORY.md 확인)
 
 ---
 
@@ -197,14 +197,15 @@ claude                               ← 새 세션 시작
 ```
 나: "/sync"           ← STATE + LOG 갱신 + push (필수)
 (세션 닫기)
-→ Stop hook #1        ← Evidence 백업 (copy-session-log.py → 03_evidence/)
-→ Stop hook #2        ← STATE.md 미커밋 차단 (/sync 안 했으면 exit 1)
-→ Stop hook #3        ← Auto Memory: analyze-session.sh → pending.md 축적
+→ SessionEnd hook #1  ← 프로젝트별 미커밋 현황 출력
+→ SessionEnd hook #2  ← /sync recommended 알림
+→ SessionEnd hook #3  ← Auto Memory: analyze-session.sh → pending.md 축적
+→ SessionEnd hook #4  ← MEMORY.md 150줄 초과 경고
 ```
 
-**Stop /sync 가드**: `/sync` 잊어도 시스템이 차단해줌. 하지만 습관적으로 먼저 하는 게 좋음.
+**SessionEnd 알림**: 미커밋 현황을 보여주고 /sync를 권장함.
 
-**Auto Memory**: Stop hook이 세션 인사이트를 자동 추출. `/sync-all` 실행 시 MEMORY.md로 승격.
+**Auto Memory**: SessionEnd hook이 세션 인사이트를 자동 추출. `/sync-all` 실행 시 MEMORY.md로 승격.
 
 ### Auto Memory 워크플로우
 
