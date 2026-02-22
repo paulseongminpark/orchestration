@@ -5,38 +5,43 @@
 
 === 컨텍스트 압축 요약 ===
 
-세션 목표: Codex CLI를 Claude Code 시스템에 통합 — 설계 결함 검증관 역할 설계 및 구현
+세션 목표: page-12 실험 페이지 UI 개선 및 portfolio 원본 컴포넌트 이식
 
 완료:
-  - [생성] ~/.claude/agents/codex-reviewer.md (설계 결함 검증관)
-    - 8개 고정 검증 관점 (명세모순/상태누락/경계값/계약불일치/중복실행/장애전파/관측가능성/회귀리스크)
-    - 1차(광역 스캔) 기본 / 2차(집중 검증) 선택적 구조
-    - 파일 시스템 접근 금지 조건 추가 (Windows 샌드박스 오류 방지)
-  - [테스트] Codex CLI 실제 1차 스캔 (todo 삭제 설계 → 16개 결함 발견)
-  - [테스트] Codex CLI 2차 스캔 (7개 막힘, 4개 신규/미해결 발견)
-  - [수정] ~/.claude/skills/compressor/SKILL.md (파일→폴더 구조 오류 수정)
+  - [FadeIn.tsx] style prop 추가 (equal-height card 지원)
+  - [index.tsx] renderBold → orange 형광펜 background highlight (<mark> + rgba(249,115,22,0.18))
+  - [index.tsx] SectionFlowGrid 컴포넌트: 마커 제거, 파란 eyebrow 하이라이트, 카드 동일 높이
+  - [index.tsx] System 섹션 레이블: blue highlight (rgba(37,99,235,0.14))
+  - [AiWorkflowSection.tsx] portfolio 원본 복사 이식 (16개 에이전트, 설계철학, 타임라인)
+  - [TechReviewSystemSection.tsx] portfolio 원본 복사 이식 (Pipeline, Smart Brevity, Keywords Log)
+  - [aiWorkflowData.ts] 전체 데이터 복사
 
-결정 사항:
-  - Codex = 설계 결함 검증관 (Design Defect Verifier) 단일 역할 확정
-  - Gemini=대규모 분석, Claude/Opus=핵심 구현, Codex=결함 검증 역할 분리 확정
-  - 2차 스캔: Claude 명시 요청 시만 실행 (GPT Plus 절약)
-  - 파일 시스템 접근 금지 (순수 추론만) — Windows 샌드박스 오류 방지
-  - 스킬은 폴더/SKILL.md 구조 (공통 패턴 확인)
+커밋 이력:
+  - 7567d96 - FadeIn style prop, 형광펜, SectionFlowGrid
+  - c93b956 - orange→background highlight, blue 섹션 하이라이트, SectionNarrative 추가
+  - 509b6f4 - SectionNarrative → wd-callout 구조 교체
+  - cce9486 - AI/TR 상세 섹션 portfolio 원본 이식 (마지막 커밋)
 
-현재 상태: orchestration main 브랜치. codex-reviewer 에이전트 생성 완료. 실전 적용 전.
+현재 상태: 구현 완료, TypeScript 체크 통과, localhost:5174/page-12 시각적 확인 필요
 
 다음 할 것:
-  1. 다음 세션: codex-reviewer 에이전트 등록 확인 (/agents 목록)
-  2. portfolio 설계에 codex-reviewer 실전 적용 테스트
-  3. STATE.md 에이전트 수 갱신 (14개 → 15개, codex-reviewer 추가)
+  1. localhost:5174/page-12 브라우저 확인 및 필요시 UI 조정
+  2. [portfolio] Tech Review System 스토리텔링 글 작성
+  3. [portfolio] 07~10 스크린샷 → lab.md 이미지 링크 추가
+  4. [tech-review] 나머지 요일 프롬프트(월~토 6개) Smart Brevity 형식 업데이트
+  5. [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정
 
 열린 결정:
-  - codex-reviewer를 PROACTIVELY 에이전트로 올릴지 여부 (현재: 명시 호출만)
+  - (없음)
 
 주의사항:
-  - codex-reviewer.md의 model 필드는 현재 "sonnet" (에이전트 프록시용) — Codex는 Bash 명령으로 실행
-  - Codex CLI: codex exec --model gpt-5.3-codex (실제 OpenAI 모델)
-  - 파일 허용 범위: tests/**, fixtures/**, mocks/**, docs/defect_matrix*.md
-  - src/** 핵심 소스 수정 절대 금지
+  - orchestration 브랜치: main, portfolio 브랜치: master (혼동 주의)
+  - FadeIn.tsx 기존 TS 에러(Easing 타입) 수정 대상 아님
+  - 형광펜: color: 대신 background: rgba() + <mark> 태그 방식 채택
+
+미반영 결정:
+  - [portfolio] 07~10 스크린샷 → lab.md 이미지 링크: 미완
+  - [tech-review] 나머지 요일 프롬프트 Smart Brevity 업데이트: 미완
+  - [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정: 미완
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===

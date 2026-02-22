@@ -7,13 +7,19 @@
 ## 미반영
 
 2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | pf:❌
+2026-02-22 [portfolio] 07~10 스크린샷 → lab.md 이미지 링크 추가 | pf:❌
+2026-02-22 [tech-review] 나머지 요일 프롬프트(월~토 6개) Smart Brevity 형식 업데이트 | tr:❌
+2026-02-22 [portfolio] Tech Review System 스토리텔링 글 작성 | pf:❌
 
 ## 아카이브
 
+2026-02-22 [ml] page-12: 카드 요약 유지 + portfolio 원본 컴포넌트 이식 방식 채택 | ml:✅
+2026-02-22 [ml] 형광펜 하이라이트: color: 대신 background: rgba() + <mark> 태그 방식 | ml:✅
 2026-02-22 [orch] v2.2 시스템 오버홀 — 죽은 자동화 수리, 불필요 제거, stale 수정 | orch:✅
-2026-02-22 [orch] codex-reviewer 에이전트 생성 (Codex CLI 설계 결함 검증관) | 🚫 실행 불가, 삭제
-2026-02-22 [orch] 역할 분리 확정: Gemini=분석, Claude/Opus=구현, Codex=결함 검증 | 🚫 codex 삭제로 무효
-2026-02-22 [orch] codex-reviewer 2차 스캔 = Claude 명시 요청 시만 (GPT Plus 절약) | 🚫 codex 삭제로 무효
+2026-02-22 [orch] codex-reviewer 에이전트 복구 (잘못된 삭제 판단 번복) | orch:✅
+2026-02-22 [orch] 역할 분리 확정: Gemini=분석, Claude/Opus=구현, Codex=결함 검증 | orch:✅
+2026-02-22 [orch] codex-reviewer 2차 스캔 = Claude 명시 요청 시만 (GPT Plus 절약) | orch:✅
+2026-02-22 [orch] gemini-analyzer 결과 크로스 검증 필수 (사용자 확인 없이 삭제 금지) | orch:✅
 2026-02-22 [orch] compressor 확장(LOG+STATE 3곳), sync-all dev-vault | orch:✅
 2026-02-22 [orch] Session Visibility System 설계 및 구현 | orch:✅
 2026-02-22 [orch] PAT → Windows 환경변수, settings.json 제거 | orch:✅
