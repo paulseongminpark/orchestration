@@ -6,6 +6,9 @@
 
 ## 미반영
 
+2026-02-22 [orch] codex-reviewer 에이전트 생성 (Codex CLI 설계 결함 검증관) | pf:❌
+2026-02-22 [orch] 역할 분리 확정: Gemini=분석, Claude/Opus=구현, Codex=결함 검증 | pf:❌
+2026-02-22 [orch] codex-reviewer 2차 스캔 = Claude 명시 요청 시만 (GPT Plus 절약) | pf:❌
 2026-02-22 [orch] compressor 확장(LOG+STATE 3곳), sync-all dev-vault | pf:❌
 2026-02-22 [orch] Session Visibility System 설계 및 구현 | pf:❌
 2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | pf:❌

@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 마지막 갱신: 2026-02-22 (orch-system-overhaul 세션)
+> 마지막 갱신: 2026-02-22 (codex-reviewer 통합 세션)
 > /sync 스킬로 자동 갱신됩니다.
 
 ## 현재 상태
@@ -34,10 +34,12 @@
 - KNOWLEDGE.md stale 항목 정리 완료
 - morning-briefer 통합 엔트리포인트로 업그레이드
 - compressor 5곳 저장으로 확장 (METRICS.md 추가)
-- **다음**: v2.1 공식 문서화
+- codex-reviewer 에이전트 추가 (설계 결함 검증관)
+- **다음**: v2.1 공식 문서화, codex-reviewer 실전 적용
 
 ## 완료된 것
 
+- [2026-02-22] codex-reviewer 에이전트 생성 (Codex CLI 통합, 8개 검증 관점)
 - [2026-02-22] CHANGELOG.md v2.0 hooks 7종 완성
 - [2026-02-22] Session Visibility System 구현 (decisions.md + SessionStart/End Hook + compressor 확장)
 - [2026-02-22] gemini-analyzer 오케스트레이션 비판 분석 + overhaul 11개 태스크 완료
@@ -49,7 +51,7 @@
 
 ## 시스템 현황
 
-### Agents (14개)
+### Agents (15개)
 - PROACTIVELY: code-reviewer[Opus], commit-writer[Haiku], orch-state[Sonnet], compressor[Sonnet]
 - Portfolio: pf-context[Sonnet], pf-reviewer[Opus], pf-deployer[Sonnet]
 - Orchestration: orch-doc-writer[Opus], orch-skill-builder[Opus]
@@ -57,6 +59,7 @@
 - Security: security-auditor[Opus]
 - Analysis: gemini-analyzer[Sonnet]
 - Morning: morning-briefer[Haiku]
+- Codex: codex-reviewer[Sonnet+Codex] — 설계 결함 검증관
 
 ### Skills (19개)
 - /sync, /handoff, /status, /catchup
@@ -76,6 +79,9 @@
 - PostToolUse, SubagentStop
 
 ## 결정 이력 (최근)
+- Codex = 설계 결함 검증관 단일 역할 (명시 호출만, PROACTIVELY 아님)
+- 역할 분리: Gemini=분석, Claude/Opus=구현, Codex=결함 검증
+- 2차 스캔: Claude 명시 요청 시만 (GPT Plus 절약)
 - compressor = 5곳 저장 (session-summary + LOG + STATE.md + decisions.md + METRICS.md)
 - decisions.md: orchestration/context/decisions.md (git-tracked)
 - PAT: Windows 환경변수로 관리 (settings.json 제거)

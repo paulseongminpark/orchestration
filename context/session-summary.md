@@ -5,47 +5,38 @@
 
 === 컨텍스트 압축 요약 ===
 
-세션 목표: monet-lab UI 실험실 page-12 (OpenAI Pure 스타일) 설계 및 구현 준비
+세션 목표: Codex CLI를 Claude Code 시스템에 통합 — 설계 결함 검증관 역할 설계 및 구현
 
 완료:
-  - [분석] page-11 크리틱 분석 (UI 문제점 6가지 파악)
-  - [구현] page-11-v2 생성 (AI System 격리, 반응형, AI Section 토글, 카드 균형, TOC active)
-  - [구현] page-11-v2.1 (Track A: 전환 애니, Writing 상세, 타임라인 날짜, 스무스 스크롤)
-  - [구현] page-11-v2.2 (Track B: 사이드바 미니모드 ◀▶, 키보드 네비 j/k/?)
-  - [구현] page-11-v3 (Track C: AI 에이전트 다이어그램 클릭 모달, 콘텐츠 검색 /)
-  - [정리] 4개 버전 독립 페이지 분리 (11-v2 / 11-v2.1 / 11-v2.2 / 11-v3 그룹 "11")
-  - [리서치] OpenAI 웹사이트 완전 분해 (폰트, 색상, 타이포 스케일, 레이아웃, 컴포넌트)
-  - [설계] page-12 브레인스토밍 + 설계 승인
-  - [문서] docs/plans/2026-02-22-page-12-design.md 작성
-  - [문서] docs/plans/2026-02-22-page-12-implementation.md 작성
-  - 마지막 커밋: [monet-lab] page-12 구현 플랜 작성
+  - [생성] ~/.claude/agents/codex-reviewer.md (설계 결함 검증관)
+    - 8개 고정 검증 관점 (명세모순/상태누락/경계값/계약불일치/중복실행/장애전파/관측가능성/회귀리스크)
+    - 1차(광역 스캔) 기본 / 2차(집중 검증) 선택적 구조
+    - 파일 시스템 접근 금지 조건 추가 (Windows 샌드박스 오류 방지)
+  - [테스트] Codex CLI 실제 1차 스캔 (todo 삭제 설계 → 16개 결함 발견)
+  - [테스트] Codex CLI 2차 스캔 (7개 막힘, 4개 신규/미해결 발견)
+  - [수정] ~/.claude/skills/compressor/SKILL.md (파일→폴더 구조 오류 수정)
 
-현재 상태: monet-lab master 브랜치. page-12 디렉토리 미생성 (구현 전). 설계 완료 상태.
+결정 사항:
+  - Codex = 설계 결함 검증관 (Design Defect Verifier) 단일 역할 확정
+  - Gemini=대규모 분석, Claude/Opus=핵심 구현, Codex=결함 검증 역할 분리 확정
+  - 2차 스캔: Claude 명시 요청 시만 실행 (GPT Plus 절약)
+  - 파일 시스템 접근 금지 (순수 추론만) — Windows 샌드박스 오류 방지
+  - 스킬은 폴더/SKILL.md 구조 (공통 패턴 확인)
+
+현재 상태: orchestration main 브랜치. codex-reviewer 에이전트 생성 완료. 실전 적용 전.
 
 다음 할 것:
-  1. page-12 구현 시작 (플랜: docs/plans/2026-02-22-page-12-implementation.md)
-  2. Task 1: 디렉토리 구조 + page-12.css + index.ts 등록
-  3. Task 2: SectionLabel + StatsBar + FadeIn 컴포넌트
-  4. Task 3: WorkCard (Featured + Grid + 그래디언트)
-  5. Task 4: WorkDetail 케이스스터디 상세
-  6. Task 5: index.tsx 전체 (Nav + Hero + About + Work + AI + Writing + Contact)
-  7. Task 6: 최종 통합 확인
+  1. 다음 세션: codex-reviewer 에이전트 등록 확인 (/agents 목록)
+  2. portfolio 설계에 codex-reviewer 실전 적용 테스트
+  3. STATE.md 에이전트 수 갱신 (14개 → 15개, codex-reviewer 추가)
 
 열린 결정:
-  - 실제 이미지 추가 시점 (현재 CSS 그래디언트 플레이스홀더 사용)
-  - monet-lab GitHub 리모트 연결 여부 및 시점
+  - codex-reviewer를 PROACTIVELY 에이전트로 올릴지 여부 (현재: 명시 호출만)
 
 주의사항:
-  - 개발 서버: localhost:5174 (monet-lab)
-  - TypeScript 체크: npx tsc --noEmit
-  - 커밋 형식: [monet-lab] 한줄 설명
-  - 브랜치: monet-lab = master
-  - page-12 설계 핵심:
-      - OpenAI Pure: 사이드바 없음, Sticky Nav (64px, #080808)
-      - 팔레트: #080808 (Hero/AI/Contact) ↔ #ffffff (About/Work/Writing)
-      - 타이포: clamp(48px,6vw,72px) H1, clamp(36px,4vw,48px) H2, Inter semibold 600
-      - Work: Featured 16:9 (Empty House, 인디고 그래디언트) + 2열 4:3 (Skin Diary 에메랄드, PMCC 앰버)
-      - WorkDetail: 검정 히어로 + 풀블리드 이미지 + Stats 바 3개 + 680px 본문
-      - 이미지: CSS 그래디언트 플레이스홀더
+  - codex-reviewer.md의 model 필드는 현재 "sonnet" (에이전트 프록시용) — Codex는 Bash 명령으로 실행
+  - Codex CLI: codex exec --model gpt-5.3-codex (실제 OpenAI 모델)
+  - 파일 허용 범위: tests/**, fixtures/**, mocks/**, docs/defect_matrix*.md
+  - src/** 핵심 소스 수정 절대 금지
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
