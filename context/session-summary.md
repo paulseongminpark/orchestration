@@ -5,39 +5,42 @@
 
 === 컨텍스트 압축 요약 ===
 
-세션 목표: tech-review Smart Brevity 전면 도입 + 자동화 파이프라인 개선
+세션 목표: monet-lab page-11 UI 실험 — Quiet Precision Hybrid 구현
 
 완료:
-  - [tech-review] Smart Brevity (Axios 스타일) 포스트 형식 설계 및 전면 도입
-  - [tech-review] 요일별 큐레이션 개편: 수요일 스타트업 → AI × Industry 비즈니스 모델
-  - [tech-review] perplexity-prompts/keywords-log.md 신설 (중복 방지 자동 삽입)
-  - [tech-review] fetch-perplexity.js: keywords 자동 삽입 + KST 요일 계산 버그 수정
-  - [tech-review] lang-toggle.html 버그 수정 (active 버튼 URL 수정)
-  - [tech-review] CSS: 포스트 불릿 동그라미 제거 (_layouts/default.html)
-  - [tech-review] 기존 포스트 2/15~2/22 (ko/en 16개) Smart Brevity 재변환
-  - [tech-review] blog/perplexity-prompts/ko/07-sunday-weekly.md Smart Brevity 형식 교체
-  - [tech-review] 설계 문서: design/2026-02-22-smart-brevity-redesign.md
-  - [tech-review] 백업 브랜치: backup/pre-smart-brevity
-  - [orchestration] CHANGELOG.md v2.0 hooks 7종 완성, v2.1 결정 기록
-  - [orchestration] compressor 에이전트 확장: LOG append + STATE.md 갱신 추가
-  - [orchestration] sync-all 스킬: ai-config → dev-vault 경로 수정
+  - [monet-lab] page-11 신규 생성 (src/experiments/page-11/index.tsx)
+  - [monet-lab] 좌측 사이드바 (PSM + TOC) + 상단 Nav 이중 네비 구조
+  - [monet-lab] TOC: About/System/Work/Writing/Contact 그룹 + 서브아이템
+  - [monet-lab] IntersectionObserver 스크롤 active 추적 구현
+  - [monet-lab] portfolio_ui_test_v2 콘텐츠 이식 (About + System 섹션, Work 상세)
+  - [monet-lab] parseWorkDetail.ts + WorkDetailView/WorkDetailBlocks 이식
+  - [monet-lab] useWorkDetail hook 이식
+  - [monet-lab] AiWorkflowSection.tsx + aiWorkflowData.ts 이식 (AI System 섹션)
+  - [monet-lab] Inter + Noto Sans KR 폰트 통일 (한글 지원)
+  - [monet-lab] page-11.css (메인 bg #ffffff, accent #E8703A)
+  - [monet-lab] docs/plans/2026-02-22-page-11-design.md 명세 문서
+  - [monet-lab] 커밋 완료 (master 브랜치)
 
-현재 상태: tech-review Smart Brevity 도입 완료. 일부 요일 프롬프트(월~토 6개) 미업데이트. 2/23부터 새 형식으로 자동 생성 예정.
+현재 상태: page-11 완성 + 빌드 성공. monet-lab 리모트 미설정으로 push 불가 상태. page-09 보존됨.
 
 다음 할 것:
-  1. [tech-review] 나머지 요일 프롬프트 월~토(6개) Smart Brevity 형식 업데이트
-  2. [tech-review] 2/23 GitHub Actions 자동 생성 결과 확인
-  3. [portfolio] Tech Review System 섹션 추가 (설계 로직 스토리텔링)
-  4. [portfolio] AI System 섹션 디자인 실험 추가
+  1. [monet-lab] page-11 상세 페이지 스타일 추가 개선 (필요시)
+  2. [monet-lab] GitHub 리모트 연결 후 push (필요시)
+  3. [portfolio] portfolio 본격 작업 시작 (AI System, Tech Review System 섹션 등)
+  4. [tech-review] 나머지 요일 프롬프트 월~토(6개) Smart Brevity 형식 업데이트 (이전 세션 잔여)
 
 열린 결정:
-  - 월~토 프롬프트 Smart Brevity 업데이트 방식 (일괄 vs 요일별)
-  - portfolio Tech Review System 섹션 상세 설계
+  - monet-lab GitHub 리모트 연결 여부 및 시점
+  - portfolio 다음 작업 우선순위 (AI System vs Tech Review System 섹션)
+  - page-11 추가 개선 범위
 
 주의사항:
-  - tech-review blog repo 브랜치: master (main 아님)
-  - keywords-log.md 경로: blog/perplexity-prompts/keywords-log.md (03_tech-review 아님)
-  - 일요일 프롬프트(07-sunday-weekly.md)만 Smart Brevity 완료, 나머지 6개 미완료
-  - Smart Brevity 형식: Today in One Line + Why it matters + 불릿 3개 + What's next
+  - monet-lab 브랜치: master
+  - monet-lab 리모트 미연결 — push 시 remote 설정 필요
+  - HMR 문제 있음 — 변경사항 확인 시 개발 서버 재시작 필요
+  - page-11 파일 구조: src/experiments/page-11/ (index.tsx, page-11.css, parseWorkDetail.ts, content/, components/, hooks/)
+  - accent 색상: #E8703A (Anthropic 주황), 메인 bg: #ffffff
+  - AiWorkflowSection label 스타일: 11px uppercase, color #E8703A
+  - tech-review 이전 잔여: 월~토 프롬프트(6개) Smart Brevity 미완료
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
