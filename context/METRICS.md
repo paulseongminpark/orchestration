@@ -14,6 +14,7 @@
 | 2026-02-22 | ml-porter (역할) | monet-lab page-12 portfolio 컴포넌트 이식 | 5 | AiWorkflowSection, TechReviewSystemSection, aiWorkflowData 완전 이식 |
 | 2026-02-23 | (직접 점검) | 전체 시스템 점검 (hooks, plugins, agents, skills) | 5 | 유령 참조 제거, 플러그인 3개 비활성화, hooks 전면 강화 |
 | 2026-02-23 | Agent Teams (파일럿) | plugin-analyst + learning-analyst 병렬 분석 | 5 | 2명 병렬 배포→분석→결과 수신→반영 전체 흐름 성공 |
+| 2026-02-23 | codex-reviewer + gemini-analyzer | 병렬 교차 검증 파이프라인 테스트 | 4 | 34건 vs 3건 발견. 속도 15분→2분 최적화 완료 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -53,6 +54,7 @@
 | 2026-02-22 | monet-lab page-12 UI 개선 + portfolio 컴포넌트 이식 | ~1h | - |
 | 2026-02-23 | 전체 시스템 점검 + hooks 전면 업데이트 + v3.0 설계 | ~2h | 점검 항목 범위 파악 |
 | 2026-02-23 | v3.0 플랜 실행 Phase A~E + USER-GUIDE 작성 | ~1.5h | - |
+| 2026-02-23 | Codex CLI 연동 + 병렬 교차 검증 파이프라인 최적화 (15분→2분) | ~2h | sandbox bypass 플래그 탐색 |
 
 ---
 
@@ -64,6 +66,7 @@
 - codex-reviewer 1차 스캔: 16개 결함 발견 → 설계 검증 도구로 실용성 확인
 - portfolio 원본 컴포넌트 직접 이식: 중복 작업 없이 빠른 구현
 - 직접 전체 시스템 점검: 유령 참조 + 이중 실행 + 사용 안 하는 플러그인 발견
+- sandbox bypass 플래그: Codex 실행 시간 15분→2분 (가장 큰 단일 개선 요인)
 
 ### 효과 없었던 것
 - (누적 예정)
@@ -71,4 +74,15 @@
 ### 반복되는 병목
 - 세션 간 컨텍스트 전달 (→ /catchup으로 부분 해결)
 - 다중 창 AI 소통 불가 (→ 단일 창 Task 툴로 해결)
-- Codex CLI Windows 샌드박스 오류 (→ 파일 시스템 접근 금지 조건으로 해결)
+- Codex CLI Windows 샌드박스 오류 (→ dangerously-bypass-approvals-and-sandbox로 해결)
+
+---
+
+## 세션 요약 테이블
+
+| 날짜 | 완료 태스크 | 주요 프로젝트 | 결정 수 |
+|------|------------|--------------|---------|
+| 2026-02-22 | 다수 (v2.2 오버홀, monet-lab, portfolio 등) | orchestration/monet-lab/portfolio | 20개+ |
+| 2026-02-23 | 9개 (시스템 점검, hooks, v3.0 설계) | orchestration | 8개 |
+| 2026-02-23 | 7개 (v3.0 Phase A~E 실행, USER-GUIDE) | orchestration | 3개 |
+| 2026-02-23 | 4개 (Codex 연동, 병렬 파이프라인 최적화) | orchestration | 3개 |
