@@ -13,6 +13,11 @@
 2026-02-23 [orch] Phase E 파일럿 테스트 (Agent Teams + worktree 병렬 처리) | orch:❌
 2026-02-23 [orch] STATE.md 경로 불일치 수정 (교차 검증 발견) | orch:❌
 2026-02-23 [orch] copy-session-log.py overwrite 문제 수정 | orch:❌
+2026-02-23 [orch] v3.1 Agent Teams & Linker System — 에이전트 7개+팀 3개+hooks | orch:✅
+2026-02-23 [orch] context-linker 실시간 세션 간 맥락 공유 (live-context.md + PostToolUse hook) | orch:✅
+2026-02-23 [orch] project-linker 프로젝트 간 변경 영향 감지 (커밋 시점 트리거) | orch:✅
+2026-02-23 [orch] meta-orchestrator 팀 디스패치 판단 (Sonnet) | orch:✅
+2026-02-23 [orch] CLAUDE.md 전역 파일 = "global" 분류 (hook 타임스탬프 KST 수정 포함) | orch:✅
 
 ## 아카이브
 

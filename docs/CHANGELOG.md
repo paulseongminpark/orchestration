@@ -2,6 +2,44 @@
 
 ---
 
+## v3.1 — Agent Teams & Linker System (2026-02-23)
+
+### 신규 에이전트 (7개, 16→23)
+- **context-linker** [Haiku, PROACTIVE]: 실시간 세션 간 맥락 공유 (live-context.md)
+- **project-linker** [Sonnet, PROACTIVE]: 프로젝트 간 변경 영향 감지 → TODO/알림
+- **meta-orchestrator** [Sonnet]: 세션 상태 분석 → 팀 디스패치 판단
+- **inbox-processor** [Haiku]: daily-memo Inbox.md → TODO.md 분류
+- **tr-monitor** [Haiku]: tech-review GitHub Actions 결과 수집
+- **tr-updater** [Sonnet]: 프롬프트/키워드 업데이트, Smart Brevity 적용
+- **ai-synthesizer** [Opus]: gemini+codex 교차 검증 통합 → agent.md 자동 반영
+
+### 팀 (3개)
+- **tech-review-ops**: tr-monitor → tr-updater → commit-writer
+- **ai-feedback-loop**: gemini + codex → ai-synthesizer
+- **daily-ops**: inbox-processor → orch-state → morning-briefer
+
+### Hooks
+- PostToolUse: live-context.md 자동 append (bash, 0 토큰)
+- 타임스탬프: TZ 강제 제거 → 시스템 시간(KST) 직접 사용
+- CLAUDE.md global 분류 추가
+
+### 체인 규칙 추가 (5개)
+- 분석 체인 강화 (ai-synthesizer)
+- tech-review 체인, 일일 운영 체인, 디스패치 체인, 프로젝트 연동
+
+### 문서
+- CLAUDE.md, STATE.md, KNOWLEDGE.md, PLANNING.md, CHANGELOG.md 모두 v3.1 반영
+- 설계: docs/plans/2026-02-23-agent-teams-design.md
+- 구현: docs/plans/2026-02-23-agent-teams-impl.md
+
+---
+
+## v3.0 — 에이전틱 워크플로우 강화 (2026-02-23)
+
+(v2.3 내용을 v3.0으로 승격)
+
+---
+
 ## v2.3 — 진행 중 (2026-02-22)
 
 ### 완료

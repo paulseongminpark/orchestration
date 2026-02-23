@@ -57,6 +57,9 @@ context/
 ├── STATE.md         # 지금 상태 (고수준)
 ├── PLANNING.md      # 아키텍처 결정 (ADR)
 ├── KNOWLEDGE.md     # 모범 사례 (이 파일)
+├── decisions.md     # 결정 사항 추적 (❌미반영/✅반영)
+├── live-context.md  # 실시간 세션 간 공유 (hook 자동 관리)
+├── METRICS.md       # 세션별 완료 태스크/결정 수
 └── logs/
     └── YYYY-MM-DD.md  # 시간순 상세 로그
 ```
@@ -176,7 +179,7 @@ claude
 
 ---
 
-## 에이전트 체인 규칙 (v3.0)
+## 에이전트 체인 규칙 (v3.1)
 
 ### 구현 체인 (건너뛰기 금지)
 ```
@@ -191,9 +194,32 @@ pf-deployer → security-auditor → 사용자 확인 → push
 ```
 - 둘 중 하나라도 NO-GO → 배포 중단
 
-### 분석 체인
+### 분석 체인 (강화)
 ```
-gemini-analyzer + codex-reviewer (병렬) → Claude 교차 검증
+gemini + codex (병렬) → ai-synthesizer(Opus) → 사용자 확인 → agent.md 반영
+```
+- ai-synthesizer 합의 항목: agent.md 자동 반영 가능
+- ai-synthesizer 불일치 항목: 사용자 판단 필수
+
+### tech-review 체인
+```
+tr-monitor(Haiku) → tr-updater(Sonnet) → commit-writer(Haiku)
+```
+
+### 일일 운영 체인
+```
+inbox-processor(Haiku) → orch-state(Sonnet) → morning-briefer(Haiku)
+```
+
+### 디스패치 체인
+```
+catchup → meta-orchestrator(Sonnet) → 팀 활성화
+```
+
+### 프로젝트 연동 (독립, 상시)
+```
+파일 변경 → bash hook append → context-linker(Haiku, 주기적) → 맥락 주입
+커밋 감지 → project-linker(Sonnet) → TODO/알림
 ```
 
 ### 에이전트 호출 규칙
@@ -202,7 +228,29 @@ gemini-analyzer + codex-reviewer (병렬) → Claude 교차 검증
 
 ---
 
-## 에이전트 표준 구조 (v3.0)
+## 에이전트 시스템 (v3.1)
+
+### Agents (23개)
+- PROACTIVELY: code-reviewer[Opus], commit-writer[Haiku], orch-state[Sonnet], compressor[Sonnet], context-linker[Haiku], project-linker[Sonnet]
+- Portfolio: pf-context[Sonnet], pf-reviewer[Opus], pf-deployer[Sonnet]
+- Orchestration: orch-doc-writer[Opus], orch-skill-builder[Opus], meta-orchestrator[Sonnet]
+- Monet-lab: ml-experimenter[Opus], ml-porter[Sonnet]
+- Tech-review: tr-monitor[Haiku], tr-updater[Sonnet]
+- AI Pipeline: gemini-analyzer[Opus], codex-reviewer[Sonnet+Codex], ai-synthesizer[Opus]
+- Daily: inbox-processor[Haiku], morning-briefer[Haiku]
+- 기타: content-writer[Opus], security-auditor[Sonnet]
+
+### Teams (3개)
+- **tech-review-ops**: tr-monitor → tr-updater → commit-writer (tech-review 자동화)
+- **ai-feedback-loop**: gemini + codex → ai-synthesizer (멀티 AI 교차 검증 통합)
+- **daily-ops**: inbox-processor → orch-state → morning-briefer (일일 운영)
+
+### 실시간 세션 공유
+- **live-context.md**: PostToolUse hook이 매 Edit마다 자동 기록 (0 토큰)
+- **context-linker**: 주기적으로 정리/스캔 (Haiku)
+- **project-linker**: 커밋 시점에 프로젝트 간 영향 감지 (Sonnet)
+
+## 에이전트 표준 구조 (v3.1)
 
 모든 agent.md는 기존 섹션 외에 아래 3개 섹션을 포함:
 
@@ -290,8 +338,8 @@ Claude Code (실행)
 
 ### PostToolUse (글로벌)
 - 트리거: Write|Edit 도구 사용
-- 대상: context/*.md 수정 시
-- 알림: "context/*.md modified - check before commit"
+- 대상 1: context/*.md 수정 시 → "check before commit" 알림
+- 대상 2: 모든 Write/Edit → live-context.md 자동 append (세션 간 실시간 공유)
 
 ### SessionEnd (글로벌)
 - 자동: 프로젝트별 미커밋 현황 출력

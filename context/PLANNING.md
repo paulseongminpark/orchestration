@@ -4,6 +4,42 @@
 
 ---
 
+## D-020: Agent Teams & Linker System v3.1 (2026-02-23)
+
+**문제**:
+1. 동시 열린 여러 Warp 세션 간 맥락 공유 불가
+2. 프로젝트 간 변경 영향 수동 추적
+3. tech-review 반복 작업 수동
+4. 멀티 AI 분석 결과 수동 통합
+
+**결정**: B+C 하이브리드 — 팀 기반 + Meta-Orchestrator
+- 신규 에이전트 7개 (16→23): context-linker, project-linker, meta-orchestrator, inbox-processor, tr-monitor, tr-updater, ai-synthesizer
+- 팀 3개: tech-review-ops, ai-feedback-loop, daily-ops
+- PostToolUse hook으로 live-context.md 실시간 append (0 토큰)
+- context-linker는 주기적 Haiku 호출로 정리/스캔
+- project-linker는 커밋 시점만 트리거 (토큰 절약)
+- meta-orchestrator는 Sonnet (Opus 불필요, 트리아지만)
+
+**이유**:
+- 팀 구조: Phase E 팀 기능 활용, 워크플로우 단위 관리
+- Meta-Orchestrator: 중앙 디스패치로 불필요한 팀 활성화 방지
+- 토큰 최적화: hook(0토큰) + Haiku(경량) + 커밋 시점 트리거 = 일 $0.81 추가(+6%)
+
+**대안 고려**:
+- A. 개별 에이전트만 추가: 단순하지만 팀 조율 부재 → 기각
+- C. 허브-스포크만: meta-orch 단일 실패점, 토큰 소모 큼 → 기각
+- 매 Edit마다 Sonnet 호출: 일 $10 + 레이턴시 → 기각, 커밋 시점으로 최적화
+
+**영향**:
+- CLAUDE.md: 체인 규칙 5개 추가
+- STATE.md: v3.1, Agents 23개, Teams 3개
+- KNOWLEDGE.md: 체인/에이전트/hooks 섹션 v3.1 업데이트
+- settings.json: PostToolUse hook 추가
+- context/live-context.md: 신규 파일
+- 설계 문서: docs/plans/2026-02-23-agent-teams-design.md
+
+---
+
 ## D-019: 토큰 관리 자동화 (2026-02-17)
 
 **문제**: Opus 전환 시 비용 관리 필수, 수동 체크로는 부족
