@@ -5,33 +5,46 @@
 
 === 컨텍스트 압축 요약 ===
 
-세션 목표: Gemini 발견 사항 처리 + Codex+Gemini 교차 분석 재실행 + 종합 사용 가이드 작성
+세션 목표: Claude Code 오케스트레이션 시스템 전체 점검 + v3.0 설계
 
 완료:
-  - [settings.json] MCP 서버 3개 제거 (memory, desktop-commander, sequential-thinking)
-  - [플러그인] example-skills 비활성화 (document-skills와 100% 중복)
-  - [docs/SYSTEM-GUIDE.md] 종합 사용 가이드 작성 (16개 섹션, 전체 시스템 설명)
-  - [분석] Gemini 교차 분석 완료 (10건 발견, 3건 이미 처리, 나머지 정리됨)
-  - [분석] Codex 분석 시도 — Windows sandbox 제한으로 파일 읽기까지만 성공, 최종 분석 미완
+  - [시스템 점검] 전체 시스템 직접 점검 완료 (16 agents, 14 skills, 19 plugins, 7 hooks, 5 CLAUDE.md, 4 scripts, 4 git repos)
+  - [플러그인] agent-sdk-dev 비활성화
+  - [플러그인] hookify 비활성화 (4 runtime hooks 이중 실행 제거)
+  - [플러그인] code-review 비활성화 (custom code-reviewer Opus가 상위)
+  - [에이전트] subagent-creator 스킬 삭제 (orch-skill-builder로 통합)
+  - [유령 참조] STATE.md 스킬 수 14개로 수정, 존재하지 않는 /commit-push-pr, /gpt-review 제거
+  - [유령 참조] KNOWLEDGE.md Co-Authored-By 모델명 일반화
+  - [유령 참조] MEMORY.md에 monet-lab, daily-memo, n8n 프로젝트 추가
+  - [hooks] SessionStart 5개 → 1개 스크립트(session-start.sh) 통합
+  - [hooks] PreToolUse 강화 (git reset --hard, clean -f 차단 + 브랜치 혼동 경고 + node_modules 읽기 경고)
+  - [hooks] PreCompact 강화 (미커밋 수 확인 + 구체적 행동 안내)
+  - [hooks] TeammateIdle 강화 (팀원 이름 파싱 + 행동 안내)
+  - [hooks] TaskCompleted 강화 (태스크 제목/담당자 파싱 + 다음 태스크 안내)
+  - [설계] v3.0 에이전틱 워크플로우 강화 플랜 작성 (8 태스크)
 
-현재 상태: 가이드 작성 완료, MCP/플러그인 정리 일부 완료, Codex 전체 분석은 Windows 제한
+현재 상태: v3.0 플랜 작성 완료, 다음 세션에서 실행 예정
 
 다음 할 것:
-  1. 중복 플러그인 4개 비활성화 (code-review, commit-commands, skill-creator, hookify)
-  2. playground 플러그인 비활성화
-  3. 스킬-에이전트 통합 검토 (catchup+morning, skill-creator/hook-creator/subagent-creator → orch-skill-builder)
-  4. SessionEnd JSONL 레이스컨디션 검토
-  5. Codex 전체 분석 대안 검토 (WSL 등)
+  1. v3.0 플랜 실행 (Task 1~8)
+     - Task 1: CLAUDE.md 체인 규칙 추가
+     - Task 2-4: 16개 agent.md 표준화 (검증, 암묵지, 학습된 패턴)
+     - Task 5: Hooks 품질 게이트 강화
+     - Task 6: 스킬 체인 명시 (compressor, sync-all)
+     - Task 7: Orchestration 문서 업데이트
+     - Task 8: Agent Teams 병렬 처리 파일럿 테스트
+  2. Codex CLI 설정 확인 (사용자가 옆 세션에서 설정 중)
 
 열린 결정:
-  - 중복 플러그인 5개 비활성화 범위 (사용자 다음 세션 처리)
-  - catchup + morning 스킬 통합 여부
-  - skill-creator/hook-creator/subagent-creator → orch-skill-builder 통합 여부
+  - commit-commands, playground, claude-code-setup, skill-creator(plugin) 비활성화 여부 미결
+  - 에이전트 학습 패턴 업데이트를 compressor 자동 vs 수동 검토 최종 결정 미확정
+  - Agent Teams 병렬 테스트 대상 항목 선별 미정
 
 주의사항:
-  - Codex CLI는 Windows MSYS에서 복합 PowerShell 명령이 sandbox policy로 차단됨
-  - codex-reviewer 에이전트가 Claude Code 에이전트 목록에 로드 안 됨 (세션 재시작 필요)
-  - Gemini 분석 결과는 반드시 크로스 검증 (사용자 확인 없이 삭제 금지)
-  - orchestration 브랜치: main, portfolio 브랜치: master (혼동 주의)
+  - v3.0 플랜 파일: ~/.claude/plans/swirling-riding-squid.md
+  - orchestration 브랜치: main, portfolio: master (혼동 주의)
+  - 활성 플러그인: 19 → 16개로 줄어짐 (agent-sdk-dev, hookify, code-review 비활성화)
+  - hookify 비활성화됨 — UserPromptSubmit hook "Success" 메시지 다음 세션부터 사라짐
+  - settings.json 이미 수정됨 (hooks 전면 업데이트 + 3개 플러그인 비활성화)
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===

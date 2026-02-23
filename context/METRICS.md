@@ -12,6 +12,7 @@
 | 2026-02-22 | gemini-analyzer(Opus) | 오케스트레이션 시스템 전체 비판 분석 | 5 | 11개 개선 태스크 도출, 모두 완료 |
 | 2026-02-22 | codex-reviewer | 설계 결함 검증 1차 (todo 삭제 설계) | 4 | 16개 결함 발견. 실전 유용. 2차 4개 신규/미해결 |
 | 2026-02-22 | ml-porter (역할) | monet-lab page-12 portfolio 컴포넌트 이식 | 5 | AiWorkflowSection, TechReviewSystemSection, aiWorkflowData 완전 이식 |
+| 2026-02-23 | (직접 점검) | 전체 시스템 점검 (hooks, plugins, agents, skills) | 5 | 유령 참조 제거, 플러그인 3개 비활성화, hooks 전면 강화 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -49,6 +50,7 @@
 | 2026-02-22 | orch-system-overhaul 11개 태스크 (보안+자동화+정리) | ~2h | - |
 | 2026-02-22 | codex-reviewer 에이전트 설계+구현+실전 테스트 | ~1h | Codex CLI 샌드박스 오류 디버깅 |
 | 2026-02-22 | monet-lab page-12 UI 개선 + portfolio 컴포넌트 이식 | ~1h | - |
+| 2026-02-23 | 전체 시스템 점검 + hooks 전면 업데이트 + v3.0 설계 | ~2h | 점검 항목 범위 파악 |
 
 ---
 
@@ -59,6 +61,7 @@
 - compressor 5곳 저장으로 컨텍스트 복구 완성도 향상
 - codex-reviewer 1차 스캔: 16개 결함 발견 → 설계 검증 도구로 실용성 확인
 - portfolio 원본 컴포넌트 직접 이식: 중복 작업 없이 빠른 구현
+- 직접 전체 시스템 점검: 유령 참조 + 이중 실행 + 사용 안 하는 플러그인 발견
 
 ### 효과 없었던 것
 - (누적 예정)
