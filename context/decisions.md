@@ -23,6 +23,13 @@
 2026-02-23 [orch] project-linker 프로젝트 간 변경 영향 감지 (커밋 시점 트리거) | orch:✅
 2026-02-23 [orch] meta-orchestrator 팀 디스패치 판단 (Sonnet) | orch:✅
 2026-02-23 [orch] CLAUDE.md 전역 파일 = "global" 분류 (hook 타임스탬프 KST 수정 포함) | orch:✅
+2026-02-23 [portfolio] Obsidian UI 목업: CSS 재현 방식 (스크린샷 아님) — 코드 렌더링 일관성 | pf:✅
+2026-02-23 [portfolio] Graph View: 수동 배치 (force-directed 아님) — 의도된 클러스터 보장 | pf:✅
+2026-02-23 [portfolio] 목업+그래프 양옆 배치 — Living Docs 블록 내 통합 | pf:✅
+2026-02-23 [portfolio] Obsidian 섹션 모바일 반응형 미확인 (375px 양옆 배치) | pf:❌
+2026-02-23 [tech-review] EN 번역 [1][2] 인용 마커 잔류 이슈 수정 | tr:❌
+2026-02-23 [monet-lab] SurveyTable CSV 병합: Survey 1(38명) col5=rating, Survey 2(5명) col6=rating | ml:❌
+2026-02-23 [monet-lab] 파서 블록 문법: **[survey-viz]**, **[survey-table]** | ml:❌
 
 ## 아카이브
 

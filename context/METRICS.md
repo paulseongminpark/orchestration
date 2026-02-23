@@ -17,6 +17,7 @@
 | 2026-02-23 | codex-reviewer + gemini-analyzer | 병렬 교차 검증 파이프라인 테스트 | 4 | 34건 vs 3건 발견. 속도 15분→2분 최적화 완료 |
 | 2026-02-23 | project-linker, meta-orchestrator, tr-monitor, inbox-processor | v3.1 신규 에이전트 실전 테스트 | 4 | 4개 모두 테스트 성공. ai-synthesizer 실전 대기 |
 | 2026-02-23 | (직접 분석+구현) | tech-review 파이프라인 실패 원인 분석 + 프롬프트 7개 개편 | 5 | KO 거부 응답 감지+EN 마커 제거로 재생성 성공 (1,883자) |
+| 2026-02-23 | (직접 구현) | monet-lab SurveyViz + SurveyTable 컴포넌트 신규 구현 | 4 | CSV 2개 병합 N=43, IntersectionObserver 애니메이션 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -43,6 +44,8 @@
 | 2026-02-22 | page-12 | orange→background, blue 섹션 하이라이트 | c93b956 |
 | 2026-02-22 | page-12 | SectionNarrative → wd-callout 구조 교체 | 509b6f4 |
 | 2026-02-22 | page-12 | AI/TR 상세 섹션 portfolio 원본 이식 | cce9486 |
+| 2026-02-23 | PMCC/EH/SD | CSS 타이포 정비 + MD 구조 정리 + 이미지 연결 | 미커밋 |
+| 2026-02-23 | PMCC | SurveyViz.tsx + SurveyTable.tsx 신규 구현 | 미커밋 |
 
 ---
 
@@ -59,6 +62,7 @@
 | 2026-02-23 | Codex CLI 연동 + 병렬 교차 검증 파이프라인 최적화 (15분→2분) | ~2h | sandbox bypass 플래그 탐색 |
 | 2026-02-23 | v3.1 Agent Teams & Linker System 설계+구현 (에이전트 7개+팀 3개+hooks) | ~2h | - |
 | 2026-02-23 | tech-review 파이프라인 실패 분석 + 프롬프트 7개 개편 + 안전장치 추가 + 재생성 | ~2h | 거부 응답 패턴 파악 |
+| 2026-02-23 | monet-lab CSS 정비 + MD 3개 구조화 + 이미지 연결 + SurveyViz/Table 구현 | ~2h | CSV 필드 매핑 (Survey 1/2 오프셋 상이) |
 
 ---
 
@@ -93,3 +97,4 @@
 | 2026-02-23 | 4개 (Codex 연동, 병렬 파이프라인 최적화) | orchestration | 3개 |
 | 2026-02-23 | 14개 (v3.1 설계+구현 — 에이전트 7개+팀 3개+hooks+Living Docs) | orchestration | 6개 |
 | 2026-02-23 | 8개 (파이프라인 실패 분석+프롬프트 7개 개편+안전장치+재생성 성공) | tech-review | 5개 |
+| 2026-02-23 | 10개 (CSS 정비+MD 3개+이미지+SurveyViz+SurveyTable+파서 확장) | monet-lab | 2개 |
