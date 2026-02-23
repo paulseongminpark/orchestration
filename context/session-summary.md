@@ -27,10 +27,29 @@
 현재 상태: v3.1 완전 구현 완료 (에이전트 23개, 팀 3개)
 
 다음 할 것:
-  1. tech-review 미커밋 22개 정리 (tech-review-ops 팀 첫 실전)
+  1. **[새 Warp pane에서] tech-review 작업** — 아래 상세 참고
   2. decisions.md 미반영 항목 처리 — tr 2건, pf 2건
   3. inbox-processor 실전: 8건 새 항목 TODO 반영
   4. ai-synthesizer 실전 테스트 (gemini+codex 분석 체인 실행 시)
+
+=== tech-review 작업 상세 (새 세션용) ===
+
+경로: /c/dev/01_projects/03_tech-review
+
+미커밋 22개 내역:
+  - M (수정 8): ko/ 프롬프트 7개 + STATE.md + daily-guide.md (Smart Brevity 형식)
+  - D (삭제 8): en/ 영문 프롬프트 7개 + gas/Code.gs
+  - ?? (미추적 5): blog/, comments/, design/, _archived/, keywords-log.md
+
+할 일:
+  1. 변경 내용 확인 → 의도된 변경인지 판단
+  2. 논리적 단위로 나눠서 커밋 (프롬프트 수정 / 삭제 / 새 디렉토리)
+  3. decisions.md 미반영 2건 처리:
+     - keywords-log.md 신설, fetch-perplexity KST 버그 수정
+     - 월~토 프롬프트 6개 Smart Brevity 형식 업데이트
+  4. 사용자가 추가로 손볼 것 있음 → 지시에 따라 진행
+
+=== tech-review 작업 상세 끝 ===
 
 열린 결정:
   - decisions.md 미반영 중 "Phase E 파일럿 테스트" orch:❌, "STATE.md 경로 불일치" orch:❌, "copy-session-log.py overwrite" orch:❌ — 이미 v3.1 구현으로 일부 해소됐으나 명시적 처리 미완
