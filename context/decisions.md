@@ -6,9 +6,15 @@
 
 ## 미반영
 
+2026-02-24 [monet-lab] VisualCuesGallery: 전용 컴포넌트, 마크다운 블록 `**[visual-cues-gallery]**` | ml:❌
+2026-02-24 [monet-lab] ActivityGallery: 전용 컴포넌트, CSS grid-area, `**[activity-gallery]**` | ml:❌
+2026-02-24 [monet-lab] 페이지 에디터 구현 중단 — 직접 지시 방식이 더 효율적 | ml:✅
+2026-02-24 [monet-lab] 피그마 내보내기 보류 — 수동 전달 비효율 | ml:✅
+2026-02-24 [monet-lab] 가로선: GALLERY, GROWTH & METRICS eyebrow 기준으로만 삽입 | ml:❌
+2026-02-24 [monet-lab] 동영상: 원본 git 미커밋, _web.mp4만 커밋 (기존 규칙 유지) | ml:✅
+2026-02-23 [monet-lab] 프로그레스 바 드래그: animation-delay 음수로 해당 지점부터 재개 | ml:❌
 2026-02-23 [monet-lab] quote-image 블록: 엇갈린 배치, qiCount % 2 === 1이면 reverse | ml:✅
 2026-02-23 [monet-lab] placeholder 블록: `**[placeholder: N]**` 문법 | ml:✅
-2026-02-23 [monet-lab] 동영상 원본 git 미커밋, _web.mp4만 커밋 | ml:✅
 2026-02-23 [monet-lab] SurveyTable CSV 병합: Survey 1(38명) col5=rating, Survey 2(5명) col6=rating | ml:❌
 2026-02-23 [monet-lab] 파서 블록 문법: **[survey-viz]**, **[survey-table]** | ml:❌
 2026-02-23 [tech-review] EN 번역 [1][2] 인용 마커 잔류 이슈 수정 | tr:❌
