@@ -1,6 +1,6 @@
-# v3.0 사용자 가이드
+# v3.1 사용자 가이드
 
-> 마지막 갱신: 2026-02-23
+> 마지막 갱신: 2026-02-24
 > 이 문서는 **사용자 관점**에서 시스템을 어떻게 쓰는지 설명합니다.
 > 기술 구조가 궁금하면 → [SYSTEM-GUIDE.md](./SYSTEM-GUIDE.md)
 
@@ -20,6 +20,7 @@
 10. [에이전트 전체 목록과 역할](#10-에이전트-전체-목록과-역할)
 11. [뭔가 잘못됐을 때](#11-뭔가-잘못됐을-때)
 12. [알아두면 좋은 것들](#12-알아두면-좋은-것들)
+13. [부록: v3.0 → v3.1 변경점](#13-부록-v30--v31-변경점)
 
 ---
 
@@ -107,13 +108,13 @@
 
 ```
 === 이전 세션 요약 ===
-세션 목표: v3.0 에이전틱 워크플로우 강화
+세션 목표: v3.1 에이전트 확장 및 팀 시스템 추가
 완료:
   - CLAUDE.md 체인 규칙 추가
-  - agent.md 16개 표준화
+  - agent.md 23개 표준화
 다음 할 것:
-  1. Phase E 파일럿 테스트
-  2. 플러그인 비활성화 검토
+  1. Linker System 파일럿 테스트
+  2. 팀 운영 검증
 ```
 
 ---
@@ -284,10 +285,12 @@ security-auditor가 NO-GO를 내면:
 | **gemini-analyzer** | Gemini CLI, 100만 토큰 | 전체를 한 번에 보는 광역 분석 |
 | **codex-reviewer** | Codex CLI, 8개 관점 | 구조적 결함 감지 (명세 모순, 상태 누락 등) |
 
-→ Claude가 두 결과를 비교해서:
+→ ai-synthesizer(Opus)가 두 결과를 비교해서:
 - 양쪽 다 발견 → 높은 신뢰도, 즉시 조치
-- 한쪽만 발견 → Claude가 직접 확인
+- 한쪽만 발견 → ai-synthesizer가 직접 확인
 - 양쪽 다 못 찾음 → blind spot 가능성 인지
+- 합의 항목 → agent.md 자동 반영 가능
+- 불일치 항목 → 사용자 판단 필수
 
 ### 5-2. 특정 프로젝트만 분석
 
@@ -343,6 +346,7 @@ content-writer (자동 호출)
 
 - 독립적인 작업 2-3개를 동시에 처리하고 싶을 때
 - 분석/리서치를 병렬로 돌리고 싶을 때
+- 정기적인 자동화 작업을 팀으로 묶어 실행할 때
 
 ### 7-2. 사용 방법
 
@@ -361,7 +365,17 @@ content-writer (자동 호출)
 5. 통합 → 반영
 6. 팀 해산
 
-### 7-3. 주의사항
+### 7-3. 사전 정의 팀 (v3.1 신규)
+
+자주 쓰는 조합을 팀으로 바로 호출할 수 있습니다:
+
+| 팀 | 호출 방법 | 하는 일 |
+|----|----------|---------|
+| **tech-review-ops** | "tech-review 팀 돌려줘" | tr-monitor → tr-updater → commit-writer |
+| **ai-feedback-loop** | "Gemini Codex 교차 분석해줘" | gemini+codex 병렬 → ai-synthesizer 검증 |
+| **daily-ops** | "일일 운영 체인 돌려줘" | inbox-processor → orch-state → morning-briefer |
+
+### 7-4. 주의사항
 
 - **같은 파일을 동시에 수정하면 안 됩니다** (하나가 reject됨)
 - 팀원이 "유휴(idle)" 상태로 나오는 건 정상입니다 — 결과 보내고 대기 중
@@ -497,6 +511,28 @@ Step 2: /sync-all
 |---------|------|---------|
 | **ml-experimenter** | Opus | UI 실험 리뷰 + portfolio 이식 가능성 평가 |
 | **ml-porter** | Sonnet | 실험 → portfolio 이식 판단 + 절차 안내 |
+
+### Linker / 연동 (v3.1 신규)
+
+| 에이전트 | 모델 | 하는 일 |
+|---------|------|---------|
+| **context-linker** | Haiku | bash hook → live-context.md 읽기 → 프로젝트 간 맥락 연결·주입 |
+| **project-linker** | Sonnet | 커밋 감지 → 관련 프로젝트 TODO 생성 + 알림 |
+
+### 운영 자동화 (v3.1 신규)
+
+| 에이전트 | 모델 | 하는 일 |
+|---------|------|---------|
+| **meta-orchestrator** | Sonnet | catchup 후 팀 활성화 + 태스크 디스패치 |
+| **inbox-processor** | Haiku | 일일 인박스 처리, 운영 체인 시작 |
+| **ai-synthesizer** | Opus | gemini+codex 병렬 결과 교차 검증 → 합의/불일치 분류 → agent.md 반영 판단 |
+
+### Tech-Review (v3.1 신규)
+
+| 에이전트 | 모델 | 하는 일 |
+|---------|------|---------|
+| **tr-monitor** | Haiku | tech-review 키워드 모니터링, 신규 감지 시 tr-updater 트리거 |
+| **tr-updater** | Sonnet | tech-review 블로그 콘텐츠 업데이트 |
 
 ### 기타
 
@@ -663,3 +699,19 @@ github(gh CLI 대체), example-skills(중복), hookify(이중실행), code-revie
 | 플러그인 | 19개 | 11개 (중복/미사용 제거) |
 | Agent Teams | 미사용 | 파일럿 검증 완료, 실전 투입 가능 |
 | 학습 방식 | - | compressor(Sonnet) 수집 → sync-all(Opus) 검증 |
+
+---
+
+## 13. 부록: v3.0 → v3.1 변경점
+
+| 항목 | v3.0 | v3.1 |
+|------|------|------|
+| 에이전트 수 | 16개 | 23개 (+7) |
+| 분석 체인 | gemini+codex → Claude 교차 검증 | gemini+codex → ai-synthesizer(Opus) → 합의/불일치 분류 → agent.md 반영 |
+| 팀 시스템 | 수동 조합 | tech-review-ops, ai-feedback-loop, daily-ops 3개 사전 정의 팀 |
+| Linker System | 없음 | context-linker + project-linker (파일 변경 → 맥락 자동 연결) |
+| tech-review 자동화 | 없음 | tr-monitor → tr-updater → commit-writer 체인 |
+| 일일 운영 자동화 | 없음 | inbox-processor → orch-state → morning-briefer 체인 |
+| 디스패치 | 수동 | catchup → meta-orchestrator → 팀 활성화 체인 |
+| context/ 파일 | 5개 | 6개 (live-context.md 추가) |
+| 체인 규칙 | 3개 | 7개 (분석강화+tech-review+일일운영+디스패치+프로젝트연동) |

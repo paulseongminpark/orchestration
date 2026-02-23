@@ -1,7 +1,7 @@
-# Orchestration System v3.0 — 종합 사용 가이드
+# Orchestration System v3.1 — 종합 사용 가이드
 
 > 이 문서는 시스템의 모든 요소를 처음부터 끝까지 설명합니다.
-> 마지막 갱신: 2026-02-23
+> 마지막 갱신: 2026-02-24
 
 ---
 
@@ -124,6 +124,7 @@ orchestration/
 │   ├── decisions.md            ← 결정 추적 (❌미반영/✅반영/🚫취소)
 │   ├── PLANNING.md             ← 아키텍처 결정 기록 (ADR)
 │   ├── METRICS.md              ← 세션별 완료 태스크/결정 수
+│   ├── live-context.md         ← PostToolUse hook 자동 갱신 (프로젝트 간 맥락)
 │   └── logs/
 │       └── 2026-02-22.md       ← 시간순 상세 로그 (읽기 금지, append만)
 ├── config/
@@ -192,7 +193,7 @@ model: opus/sonnet/haiku          # 사용 모델
 ## 원칙
 ```
 
-### 5-3. 전체 에이전트 목록 (16개)
+### 5-3. 전체 에이전트 목록 (23개)
 
 #### 자동 호출 (PROACTIVELY, 4개)
 
@@ -203,7 +204,7 @@ model: opus/sonnet/haiku          # 사용 모델
 | **orch-state** | Sonnet | "뭐 해야 해", "어디까지 했지", 방향 파악 필요 |
 | **compressor** | Sonnet | "/compact", "마무리", "끝내자", 토큰 높을 때 |
 
-**체인 규칙 (v3.0, 건너뛰기 금지):**
+**체인 규칙 (v3.1, 건너뛰기 금지):**
 ```
 구현 체인: implement → code-reviewer(Opus) → commit-writer(Haiku)
   - code-reviewer 🔴 → 수정 후 재리뷰 (commit-writer 호출 금지)
@@ -212,7 +213,18 @@ model: opus/sonnet/haiku          # 사용 모델
 배포 체인: pf-deployer → security-auditor → 사용자 확인 → push
   - 둘 중 하나 NO-GO → 배포 중단
 
-분석 체인: gemini-analyzer + codex-reviewer (병렬) → Claude 교차 검증
+분석 체인 (강화): gemini-analyzer + codex-reviewer (병렬) → ai-synthesizer(Opus) → 사용자 확인 → agent.md 반영
+  - ai-synthesizer 합의 항목: agent.md 자동 반영 가능
+  - ai-synthesizer 불일치 항목: 사용자 판단 필수
+
+tech-review 체인: tr-monitor(Haiku) → tr-updater(Sonnet) → commit-writer(Haiku)
+
+일일 운영 체인: inbox-processor(Haiku) → orch-state(Sonnet) → morning-briefer(Haiku)
+
+디스패치 체인: catchup → meta-orchestrator(Sonnet) → 팀 활성화
+
+프로젝트 연동 (독립, 상시): 파일 변경 → bash hook append → context-linker(Haiku, 주기적) → 맥락 주입
+  커밋 감지 → project-linker(Sonnet) → TODO/알림
 ```
 
 **사용 예시:**
@@ -255,6 +267,28 @@ model: opus/sonnet/haiku          # 사용 모델
 | **ml-experimenter** | Opus | UI 컴포넌트 실험 리뷰/개선 제안 |
 | **ml-porter** | Sonnet | 실험 결과 → portfolio 이식 판단 |
 
+#### Linker / 연동 (2개)
+
+| 에이전트 | 모델 | 역할 |
+|---------|------|------|
+| **context-linker** | Haiku | bash hook append → 주기적 프로젝트 간 맥락 연결·주입 |
+| **project-linker** | Sonnet | 커밋 감지 → 관련 프로젝트 TODO 생성 및 알림 |
+
+#### 운영 자동화 (3개)
+
+| 에이전트 | 모델 | 역할 |
+|---------|------|------|
+| **meta-orchestrator** | Sonnet | 팀 활성화 및 태스크 디스패치 (catchup 연동) |
+| **inbox-processor** | Haiku | 일일 운영 체인 시작, 인박스 처리 |
+| **ai-synthesizer** | Opus | gemini+codex 병렬 결과 교차 검증 → 합의/불일치 판단 |
+
+#### Tech-Review (2개)
+
+| 에이전트 | 모델 | 역할 |
+|---------|------|------|
+| **tr-monitor** | Haiku | tech-review 키워드 모니터링 |
+| **tr-updater** | Sonnet | tech-review 콘텐츠 업데이트 |
+
 #### 기타 (2개)
 
 | 에이전트 | 모델 | 역할 |
@@ -266,13 +300,13 @@ model: opus/sonnet/haiku          # 사용 모델
 
 | 모델 | 비용 | 용도 | 에이전트 |
 |------|------|------|---------|
-| **Haiku** | 저 | 수집, 확인, 포맷팅 | commit-writer, morning-briefer |
-| **Sonnet** | 중 | 분석, 중간 복잡도 | orch-state, compressor, pf-context, pf-deployer, ml-porter |
-| **Opus** | 고 | 리뷰, 설계, 작성 | code-reviewer, pf-reviewer, orch-doc-writer, ml-experimenter, content-writer, security-auditor |
+| **Haiku** | 저 | 수집, 확인, 포맷팅 | commit-writer, morning-briefer, context-linker, inbox-processor, tr-monitor |
+| **Sonnet** | 중 | 분석, 중간 복잡도 | orch-state, compressor, pf-context, pf-deployer, ml-porter, project-linker, meta-orchestrator, tr-updater |
+| **Opus** | 고 | 리뷰, 설계, 작성 | code-reviewer, pf-reviewer, orch-doc-writer, ml-experimenter, content-writer, security-auditor, ai-synthesizer |
 
-### 5-5. 교차 검증 파이프라인
+### 5-5. 교차 검증 파이프라인 (v3.1 강화)
 
-gemini-analyzer와 codex-reviewer를 **병렬 독립 실행** → Claude가 두 결과를 교차 검증합니다.
+gemini-analyzer와 codex-reviewer를 **병렬 독립 실행** → ai-synthesizer(Opus)가 교차 검증합니다.
 
 ```
 ┌─────────────────┐     ┌──────────────────┐
@@ -283,27 +317,69 @@ gemini-analyzer와 codex-reviewer를 **병렬 독립 실행** → Claude가 두 
          │                       │
          └───────┬───────────────┘
                  ↓
-         ┌───────────────┐
-         │  Claude 심판   │
-         │ 불일치 = 깊이  │
-         │ 일치 = 신뢰도↑ │
-         └───────────────┘
+         ┌───────────────────┐
+         │  ai-synthesizer   │
+         │  (Opus)           │
+         │  합의 / 불일치 판단│
+         └────────┬──────────┘
+                  ↓
+         ┌────────────────────┐
+         │ 합의 → agent.md    │
+         │ 불일치 → 사용자 판단│
+         └────────────────────┘
 ```
 
 **불일치 처리:**
-- 한쪽만 발견 → Claude가 직접 확인 후 판단
-- 양쪽 발견 → 높은 신뢰도, 즉시 조치
+- ai-synthesizer 합의 항목 → agent.md 자동 반영 가능
+- ai-synthesizer 불일치 항목 → 사용자 판단 필수
 - 양쪽 미발견 → blind spot 가능성 인지
 
 **사용법:**
 ```
 "시스템 전체 점검해줘, Gemini랑 Codex 둘 다 써서"
 → Claude가 두 에이전트를 병렬 Task로 실행
-→ 두 결과를 받아 교차 비교
-→ 종합 보고서 출력
+→ ai-synthesizer가 두 결과를 교차 검증
+→ 합의/불일치 분류 후 종합 보고서 출력
 ```
 
 > **교훈**: 단일 AI 분석은 blind spot이 있을 수 있음. 반드시 교차 검증.
+
+### 5-6. 팀 시스템 (v3.1 신규)
+
+자주 사용하는 에이전트 조합을 **팀**으로 미리 정의합니다.
+
+| 팀 | 구성 | 용도 |
+|----|------|------|
+| **tech-review-ops** | tr-monitor → tr-updater → commit-writer | tech-review 키워드 감지 → 콘텐츠 업데이트 → 커밋 |
+| **ai-feedback-loop** | gemini-analyzer + codex-reviewer → ai-synthesizer | 대규모 병렬 분석 → 교차 검증 |
+| **daily-ops** | inbox-processor → orch-state → morning-briefer | 일일 운영 자동화 |
+
+**팀 실행 예시:**
+```
+"tech-review 팀 돌려줘"
+→ tr-monitor: 새 키워드 감지
+→ tr-updater: 콘텐츠 업데이트
+→ commit-writer: 변경 커밋
+```
+
+### 5-7. Linker System (v3.1 신규)
+
+프로젝트 간 맥락을 자동으로 연결·전파합니다.
+
+```
+파일 변경 감지 (PostToolUse hook)
+  → bash hook: live-context.md append
+  → context-linker (Haiku, 주기적): 프로젝트 간 맥락 연결 → 맥락 주입
+
+커밋 감지
+  → project-linker (Sonnet): 관련 프로젝트 TODO 생성 + 알림
+```
+
+**live-context.md**: `context/live-context.md`에 PostToolUse hook이 자동 갱신. 현재 어떤 파일이 변경 중인지 실시간 추적.
+
+**context-linker**: 주기적으로 live-context.md를 읽어 연관 프로젝트에 맥락 주입. 예: portfolio 변경 → orchestration decisions.md 참조 제안.
+
+**project-linker**: 커밋 감지 시 관련 프로젝트의 TODO.md에 항목 추가. 예: tech-review 커밋 → portfolio AI 섹션 업데이트 TODO 생성.
 
 ---
 

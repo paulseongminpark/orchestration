@@ -31,22 +31,28 @@
 - [x] example-skills 플러그인 비활성화
 - [x] docs/SYSTEM-GUIDE.md 종합 사용 가이드 작성
 
-## v2.3 📋 (다음 세션)
-**플러그인 정리 + 스킬 통합**
-- [ ] 중복 플러그인 4개 비활성화 (code-review, commit-commands, skill-creator, hookify)
-- [ ] playground 플러그인 비활성화
-- [ ] catchup + morning 스킬 통합 여부 결정
-- [ ] skill-creator/hook-creator/subagent-creator → orch-skill-builder 통합 여부 결정
-- [ ] SessionEnd JSONL 레이스컨디션 검토
+## v3.0 ✅ (2026-02-23)
+**Hooks System + 에이전트 체계 정비**
+- [x] Hooks System 구축 (PreToolUse 3, PostToolUse 3, Notification 1, SessionStart 2, SessionEnd 1)
+- [x] 에이전트 체인 규칙 정립 (구현 / 배포 / 분석 / tech-review / 일일운영 / 디스패치)
+- [x] Living Docs 업데이트 규칙 확립
+- [x] 에이전트 16개 체계 정비 및 문서화
+- [x] 플러그인 정리 (중복 비활성화)
+- [x] security-auditor 에이전트 추가
 
-## v3.0 📋 (계획)
-**TBD — v2 완료 후 결정**
-- 후보: monet-lab Worker 완성
-- 후보: YouTube Collector (tech-review 콘텐츠 수집 자동화)
-- 후보: references 폴더 구조 전 스킬 적용
-- 후보: GPT/Gemini/Perplexity master_prompt crystalize 적용
-- 후보: Codex 전체 분석 (WSL 환경 구성)
+## v3.1 ✅ (2026-02-23)
+**Agent Teams & Linker System**
+- [x] 에이전트 16 → 23개 확장
+- [x] Agent Teams 3개 구성 (tech-review-ops, ai-feedback-loop, daily-ops)
+- [x] Linker System 구축 (context-linker + project-linker)
+- [x] live-context.md 실시간 갱신 (PostToolUse hook 연동)
+- [x] Meta-orchestrator: 팀 활성화 및 태스크 디스패치
+- [x] 스킬 13개 (사용자 + 플러그인 통합 집계)
+- [x] README.md v3.1 업데이트
+
+## v3.2 📋 (계획)
+**TBD — v3.1 실전 테스트 후 결정**
 
 ---
 
-_업데이트: 2026-02-22_
+_업데이트: 2026-02-24_
