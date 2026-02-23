@@ -18,6 +18,7 @@
 | 2026-02-23 | project-linker, meta-orchestrator, tr-monitor, inbox-processor | v3.1 신규 에이전트 실전 테스트 | 4 | 4개 모두 테스트 성공. ai-synthesizer 실전 대기 |
 | 2026-02-23 | (직접 분석+구현) | tech-review 파이프라인 실패 원인 분석 + 프롬프트 7개 개편 | 5 | KO 거부 응답 감지+EN 마커 제거로 재생성 성공 (1,883자) |
 | 2026-02-23 | (직접 구현) | monet-lab SurveyViz + SurveyTable 컴포넌트 신규 구현 | 4 | CSV 2개 병합 N=43, IntersectionObserver 애니메이션 |
+| 2026-02-23 | (직접 구현) | monet-lab page-12 CSS 레이아웃 + 이미지 그리드 + 블록 타입 확장 | 5 | 1100→1540px, 4개 블록 추가, 7개 이미지 교체 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -46,6 +47,7 @@
 | 2026-02-22 | page-12 | AI/TR 상세 섹션 portfolio 원본 이식 | cce9486 |
 | 2026-02-23 | PMCC/EH/SD | CSS 타이포 정비 + MD 구조 정리 + 이미지 연결 | 미커밋 |
 | 2026-02-23 | PMCC | SurveyViz.tsx + SurveyTable.tsx 신규 구현 | 미커밋 |
+| 2026-02-23 | PMCC | CSS 레이아웃 1100→1540px, 이미지 그리드, 블록 타입 4개 추가 | 미커밋 |
 
 ---
 
@@ -62,28 +64,7 @@
 | 2026-02-23 | Codex CLI 연동 + 병렬 교차 검증 파이프라인 최적화 (15분→2분) | ~2h | sandbox bypass 플래그 탐색 |
 | 2026-02-23 | v3.1 Agent Teams & Linker System 설계+구현 (에이전트 7개+팀 3개+hooks) | ~2h | - |
 | 2026-02-23 | tech-review 파이프라인 실패 분석 + 프롬프트 7개 개편 + 안전장치 추가 + 재생성 | ~2h | 거부 응답 패턴 파악 |
-| 2026-02-23 | monet-lab CSS 정비 + MD 3개 구조화 + 이미지 연결 + SurveyViz/Table 구현 | ~2h | CSV 필드 매핑 (Survey 1/2 오프셋 상이) |
-
----
-
-## 패턴 인사이트
-
-### 효과 있었던 것
-- gemini-analyzer 비판 분석 → 11개 구체적 태스크 도출 (실행률 100%)
-- compressor 5곳 저장으로 컨텍스트 복구 완성도 향상
-- codex-reviewer 1차 스캔: 16개 결함 발견 → 설계 검증 도구로 실용성 확인
-- portfolio 원본 컴포넌트 직접 이식: 중복 작업 없이 빠른 구현
-- 직접 전체 시스템 점검: 유령 참조 + 이중 실행 + 사용 안 하는 플러그인 발견
-- sandbox bypass 플래그: Codex 실행 시간 15분→2분 (가장 큰 단일 개선 요인)
-- B+C 하이브리드 (팀+meta-orchestrator): 브레인스토밍→설계→구현 단일 세션 완료
-
-### 효과 없었던 것
-- (누적 예정)
-
-### 반복되는 병목
-- 세션 간 컨텍스트 전달 (→ /catchup으로 부분 해결, v3.1 context-linker로 추가 해결)
-- 다중 창 AI 소통 불가 (→ 단일 창 Task 툴로 해결)
-- Codex CLI Windows 샌드박스 오류 (→ dangerously-bypass-approvals-and-sandbox로 해결)
+| 2026-02-23 | monet-lab page-12 CSS 레이아웃 정비 + 이미지 교체 + 블록 타입 확장 + 컴포넌트 구현 | ~2h | 파일 이름 일관성 (rename 추적) |
 
 ---
 
@@ -97,4 +78,4 @@
 | 2026-02-23 | 4개 (Codex 연동, 병렬 파이프라인 최적화) | orchestration | 3개 |
 | 2026-02-23 | 14개 (v3.1 설계+구현 — 에이전트 7개+팀 3개+hooks+Living Docs) | orchestration | 6개 |
 | 2026-02-23 | 8개 (파이프라인 실패 분석+프롬프트 7개 개편+안전장치+재생성 성공) | tech-review | 5개 |
-| 2026-02-23 | 10개 (CSS 정비+MD 3개+이미지+SurveyViz+SurveyTable+파서 확장) | monet-lab | 2개 |
+| 2026-02-23 | 12개 (CSS 레이아웃+이미지+블록+컴포넌트+동영상 등) | monet-lab | 5개 |

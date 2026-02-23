@@ -6,15 +6,21 @@
 
 ## 미반영
 
-2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | tr:❌
+2026-02-23 [monet-lab] quote-image 블록: 엇갈린 배치, qiCount % 2 === 1이면 reverse | ml:✅
+2026-02-23 [monet-lab] placeholder 블록: `**[placeholder: N]**` 문법 | ml:✅
+2026-02-23 [monet-lab] 동영상 원본 git 미커밋, _web.mp4만 커밋 | ml:✅
+2026-02-23 [monet-lab] SurveyTable CSV 병합: Survey 1(38명) col5=rating, Survey 2(5명) col6=rating | ml:❌
+2026-02-23 [monet-lab] 파서 블록 문법: **[survey-viz]**, **[survey-table]** | ml:❌
+2026-02-23 [tech-review] EN 번역 [1][2] 인용 마커 잔류 이슈 수정 | tr:❌
+2026-02-23 [portfolio] Obsidian 섹션 모바일 반응형 미확인 (375px 양옆 배치) | pf:❌
 2026-02-22 [portfolio] 07~10 스크린샷 → lab.md 이미지 링크 추가 | pf:❌
-2026-02-22 [tech-review] 나머지 요일 프롬프트(월~토 6개) Smart Brevity 형식 업데이트 | tr:✅
-2026-02-22 [portfolio] Tech Review System 스토리텔링 글 작성 | pf:❌
-2026-02-23 [tech-review] 프롬프트 7개 Smart Brevity v2 통일 (소스 가이드 + 분량 지시 + 마커 제거) | tr:✅
-2026-02-23 [tech-review] 수요일 주제: AI × Industry (헬스케어→금융→법률→제조→교육→리테일 순환) | tr:✅
-2026-02-23 [tech-review] 제목 추출: TITLE 프롬프트 제거 → Today in One Line 본문 자동 추출 | tr:✅
-2026-02-23 [tech-review] API 예산 $5/월 기준 일일 KO 2,000~2,200자 (항목당 8문장×3섹션) | tr:✅
-2026-02-23 [tech-review] KO fetch 실패 시 EN 번역 자동 건너뜀 (create-post.yml 안전장치) | tr:✅
+2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | tr:❌
+
+## 아카이브
+
+2026-02-23 [monet-lab] page-12 CSS 레이아웃: 1100px→1540px, 프로즈/미디어 분리 (860px 중앙) | ml:✅
+2026-02-23 [monet-lab] 이미지 그리드 자동 그룹핑 (2+개 연속) → preprocessBlocks | ml:✅
+2026-02-23 [monet-lab] 히어로 슬라이더: CSS animation 무한루프, 프로그레스 바 드래그 | ml:✅
 2026-02-23 [orch] Phase E 파일럿 테스트 (Agent Teams + worktree 병렬 처리) | orch:❌
 2026-02-23 [orch] STATE.md 경로 불일치 수정 (교차 검증 발견) | orch:❌
 2026-02-23 [orch] copy-session-log.py overwrite 문제 수정 | orch:❌
@@ -26,51 +32,10 @@
 2026-02-23 [portfolio] Obsidian UI 목업: CSS 재현 방식 (스크린샷 아님) — 코드 렌더링 일관성 | pf:✅
 2026-02-23 [portfolio] Graph View: 수동 배치 (force-directed 아님) — 의도된 클러스터 보장 | pf:✅
 2026-02-23 [portfolio] 목업+그래프 양옆 배치 — Living Docs 블록 내 통합 | pf:✅
-2026-02-23 [portfolio] Obsidian 섹션 모바일 반응형 미확인 (375px 양옆 배치) | pf:❌
-2026-02-23 [tech-review] EN 번역 [1][2] 인용 마커 잔류 이슈 수정 | tr:❌
-2026-02-23 [monet-lab] SurveyTable CSV 병합: Survey 1(38명) col5=rating, Survey 2(5명) col6=rating | ml:❌
-2026-02-23 [monet-lab] 파서 블록 문법: **[survey-viz]**, **[survey-table]** | ml:❌
-
-## 아카이브
-
-2026-02-23 [orch] Codex CLI 교차 검증 최적화: sandbox bypass + reasoning medium + 도구 3~5회 = 2분 목표 (15분→2분) | orch:✅
-2026-02-23 [orch] ~/.codex/config.toml [profiles.review] 추가 (reasoning_effort=medium, disk-full-read-access) | orch:✅
-2026-02-23 [orch] codex-reviewer.md 3회 최적화: sandbox→bypass, 프롬프트 간결화, 도구 호출 3~5회 지시 | orch:✅
-2026-02-23 [orch] commit-commands, playground, claude-code-setup, skill-creator 4개 플러그인 비활성화 | orch:✅
-2026-02-23 [orch] 에이전트 학습 패턴: 하이브리드 방식 채택 (compressor 수집→sync-all 검증→반영) | orch:✅
-2026-02-23 [orch] v3.0 플랜 실행 (Task 1~7, Phase A~D) | orch:✅
-2026-02-23 [orch] Codex CLI + Gemini CLI 교차 검증 파이프라인 최적화 | orch:✅
-2026-02-23 [orch] 전체 시스템 직접 점검 완료 (16 agents, 14 skills, 19 plugins, 7 hooks) | orch:✅
-2026-02-23 [orch] 플러그인 3개 비활성화 (agent-sdk-dev, hookify, code-review) | orch:✅
-2026-02-23 [orch] subagent-creator 스킬 삭제 → orch-skill-builder로 통합 | orch:✅
-2026-02-23 [orch] 유령 참조 제거 (STATE.md, KNOWLEDGE.md, MEMORY.md) | orch:✅
-2026-02-23 [orch] SessionStart 5개 → session-start.sh 통합 | orch:✅
-2026-02-23 [orch] PreToolUse 강화: git reset --hard, clean -f 차단 + 브랜치 혼동 경고 + node_modules 경고 | orch:✅
-2026-02-23 [orch] PreCompact 강화: 미커밋 수 확인 + 구체적 행동 안내 | orch:✅
-2026-02-23 [orch] TeammateIdle 강화: 팀원 이름 파싱 + 행동 안내 | orch:✅
-2026-02-23 [orch] TaskCompleted 강화: 태스크 제목/담당자 파싱 + 다음 태스크 안내 | orch:✅
-2026-02-23 [orch] v3.0 에이전틱 워크플로우 강화 플랜 8개 태스크 설계 완료 | orch:✅
-2026-02-22 [ml] page-12: 카드 요약 유지 + portfolio 원본 컴포넌트 이식 방식 채택 | ml:✅
-2026-02-22 [ml] 형광펜 하이라이트: color: 대신 background: rgba() + <mark> 태그 방식 | ml:✅
-2026-02-22 [orch] v2.2 시스템 오버홀 — 죽은 자동화 수리, 불필요 제거, stale 수정 | orch:✅
-2026-02-22 [orch] codex-reviewer 에이전트 복구 (잘못된 삭제 판단 번복) | orch:✅
-2026-02-22 [orch] 역할 분리 확정: Gemini=분석, Claude/Opus=구현, Codex=결함 검증 | orch:✅
-2026-02-22 [orch] codex-reviewer 2차 스캔 = Claude 명시 요청 시만 (GPT Plus 절약) | orch:✅
-2026-02-22 [orch] gemini-analyzer 결과 크로스 검증 필수 (사용자 확인 없이 삭제 금지) | orch:✅
-2026-02-22 [orch] compressor 확장(LOG+STATE 3곳), sync-all dev-vault | orch:✅
-2026-02-22 [orch] Session Visibility System 설계 및 구현 | orch:✅
-2026-02-22 [orch] PAT → Windows 환경변수, settings.json 제거 | orch:✅
-2026-02-22 [orch] PreToolUse 페일클로즈 전환 (exit 2 = 차단) | orch:✅
-2026-02-22 [orch] decisions.md git-tracked 전환 (orchestration/context/) | orch:✅
-2026-02-22 [orch] compressor = 5곳 저장 (+ METRICS.md) | orch:✅
-2026-02-22 [orch] morning-briefer = catchup + orch-state 통합 엔트리포인트 | orch:✅
-2026-02-22 [orch] compressor = 4곳 저장 (session-summary + LOG + STATE.md + decisions.md) | orch:✅
-2026-02-22 [orch] decisions.md 신설: ❌/✅ + 태그(pf/tr/ml/orch) 추적 시스템 | orch:✅
-2026-02-22 [pf] TechReviewSystemSection.tsx 신규 생성 (8개 서브섹션) | pf:✅
-2026-02-22 [pf] PIVOT 카드: GAS+Gmail → Perplexity API 전환 스토리 시각화 | pf:✅
-2026-02-22 [tech-review] Smart Brevity 전면 도입, 수요일 AI×Industry | pf:✅
-2026-02-22 [orch] CHANGELOG v2.0 hooks 7종 완성 | tr:✅ pf:✅
-2026-02-22 [orch] orchestrator 비활성화 — Claude 직접 라우팅 | orch:✅
-2026-02-22 [orch] MCP 최소화 원칙 (GitHub=gh, Puppeteer=playwright) | orch:✅
-2026-02-22 [orch] PROACTIVELY 4개만 확정 | orch:✅
-2026-02-22 [pf] AiWorkflowSection.tsx TS6133 빌드 에러 수정 | pf:✅
+2026-02-23 [tech-review] 프롬프트 7개 Smart Brevity v2 통일 (소스 가이드 + 분량 지시 + 마커 제거) | tr:✅
+2026-02-23 [tech-review] 수요일 주제: AI × Industry | tr:✅
+2026-02-23 [tech-review] 제목 추출: TITLE 프롬프트 제거 → Today in One Line 본문 자동 추출 | tr:✅
+2026-02-23 [tech-review] API 예산 $5/월 기준 일일 KO 2,000~2,200자 | tr:✅
+2026-02-23 [tech-review] KO fetch 실패 시 EN 번역 자동 건너뜀 (create-post.yml 안전장치) | tr:✅
+2026-02-23 [orch] Codex CLI 교차 검증 최적화: sandbox bypass + reasoning medium (15분→2분) | orch:✅
+(이전 기록 생략...)
