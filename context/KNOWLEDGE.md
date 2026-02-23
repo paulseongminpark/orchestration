@@ -222,6 +222,13 @@ catchup → meta-orchestrator(Sonnet) → 팀 활성화
 커밋 감지 → project-linker(Sonnet) → TODO/알림
 ```
 
+### Living Docs 업데이트 규칙 (건너뛰기 금지)
+설계 변경 시 커밋 전 반드시 업데이트:
+- 에이전트/스킬/hook 변경 → KNOWLEDGE.md + STATE.md + CHANGELOG.md
+- 설계 결정 → PLANNING.md (ADR) + decisions.md
+- 체인 규칙 변경 → CLAUDE.md + KNOWLEDGE.md
+- 버전 변경 → STATE.md + CHANGELOG.md + MEMORY.md
+
 ### 에이전트 호출 규칙
 - 코드 리뷰 = custom code-reviewer만 (coderabbit, feature-dev 사용 금지)
 - 커밋 = commit-writer만 (commit-commands 플러그인 사용 금지)
