@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 마지막 갱신: 2026-02-23 (v3.1 Agent Teams & Linker System 구현)
+> 마지막 갱신: 2026-02-24 (v3.1 Living Docs + monet-lab page-12 PMCC 완성)
 > /sync 스킬로 자동 갱신됩니다.
 
 ## 현재 상태
@@ -11,30 +11,25 @@
 ## 진행 중
 
 ### orchestration
-- **Codex CLI 교차 검증 파이프라인 최적화 완료** (2026-02-23)
-  - ~/.codex/config.toml [profiles.review] 추가 (reasoning_effort=medium)
-  - codex-reviewer sandbox bypass 설정 완료
-  - 최적 플래그: --dangerously-bypass-approvals-and-sandbox --ephemeral -p review
-  - 병렬 실행 소요: ~3분 (codex ~2분 + gemini ~2.7분 병렬)
-- **v3.0 에이전틱 워크플로우 강화 완료** (2026-02-23)
-  - CLAUDE.md 체인 규칙 추가 (구현/배포/분석 체인)
-  - agent.md 16개 표준화 (검증/암묵지/학습된 패턴 섹션)
-  - hooks 품질 게이트 강화 (TaskCompleted, TeammateIdle)
-  - 스킬 체인 명시 (compressor 학습 업데이트, sync-all 패턴 확인)
-- **Phase E 파일럿 테스트 완료**: Agent Teams 병렬 분석 성공
-  - 플러그인 4개 비활성화, 학습 방식 하이브리드 채택
-  - USER-GUIDE.md 작성
-- **v3.1 Agent Teams & Linker System 구현 완료** (2026-02-23)
-  - 신규 에이전트 7개: context-linker, project-linker, meta-orchestrator, inbox-processor, tr-monitor, tr-updater, ai-synthesizer
-  - 팀 3개: tech-review-ops, ai-feedback-loop, daily-ops
-  - PostToolUse hook 추가 (live-context.md 자동 append)
-  - CLAUDE.md 체인 규칙 5개 추가
-- **다음**: tech-review/portfolio 미반영 4건 처리
+- **v3.1 Living Docs 전면 갱신 완료** (2026-02-24)
+  - README.md: 빈 파일 → v3.1 전체 소개 (역사, 아키텍처, 핵심 기능)
+  - ROADMAP.md: v3.0, v3.1 완료 표시, v3.2 구조 정리 계획
+  - SYSTEM-GUIDE.md: v3.0→v3.1 (에이전트 7개, 팀 3개, Linker)
+  - USER-GUIDE.md: v3.0→v3.1 (팀 사용법, v3.1 변경점 부록)
+  - HOME.md: v2.2→v3.1 반영 (프로젝트 폴더 구조, v3.1 요약)
+  - compressor 강화: 7단계 MEMORY.md 추가 (agent.md + SKILL.md)
+- **v3.2 계획 정리**: 문서 소스 단일화, 폴더 구조 정리 (02_ai_config, 03_evidence 등)
+- **다음**: tech-review/portfolio 미반영 결정 4건 처리
 
 ### monet-lab
-- page-12 UI 개선 완료 (FadeIn style prop, 형광펜, SectionFlowGrid, portfolio 컴포넌트 이식)
-- **마지막 커밋**: cce9486 - AI/TR 상세 섹션 portfolio 원본 이식
-- **다음**: localhost:5174/page-12 브라우저 시각 확인
+- **PMCC 상세페이지 완전 완성** (2026-02-24)
+  - VisualCuesGallery: 9개 이미지 비대칭 배치
+  - ActivityGallery: CSS grid-area 5개 항목
+  - 동영상 6개 _web.mp4 변환 (hero_gather, jujitsu, hyrox, yoga, crossfit, community_voice)
+  - PageEditor: DEV only (구현 중단)
+  - 섹션 구분선: GALLERY, GROWTH & METRICS 앞
+- **마지막 커밋**: 5e9866a + 73d1e52
+- **다음**: empty-house, skin-diary 상세페이지 작업
 
 ### tech-review
 - Smart Brevity 형식 전면 도입 완료
@@ -49,6 +44,9 @@
 
 ## 완료된 것
 
+- [2026-02-24] v3.1 Living Docs 전면 갱신 (README, ROADMAP, SYSTEM-GUIDE, USER-GUIDE, HOME.md)
+- [2026-02-24] monet-lab PMCC 상세페이지 완전 완성 (Visual Cues + Activity Gallery)
+- [2026-02-24] compressor 7단계 강화 (MEMORY.md 추가)
 - [2026-02-23] v3.1 Agent Teams & Linker System (에이전트 7개 + 팀 3개 + hooks)
 - [2026-02-23] Codex CLI 교차 검증 파이프라인 최적화 (15분→2분)
 - [2026-02-23] codex-reviewer + gemini-analyzer 병렬 Task 실행 파이프라인 구축
