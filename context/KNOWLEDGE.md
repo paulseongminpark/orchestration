@@ -24,7 +24,7 @@
 
 **필수**:
 ```
-Co-Authored-By: Claude Sonnet 4.6 (1M context) <noreply@anthropic.com>
+Co-Authored-By: Claude <모델명> (<컨텍스트>) <noreply@anthropic.com>
 ```
 
 ### 금지 사항
@@ -173,6 +173,52 @@ claude
 - ❌ `Bash(rm -rf *)` - 파괴적 삭제
 - ❌ `Bash(git push --force*)` - Force push
 - ❌ `Bash(curl *)`, `Bash(wget *)` - 외부 다운로드
+
+---
+
+## 에이전트 체인 규칙 (v3.0)
+
+### 구현 체인 (건너뛰기 금지)
+```
+implement → code-reviewer(Opus) → commit-writer(Haiku)
+```
+- code-reviewer 🔴 있으면: 수정 후 재리뷰 (commit-writer 호출 금지)
+- code-reviewer ✅ 이면: commit-writer 즉시 호출
+
+### 배포 체인
+```
+pf-deployer → security-auditor → 사용자 확인 → push
+```
+- 둘 중 하나라도 NO-GO → 배포 중단
+
+### 분석 체인
+```
+gemini-analyzer + codex-reviewer (병렬) → Claude 교차 검증
+```
+
+### 에이전트 호출 규칙
+- 코드 리뷰 = custom code-reviewer만 (coderabbit, feature-dev 사용 금지)
+- 커밋 = commit-writer만 (commit-commands 플러그인 사용 금지)
+
+---
+
+## 에이전트 표준 구조 (v3.0)
+
+모든 agent.md는 기존 섹션 외에 아래 3개 섹션을 포함:
+
+### 검증 (## 검증)
+에이전트 자기 작업 완료 전 확인 단계. 번호 목록으로 체크.
+→ 하나라도 누락이면 보완 후 출력.
+
+### 암묵지 (## 암묵지)
+프로젝트별 핵심 규칙. 서브에이전트에도 전달됨.
+- 브랜치 규칙 (orchestration=main, portfolio=master)
+- 프로젝트 경로, 스택 정보
+
+### 학습된 패턴 (## 학습된 패턴)
+세션 간 축적. 최대 5줄.
+- compressor가 세션 종료 시 자동 업데이트 (선택)
+- sync-all이 5개 초과 시 알림
 
 ---
 

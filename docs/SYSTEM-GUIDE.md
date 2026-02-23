@@ -1,7 +1,7 @@
-# Orchestration System v2.2 — 종합 사용 가이드
+# Orchestration System v3.0 — 종합 사용 가이드
 
 > 이 문서는 시스템의 모든 요소를 처음부터 끝까지 설명합니다.
-> 마지막 갱신: 2026-02-22
+> 마지막 갱신: 2026-02-23
 
 ---
 
@@ -172,7 +172,7 @@ YYYY-MM-DD [project] 결정 내용 | pf:❌ tr:❌
 
 파일 위치: `~/.claude/agents/<name>.md`
 
-### 5-2. 에이전트 구조
+### 5-2. 에이전트 구조 (v3.0 표준)
 
 ```yaml
 ---
@@ -186,6 +186,9 @@ model: opus/sonnet/haiku          # 사용 모델
 ## 역할
 ## 수집 (어떤 정보를 모으는가)
 ## 출력 (어떤 형식으로 보고하는가)
+## 검증 (v3.0) — 자기 작업 완료 전 확인 단계
+## 암묵지 (v3.0) — 프로젝트별 핵심 규칙
+## 학습된 패턴 (v3.0) — 세션 간 축적, 최대 5개
 ## 원칙
 ```
 
@@ -200,11 +203,24 @@ model: opus/sonnet/haiku          # 사용 모델
 | **orch-state** | Sonnet | "뭐 해야 해", "어디까지 했지", 방향 파악 필요 |
 | **compressor** | Sonnet | "/compact", "마무리", "끝내자", 토큰 높을 때 |
 
+**체인 규칙 (v3.0, 건너뛰기 금지):**
+```
+구현 체인: implement → code-reviewer(Opus) → commit-writer(Haiku)
+  - code-reviewer 🔴 → 수정 후 재리뷰 (commit-writer 호출 금지)
+  - code-reviewer ✅ → commit-writer 즉시 호출
+
+배포 체인: pf-deployer → security-auditor → 사용자 확인 → push
+  - 둘 중 하나 NO-GO → 배포 중단
+
+분석 체인: gemini-analyzer + codex-reviewer (병렬) → Claude 교차 검증
+```
+
 **사용 예시:**
 ```
 사용자: "이 기능 구현 완료됐어"
 → code-reviewer 자동 호출 → 리뷰 결과 출력
-→ commit-writer 자동 호출 → 커밋 메시지 제안
+→ 🔴 없으면 → commit-writer 자동 호출 → 커밋 메시지 제안
+→ 🔴 있으면 → 수정 후 재리뷰
 ```
 
 #### Portfolio (3개)
@@ -299,7 +315,7 @@ gemini-analyzer와 codex-reviewer를 **병렬 독립 실행** → Claude가 두 
 
 파일 위치: `~/.claude/skills/<name>/SKILL.md`
 
-### 6-2. 커스텀 스킬 (16개)
+### 6-2. 커스텀 스킬 (13개)
 
 #### 운영 (5개)
 
@@ -326,21 +342,18 @@ gemini-analyzer와 codex-reviewer를 **병렬 독립 실행** → Claude가 두 
 | `/memory-review` | MEMORY.md 주간 정리 | 주간 |
 | `/research` | 딥 리서치 (코드+웹+크로스 검증) | 조사 필요 시 |
 
-#### 생성 (3개)
+#### 생성 (2개)
 
 | 스킬 | 용도 | 사용 시점 |
 |------|------|----------|
 | `/skill-creator` | 새 스킬 생성 | 필요 시 |
-| `/subagent-creator` | 새 에이전트 생성 | 필요 시 |
 | `/hook-creator` | 새 훅 생성 | 필요 시 |
 
-#### 기타 (3개)
+#### 기타 (1개)
 
 | 스킬 | 용도 |
 |------|------|
 | `/write` | 글쓰기 프로세스 (content-writer 연동) |
-| `/commit-push-pr` | 커밋 → push → PR 원스톱 |
-| `/gpt-review` | GPT에게 보낼 비판적 리뷰 프롬프트 생성 |
 
 ### 6-3. 플러그인 제공 스킬 (superpowers)
 
@@ -436,7 +449,7 @@ Write/Edit 시 context/*.md 변경 감지 → 커밋 전 확인 알림
 
 ## 8. 플러그인
 
-### 8-1. 활성화된 플러그인
+### 8-1. 활성화된 플러그인 (13개)
 
 | 플러그인 | 역할 |
 |---------|------|
@@ -446,16 +459,14 @@ Write/Edit 시 context/*.md 변경 감지 → 커밋 전 확인 알림
 | **vercel** | Vercel 배포/로그 |
 | **document-skills** | 문서 스킬 (PDF, DOCX, PPTX, XLSX 등) |
 | **code-simplifier** | 코드 간소화 |
-| **hookify** | 훅 자동 생성 |
 | **playground** | HTML 인터랙티브 플레이그라운드 |
 | **claude-md-management** | CLAUDE.md 관리 |
 | **coderabbit** | 코드 리뷰 |
 | **playwright** | 웹 테스팅 |
-| **code-review** | 코드 리뷰 스킬 |
 | **commit-commands** | 커밋 관련 스킬 |
 | **claude-code-setup** | 초기 설정 |
 | **feature-dev** | 기능 개발 |
-| **agent-sdk-dev** | Agent SDK |
+| **skill-creator** | 스킬 생성 |
 | **greptile** | 코드 검색 |
 
 ### 8-2. 비활성화된 플러그인
@@ -464,6 +475,9 @@ Write/Edit 시 context/*.md 변경 감지 → 커밋 전 확인 알림
 |---------|------|
 | **github** | gh CLI로 대체 |
 | **example-skills** | document-skills와 100% 중복 |
+| **agent-sdk-dev** | 미사용 (2026-02-23) |
+| **hookify** | 이중 실행 문제 (2026-02-23) |
+| **code-review** | custom code-reviewer로 대체 (2026-02-23) |
 
 ---
 
@@ -603,20 +617,21 @@ Claude Code 시작
   gemini-analyzer + codex-reviewer (병렬) → Claude 교차 검증
 ```
 
-**중간 체크포인트:**
-- 구현 완료 → code-reviewer 자동
-- 커밋 필요 → commit-writer 자동
-- 방향 잃음 → orch-state 자동
+**중간 체크포인트 (체인 규칙 적용):**
+- 구현 완료 → code-reviewer 자동 → 🔴 없으면 commit-writer 자동
+- 배포 필요 → pf-deployer → security-auditor → 사용자 확인
+- 방향 잃음 → orch-state 자동 (맥락 확인 출력 포함)
 
 ### 12-3. 세션 종료
 
 ```
-1. /compressor → 세션 요약 저장 (5곳)
+1. /compressor → 세션 요약 저장 (5곳 + 학습 업데이트)
    - session-summary.md
    - LOG append
    - STATE.md 갱신
    - decisions.md append
    - METRICS.md append
+   - 에이전트 학습 패턴 업데이트 (선택)
 
 2. /sync-all → 모든 프로젝트 commit+push + 메모리 동기화
 

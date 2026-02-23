@@ -6,13 +6,26 @@
 
 ## 미반영
 
-2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | pf:❌
+2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | tr:❌
 2026-02-22 [portfolio] 07~10 스크린샷 → lab.md 이미지 링크 추가 | pf:❌
 2026-02-22 [tech-review] 나머지 요일 프롬프트(월~토 6개) Smart Brevity 형식 업데이트 | tr:❌
 2026-02-22 [portfolio] Tech Review System 스토리텔링 글 작성 | pf:❌
+2026-02-23 [orch] commit-commands, playground, claude-code-setup, skill-creator 4개 플러그인 비활성화 | orch:✅
+2026-02-23 [orch] 에이전트 학습 패턴: 하이브리드 방식 채택 (compressor 수집→sync-all 검증→반영) | orch:✅
+2026-02-23 [orch] v3.0 플랜 실행 (Task 1~7, Phase A~D) | orch:✅
 
 ## 아카이브
 
+2026-02-23 [orch] 전체 시스템 직접 점검 완료 (16 agents, 14 skills, 19 plugins, 7 hooks) | orch:✅
+2026-02-23 [orch] 플러그인 3개 비활성화 (agent-sdk-dev, hookify, code-review) | orch:✅
+2026-02-23 [orch] subagent-creator 스킬 삭제 → orch-skill-builder로 통합 | orch:✅
+2026-02-23 [orch] 유령 참조 제거 (STATE.md, KNOWLEDGE.md, MEMORY.md) | orch:✅
+2026-02-23 [orch] SessionStart 5개 → session-start.sh 통합 | orch:✅
+2026-02-23 [orch] PreToolUse 강화: git reset --hard, clean -f 차단 + 브랜치 혼동 경고 + node_modules 경고 | orch:✅
+2026-02-23 [orch] PreCompact 강화: 미커밋 수 확인 + 구체적 행동 안내 | orch:✅
+2026-02-23 [orch] TeammateIdle 강화: 팀원 이름 파싱 + 행동 안내 | orch:✅
+2026-02-23 [orch] TaskCompleted 강화: 태스크 제목/담당자 파싱 + 다음 태스크 안내 | orch:✅
+2026-02-23 [orch] v3.0 에이전틱 워크플로우 강화 플랜 8개 태스크 설계 완료 | orch:✅
 2026-02-22 [ml] page-12: 카드 요약 유지 + portfolio 원본 컴포넌트 이식 방식 채택 | ml:✅
 2026-02-22 [ml] 형광펜 하이라이트: color: 대신 background: rgba() + <mark> 태그 방식 | ml:✅
 2026-02-22 [orch] v2.2 시스템 오버홀 — 죽은 자동화 수리, 불필요 제거, stale 수정 | orch:✅
