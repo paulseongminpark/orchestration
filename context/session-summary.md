@@ -5,35 +5,42 @@
 
 === 컨텍스트 압축 요약 ===
 
-세션 목표: v3.0 에이전틱 워크플로우 강화 플랜 실행 (Phase A~E)
+세션 목표: v3.1 Agent Teams & Linker System 설계 + 구현
 
 완료:
-  - [CLAUDE.md] 에이전트 체인 규칙 추가 (구현/배포/분석 체인, 호출 규칙)
-  - [agent.md x16] 표준화 — 검증/암묵지/학습된 패턴 3개 섹션 추가
-  - [settings.json] TaskCompleted, TeammateIdle hooks 강화
-  - [compressor SKILL.md, sync-all SKILL.md] 스킬 체인 명시 (학습 파이프라인)
-  - [STATE.md, KNOWLEDGE.md, SYSTEM-GUIDE.md] v3.0 문서 업데이트
-  - [Phase E] Agent Teams 파일럿 테스트 성공 (plugin-analyst + learning-analyst 병렬)
-  - [settings.json] 플러그인 4개 비활성화 (commit-commands, playground, claude-code-setup, skill-creator)
-  - [compressor.md, sync-all SKILL.md] 학습 방식 → 하이브리드 채택 (수집→검증→반영)
-  - [USER-GUIDE.md] v3.0 사용자 가이드 작성 (orchestration/docs/)
-  - [커밋] dev-vault + orchestration push 완료
+  - [docs/plans/2026-02-23-agent-teams-design.md] B+C 하이브리드 설계 문서
+  - [docs/plans/2026-02-23-agent-teams-impl.md] Phase 1~5 구현 계획
+  - [~/.claude/agents/context-linker.md] Haiku, PROACTIVE — 세션 간 맥락 공유
+  - [~/.claude/agents/project-linker.md] Sonnet, PROACTIVE — 프로젝트 간 변경 영향 감지
+  - [~/.claude/agents/meta-orchestrator.md] Sonnet — 팀 디스패치 판단
+  - [~/.claude/agents/inbox-processor.md] Haiku — daily-memo → TODO 분류
+  - [~/.claude/agents/tr-monitor.md] Haiku — GitHub Actions 결과 수집
+  - [~/.claude/agents/tr-updater.md] Sonnet — 프롬프트/키워드 업데이트
+  - [~/.claude/agents/ai-synthesizer.md] Opus — 멀티 AI 교차 검증 통합
+  - [~/.claude/hooks/post-tool-live-context.sh] PostToolUse hook — live-context.md 자동 append
+  - [context/live-context.md] 생성 + KST 타임스탬프 버그 수정 + 테스트 성공
+  - [~/.claude/CLAUDE.md] global 분류 추가
+  - [context/KNOWLEDGE.md, PLANNING.md ADR D-020, docs/CHANGELOG.md v3.1, decisions.md] Living Docs 전체 업데이트
+  - Living Docs 업데이트 규칙 구현 체인에 강제 추가
+  - 에이전트 4개 테스트 완료 (project-linker, meta-orchestrator, tr-monitor, inbox-processor)
 
-현재 상태: v3.0 에이전틱 워크플로우 강화 전체 완료 (Phase A~E)
+현재 상태: v3.1 완전 구현 완료 (에이전트 23개, 팀 3개)
 
 다음 할 것:
-  1. tech-review: keywords-log.md 신설, fetch-perplexity KST 버그 수정
-  2. tech-review: 월~토 프롬프트 6개 Smart Brevity 형식 업데이트
-  3. portfolio: 07~10 스크린샷 → lab.md 이미지 링크 추가
-  4. portfolio: Tech Review System 스토리텔링 글 작성
+  1. tech-review 미커밋 22개 정리 (tech-review-ops 팀 첫 실전)
+  2. decisions.md 미반영 항목 처리 — tr 2건, pf 2건
+  3. inbox-processor 실전: 8건 새 항목 TODO 반영
+  4. ai-synthesizer 실전 테스트 (gemini+codex 분석 체인 실행 시)
 
 열린 결정:
-  - (없음 — 이 세션에서 모든 미결 사항 해결됨)
+  - decisions.md 미반영 중 "Phase E 파일럿 테스트" orch:❌, "STATE.md 경로 불일치" orch:❌, "copy-session-log.py overwrite" orch:❌ — 이미 v3.1 구현으로 일부 해소됐으나 명시적 처리 미완
 
 주의사항:
   - orchestration: main 브랜치, portfolio: master 브랜치
-  - 학습 파이프라인: compressor가 pending.md에 수집 → sync-all이 검증 후 agent.md 반영
-  - 활성 플러그인 11개로 축소 (v2.2: 19개 → v3.0: 11개)
-  - 마무리 순서: /compressor 먼저 → /sync-all 나중
+  - live-context.md KST 버그: TZ=Asia/Seoul 이중 변환 문제 → 시스템 시간 직접 사용으로 수정
+  - meta-orchestrator: Sonnet (트리아지만, Opus 불필요)
+  - project-linker: 커밋 시점만 트리거 (매 Edit 아님)
+  - Living Docs 6개 필수 업데이트: KNOWLEDGE.md, PLANNING.md(ADR), CHANGELOG.md, STATE.md, decisions.md, session-summary.md
+  - 토큰 효율: v3.1 추가 비용 일 +$0.81, +6%
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
