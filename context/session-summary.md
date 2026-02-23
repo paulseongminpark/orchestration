@@ -5,61 +5,35 @@
 
 === 컨텍스트 압축 요약 ===
 
-세션 목표: v3.1 Agent Teams & Linker System 설계 + 구현
+세션 목표: tech-review 파이프라인 안정화 + 프롬프트 7개 전면 개편
 
 완료:
-  - [docs/plans/2026-02-23-agent-teams-design.md] B+C 하이브리드 설계 문서
-  - [docs/plans/2026-02-23-agent-teams-impl.md] Phase 1~5 구현 계획
-  - [~/.claude/agents/context-linker.md] Haiku, PROACTIVE — 세션 간 맥락 공유
-  - [~/.claude/agents/project-linker.md] Sonnet, PROACTIVE — 프로젝트 간 변경 영향 감지
-  - [~/.claude/agents/meta-orchestrator.md] Sonnet — 팀 디스패치 판단
-  - [~/.claude/agents/inbox-processor.md] Haiku — daily-memo → TODO 분류
-  - [~/.claude/agents/tr-monitor.md] Haiku — GitHub Actions 결과 수집
-  - [~/.claude/agents/tr-updater.md] Sonnet — 프롬프트/키워드 업데이트
-  - [~/.claude/agents/ai-synthesizer.md] Opus — 멀티 AI 교차 검증 통합
-  - [~/.claude/hooks/post-tool-live-context.sh] PostToolUse hook — live-context.md 자동 append
-  - [context/live-context.md] 생성 + KST 타임스탬프 버그 수정 + 테스트 성공
-  - [~/.claude/CLAUDE.md] global 분류 추가
-  - [context/KNOWLEDGE.md, PLANNING.md ADR D-020, docs/CHANGELOG.md v3.1, decisions.md] Living Docs 전체 업데이트
-  - Living Docs 업데이트 규칙 구현 체인에 강제 추가
-  - 에이전트 4개 테스트 완료 (project-linker, meta-orchestrator, tr-monitor, inbox-processor)
+  - [perplexity-prompts/ko/*.md] 7개 전면 개편 — Smart Brevity v2 통일, 요일별 영문 소스 가이드, 48시간 검색 범위, TOPIC_START/END 마커 제거, 분량 지시(항목당 8문장, 합계 25문장 이상)
+  - [수요일 주제] "스타트업 & 투자" → "AI × Industry: 비즈니스 모델" (헬스케어→금융→법률→제조→교육→리테일 순환)
+  - [scripts/fetch-perplexity.js] 거부 응답 감지 + 최소 500자 검증 + TITLE/TAGS 자동 주입 (프롬프트 추출 → 응답 앞에 붙임)
+  - [scripts/parse-content.js] 제목 자동 추출 — "Today in One Line" 다음 줄을 제목으로 사용
+  - [.github/workflows/create-post.yml] KO fetch 실패 시 EN 번역 건너뛰기 안전장치 추가
+  - [프롬프트 TITLE: 제거] TAGS만 유지, 제목은 본문에서 자동 추출
+  - [_posts/ko/2026-02-23] 실패 포스트 삭제 후 재생성 성공 (1,883자), 제목·태그 수동 수정
+  - [_posts/en/2026-02-23] 동일 재생성 완료
 
-현재 상태: v3.1 완전 구현 완료 (에이전트 23개, 팀 3개)
+실패 원인 분석 (2/23):
+  - KO: Perplexity API가 검색 실패 후 거부 응답 반환 → 거부 응답 감지 없어 그대로 저장
+  - EN: prompt injection 감지 → TOPIC_START/END 마커가 원인으로 추정 → 마커 제거로 해결
+
+현재 상태: tech-review 파이프라인 안전장치 완비, 새 프롬프트 7개 적용 완료
 
 다음 할 것:
-  1. **[새 Warp pane에서] tech-review 작업** — 아래 상세 참고
-  2. decisions.md 미반영 항목 처리 — tr 2건, pf 2건
-  3. inbox-processor 실전: 8건 새 항목 TODO 반영
-  4. ai-synthesizer 실전 테스트 (gemini+codex 분석 체인 실행 시)
-
-=== tech-review 작업 상세 (새 세션용) ===
-
-경로: /c/dev/01_projects/03_tech-review
-
-미커밋 22개 내역:
-  - M (수정 8): ko/ 프롬프트 7개 + STATE.md + daily-guide.md (Smart Brevity 형식)
-  - D (삭제 8): en/ 영문 프롬프트 7개 + gas/Code.gs
-  - ?? (미추적 5): blog/, comments/, design/, _archived/, keywords-log.md
-
-할 일:
-  1. 변경 내용 확인 → 의도된 변경인지 판단
-  2. 논리적 단위로 나눠서 커밋 (프롬프트 수정 / 삭제 / 새 디렉토리)
-  3. decisions.md 미반영 2건 처리:
-     - keywords-log.md 신설, fetch-perplexity KST 버그 수정
-     - 월~토 프롬프트 6개 Smart Brevity 형식 업데이트
-  4. 사용자가 추가로 손볼 것 있음 → 지시에 따라 진행
-
-=== tech-review 작업 상세 끝 ===
-
-열린 결정:
-  - decisions.md 미반영 중 "Phase E 파일럿 테스트" orch:❌, "STATE.md 경로 불일치" orch:❌, "copy-session-log.py overwrite" orch:❌ — 이미 v3.1 구현으로 일부 해소됐으나 명시적 처리 미완
+  1. 2/24(화) GitHub Actions 자동 생성 결과 모니터링 (새 프롬프트 첫 실행)
+  2. EN 번역 [1][2] 인용 마커 잔류 이슈 수정 (별도 세션)
+  3. portfolio: localhost:5173/portfolio_ui_test_v2/ TR System 본문 내용 현재 상태에 맞게 업데이트 (technical writing section)
+  4. decisions.md 미반영: tr 2건 (keywords-log.md 신설/KST 버그), pf 2건 (스크린샷/스토리텔링)
+  5. orch: Phase E 파일럿, STATE.md 경로 불일치, copy-session-log.py overwrite 미처리 3건
 
 주의사항:
-  - orchestration: main 브랜치, portfolio: master 브랜치
-  - live-context.md KST 버그: TZ=Asia/Seoul 이중 변환 문제 → 시스템 시간 직접 사용으로 수정
-  - meta-orchestrator: Sonnet (트리아지만, Opus 불필요)
-  - project-linker: 커밋 시점만 트리거 (매 Edit 아님)
-  - Living Docs 6개 필수 업데이트: KNOWLEDGE.md, PLANNING.md(ADR), CHANGELOG.md, STATE.md, decisions.md, session-summary.md
-  - 토큰 효율: v3.1 추가 비용 일 +$0.81, +6%
+  - tech-review blog: master 브랜치 (paulseongminpark/tech-review)
+  - API 예산: $5/월 기준 일일 KO 2,000~2,200자 최적 (항목당 8문장 × 3섹션 = 25문장)
+  - 프롬프트 TAGS는 유지, TITLE은 제거 (본문 Today in One Line 자동 추출)
+  - KO fetch 실패 시 EN 번역 자동 건너뜀 (create-post.yml 안전장치)
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===

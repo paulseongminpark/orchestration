@@ -8,8 +8,13 @@
 
 2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | tr:❌
 2026-02-22 [portfolio] 07~10 스크린샷 → lab.md 이미지 링크 추가 | pf:❌
-2026-02-22 [tech-review] 나머지 요일 프롬프트(월~토 6개) Smart Brevity 형식 업데이트 | tr:❌
+2026-02-22 [tech-review] 나머지 요일 프롬프트(월~토 6개) Smart Brevity 형식 업데이트 | tr:✅
 2026-02-22 [portfolio] Tech Review System 스토리텔링 글 작성 | pf:❌
+2026-02-23 [tech-review] 프롬프트 7개 Smart Brevity v2 통일 (소스 가이드 + 분량 지시 + 마커 제거) | tr:✅
+2026-02-23 [tech-review] 수요일 주제: AI × Industry (헬스케어→금융→법률→제조→교육→리테일 순환) | tr:✅
+2026-02-23 [tech-review] 제목 추출: TITLE 프롬프트 제거 → Today in One Line 본문 자동 추출 | tr:✅
+2026-02-23 [tech-review] API 예산 $5/월 기준 일일 KO 2,000~2,200자 (항목당 8문장×3섹션) | tr:✅
+2026-02-23 [tech-review] KO fetch 실패 시 EN 번역 자동 건너뜀 (create-post.yml 안전장치) | tr:✅
 2026-02-23 [orch] Phase E 파일럿 테스트 (Agent Teams + worktree 병렬 처리) | orch:❌
 2026-02-23 [orch] STATE.md 경로 불일치 수정 (교차 검증 발견) | orch:❌
 2026-02-23 [orch] copy-session-log.py overwrite 문제 수정 | orch:❌
