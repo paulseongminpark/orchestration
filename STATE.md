@@ -1,11 +1,11 @@
 # Orchestration STATE
 
-> 마지막 갱신: 2026-02-23 (Codex CLI 교차 검증 파이프라인 최적화 완료)
+> 마지막 갱신: 2026-02-23 (v3.1 Agent Teams & Linker System 구현)
 > /sync 스킬로 자동 갱신됩니다.
 
 ## 현재 상태
 
-**시스템 버전**: v3.0
+**시스템 버전**: v3.1
 **활성 프로젝트**: tech-review, portfolio, orchestration, monet-lab
 
 ## 진행 중
@@ -24,6 +24,11 @@
 - **Phase E 파일럿 테스트 완료**: Agent Teams 병렬 분석 성공
   - 플러그인 4개 비활성화, 학습 방식 하이브리드 채택
   - USER-GUIDE.md 작성
+- **v3.1 Agent Teams & Linker System 구현 완료** (2026-02-23)
+  - 신규 에이전트 7개: context-linker, project-linker, meta-orchestrator, inbox-processor, tr-monitor, tr-updater, ai-synthesizer
+  - 팀 3개: tech-review-ops, ai-feedback-loop, daily-ops
+  - PostToolUse hook 추가 (live-context.md 자동 append)
+  - CLAUDE.md 체인 규칙 5개 추가
 - **다음**: tech-review/portfolio 미반영 4건 처리
 
 ### monet-lab
@@ -44,6 +49,7 @@
 
 ## 완료된 것
 
+- [2026-02-23] v3.1 Agent Teams & Linker System (에이전트 7개 + 팀 3개 + hooks)
 - [2026-02-23] Codex CLI 교차 검증 파이프라인 최적화 (15분→2분)
 - [2026-02-23] codex-reviewer + gemini-analyzer 병렬 Task 실행 파이프라인 구축
 - [2026-02-23] v3.0 에이전틱 워크플로우 강화 (Phase A~D)
@@ -59,13 +65,20 @@
 
 ## 시스템 현황
 
-### Agents (16개)
-- PROACTIVELY: code-reviewer[Opus], commit-writer[Haiku], orch-state[Sonnet], compressor[Sonnet]
+### Agents (23개)
+- PROACTIVELY: code-reviewer[Opus], commit-writer[Haiku], orch-state[Sonnet], compressor[Sonnet], context-linker[Haiku], project-linker[Sonnet]
 - Portfolio: pf-context[Sonnet], pf-reviewer[Opus], pf-deployer[Sonnet]
-- Orchestration: orch-doc-writer[Opus], orch-skill-builder[Opus]
+- Orchestration: orch-doc-writer[Opus], orch-skill-builder[Opus], meta-orchestrator[Sonnet]
 - Monet-lab: ml-experimenter[Opus], ml-porter[Sonnet]
-- 기타: morning-briefer[Haiku], content-writer[Opus], gemini-analyzer[Opus], security-auditor[Sonnet]
-- Codex: codex-reviewer[Sonnet+Codex]
+- Tech-review: tr-monitor[Haiku], tr-updater[Sonnet]
+- AI Pipeline: gemini-analyzer[Opus], codex-reviewer[Sonnet+Codex], ai-synthesizer[Opus]
+- Daily: inbox-processor[Haiku], morning-briefer[Haiku]
+- 기타: content-writer[Opus], security-auditor[Sonnet]
+
+### Teams (3개)
+- tech-review-ops: tr-monitor → tr-updater → commit-writer
+- ai-feedback-loop: gemini + codex → ai-synthesizer
+- daily-ops: inbox-processor → orch-state → morning-briefer
 
 ### Skills (13개 글로벌)
 - 운영: /morning, /sync-all, /todo, /catchup, /compressor
