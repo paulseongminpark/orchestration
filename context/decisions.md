@@ -6,6 +6,8 @@
 
 ## 미반영
 
+2026-02-24 [tech-review] sonar-deep-research 파이프라인 전환: 5건/일, URL검증, 도메인필터, 폴백 | tr:✅
+2026-02-24 [tech-review] 일요일 프롬프트 글로벌 AI 현장 전환 + 이번 주 월~토 키워드 합산 | tr:✅
 2026-02-24 [monet-lab] VisualCuesGallery: 전용 컴포넌트, 마크다운 블록 `**[visual-cues-gallery]**` | ml:❌
 2026-02-24 [monet-lab] ActivityGallery: 전용 컴포넌트, CSS grid-area, `**[activity-gallery]**` | ml:❌
 2026-02-24 [monet-lab] 페이지 에디터 구현 중단 — 직접 지시 방식이 더 효율적 | ml:✅
@@ -23,10 +25,10 @@
 2026-02-23 [monet-lab] placeholder 블록: `**[placeholder: N]**` 문법 | ml:✅
 2026-02-23 [monet-lab] SurveyTable CSV 병합: Survey 1(38명) col5=rating, Survey 2(5명) col6=rating | ml:❌
 2026-02-23 [monet-lab] 파서 블록 문법: **[survey-viz]**, **[survey-table]** | ml:❌
-2026-02-23 [tech-review] EN 번역 [1][2] 인용 마커 잔류 이슈 수정 | tr:❌
+2026-02-23 [tech-review] EN 번역 [1][2] 인용 마커 잔류 이슈 수정 | tr:✅
 2026-02-23 [portfolio] Obsidian 섹션 모바일 반응형 미확인 (375px 양옆 배치) | pf:❌
 2026-02-22 [portfolio] 07~10 스크린샷 → lab.md 이미지 링크 추가 | pf:❌
-2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | tr:❌
+2026-02-22 [tech-review] keywords-log.md 신설, fetch-perplexity KST 버그 수정 | tr:✅
 
 ## 아카이브
 

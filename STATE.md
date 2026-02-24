@@ -22,8 +22,10 @@
 - **다음**: empty-house, skin-diary 상세페이지
 
 ### tech-review
-- Smart Brevity 형식 도입 완료
-- **미완**: keywords-log.md 신설, fetch-perplexity KST 버그
+- sonar-deep-research 파이프라인 전환 완료 (2026-02-24)
+  - deep research + sonar-pro 폴백, URL 검증, 도메인 필터, 분량 검증
+  - 프롬프트 7개: 3건→5건, 분량 강화, 일요일 글로벌 AI 현장
+- **다음**: GitHub Actions 통합 테스트 (workflow_dispatch)
 
 ### portfolio
 - TechReviewSystemSection.tsx 완료
