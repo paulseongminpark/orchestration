@@ -2,6 +2,52 @@
 
 ---
 
+## v3.2 — 리좀형 팀 + SoT 확립 (2026-02-24)
+
+### SoT 확립
+- **CLAUDE.md**: 89줄→60줄 (v3.2 체인 규칙: 구현/디스패치/압축)
+- **STATE.md**: 시스템 인벤토리 SoT (24에이전트, 11스킬, 4팀+허브)
+- **KNOWLEDGE.md**: 366줄→~120줄 (패턴/규칙만, 인벤토리는 STATE 참조)
+- **MEMORY.md**: 89줄→~55줄 (버전 이력 압축, 교훈/패턴 중심)
+- **REFERENCE.md**: SYSTEM-GUIDE + USER-GUIDE 통합 (~300줄)
+
+### 에이전트 (23→24)
+- **doc-syncer** [Haiku] 신규: 3레이어 검증 (로컬/GitHub/HOME.md 링크)
+- **project-context** [Sonnet]: pf-context 범용화 (프로젝트 파라미터)
+- **compressor**: 7단계→9단계 (+orch-doc-writer +doc-syncer)
+- 5개 dead code → alive: context-linker, project-linker, meta-orchestrator, orch-doc-writer, project-context
+
+### 리좀형 4팀 + 디스패치 허브
+- **ops**: morning-briefer(리드) + inbox-processor + tr-updater + tr-monitor
+- **build**: code-reviewer(리드) + pf-reviewer + pf-deployer + ml-experimenter + security-auditor
+- **analyze**: ai-synthesizer(리드) + gemini-analyzer + codex-reviewer
+- **maintain**: compressor(리드) + doc-syncer + orch-doc-writer + orch-skill-builder
+- **리좀 연결자**: context-linker, project-linker, live-context.md
+- **크로스팀 유틸리티**: commit-writer, orch-state, project-context, content-writer
+
+### 스킬 (13→11)
+- 삭제: catchup, skill-creator, hook-creator
+- 신규: **/dispatch** (catchup 흡수 + 팀 추천 + 세션 목표 설정)
+- 강화: /morning (통합 대시보드: Inbox + live-context + 미반영 결정)
+
+### 자동화
+- **session-start.sh**: live-context 최근 10줄 출력 + OVERDUE 7일+ 마커
+- **post-tool-live-context.sh**: auto-trim 100줄 캡 (헤더 4줄 + 최신 50줄)
+- **live-context.md**: v3.2 리셋 (무한 팽창 → 100줄 캡)
+
+### 정리
+- 플러그인 4개 비활성화: coderabbit, feature-dev, code-simplifier, claude-md-management
+- ai-config GitHub archived
+- config/docs/ stale 9개 → docs/archive/
+- SYSTEM-GUIDE + USER-GUIDE → docs/archive/ (REFERENCE.md로 대체)
+
+### 체인 규칙 갱신
+- 구현: +project-linker (커밋 후 크로스프로젝트 감지)
+- 디스패치: /dispatch → context-linker → meta-orchestrator → 팀 활성화
+- 압축: +orch-doc-writer(조건부) +doc-syncer(검증)
+
+---
+
 ## v3.1 — Agent Teams & Linker System (2026-02-23)
 
 ### 신규 에이전트 (7개, 16→23)

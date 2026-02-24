@@ -1,6 +1,6 @@
 # Orchestration System
 
-Claude Code 기반 멀티 프로젝트 오케스트레이션 시스템 **v3.1**
+Claude Code 기반 멀티 프로젝트 오케스트레이션 시스템 **v3.2**
 
 ---
 
@@ -8,11 +8,11 @@ Claude Code 기반 멀티 프로젝트 오케스트레이션 시스템 **v3.1**
 
 | 항목 | 수치 |
 |------|------|
-| 에이전트 | 23개 |
-| 팀 | 3개 (tech-review-ops, ai-feedback-loop, daily-ops) |
-| 스킬 | 13개 (사용자 + 플러그인) |
-| Hooks | PreToolUse 3 / PostToolUse 3 / Notification 1 / SessionStart 2 / SessionEnd 1 |
-| 관리 프로젝트 | 6개 (orchestration, portfolio, tech-review, tech-review-blog, monet-lab, opcode) |
+| 에이전트 | 24개 (4팀 + 허브 + 리좀 연결자 + 크로스팀 유틸리티) |
+| 팀 | 4팀 + 허브 (ops, build, analyze, maintain + meta-orchestrator) |
+| 스킬 | 11개 |
+| Hooks | 7종 (SessionStart/End, Pre/PostToolUse, PreCompact, TeammateIdle, TaskCompleted) |
+| 관리 프로젝트 | 5개 (orchestration, portfolio, tech-review, tech-review-blog, monet-lab) |
 
 ---
 

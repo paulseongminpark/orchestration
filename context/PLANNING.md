@@ -4,6 +4,43 @@
 
 ---
 
+## D-021: 리좀형 팀 재설계 + SoT 확립 v3.2 (2026-02-24)
+
+**문제**:
+1. 정보 분산: 에이전트/스킬 목록이 STATE, KNOWLEDGE, MEMORY, SYSTEM-GUIDE에 중복
+2. 5개 에이전트 dead code (context-linker, project-linker, meta-orchestrator, orch-doc-writer, pf-context)
+3. 3개 팀이 국소적 (워크플로우별만, 크로스팀 연결 없음)
+4. live-context.md 무한 팽창
+
+**결정**: SoT 확립 + 리좀형 4팀 + 디스패치 허브
+- SoT 맵: STATE.md(인벤토리), CLAUDE.md(체인), KNOWLEDGE.md(패턴), CHANGELOG.md(이력)
+- 4팀: ops/build/analyze/maintain + meta-orchestrator 허브
+- 리좀 연결자: context-linker + project-linker + live-context.md (팀 소속 없음, 모든 팀 관통)
+- 크로스팀 유틸리티: commit-writer, orch-state, project-context, content-writer
+- pf-context → project-context 범용화 (프로젝트 파라미터)
+- doc-syncer 신규 (3레이어 검증)
+- live-context.md auto-trim 100줄 캡
+
+**이유**:
+- SoT: 정보 1곳 관리 → 불일치 제거, 토큰 ~3,700 절감
+- 리좀형: 수평 자율 팀 + 수직 조율 리드 → 유연한 조합
+- 연결자: 팀 간 정보 흐름이 live-context.md 경유 → 중앙집중 없이 협력
+- auto-trim: 무한 팽창 방지, 300 토큰 상한
+
+**영향**:
+- CLAUDE.md 89→60줄, KNOWLEDGE.md 366→120줄, MEMORY.md 89→55줄
+- 에이전트 23→24, 스킬 13→11, 팀 3→4+허브
+- SYSTEM-GUIDE + USER-GUIDE → REFERENCE.md 통합
+- config/docs/ 9개 stale → archive
+- session-start.sh, post-tool-live-context.sh 업데이트
+
+**대안 고려**:
+- 허브-스포크만 (meta-orch가 모든 팀 제어): 단일 실패점, 토큰 소모 → 기각
+- 팀 없이 개별 에이전트만: 크로스팀 협력 불가 → 기각
+- 중앙 데이터베이스 SoT: Git 외부 의존성 → 기각
+
+---
+
 ## D-020: Agent Teams & Linker System v3.1 (2026-02-23)
 
 **문제**:

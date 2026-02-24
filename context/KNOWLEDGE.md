@@ -1,366 +1,85 @@
 # KNOWLEDGE — Best Practices
 
-프로젝트별 모범 사례, 규칙, 패턴. 신규 기여자 온보딩 가이드.
+프로젝트 규칙, 패턴, 모범 사례. 에이전트/스킬/팀 목록은 **STATE.md** 참조.
 
 ---
 
 ## Git 규칙
 
-### 브랜치 전략
-- **orchestration**: main 브랜치
-- **portfolio**: master 브랜치
-- **ai-config**: DELETED (orchestration/config/ 로 이전됨. GitHub archived 유지)
-
-### 커밋 메시지
-```
-형식: [project] 한줄 설명
-
-예시:
-✅ [orchestration] Phase 7: 검증 시스템 구현
-✅ [portfolio] 랜딩 페이지 반응형 개선
-❌ update files
-❌ fix bug
-```
-
-**필수**:
-```
-Co-Authored-By: Claude <모델명> (<컨텍스트>) <noreply@anthropic.com>
-```
-
-### 금지 사항
-- ❌ `git push --force` (절대 금지)
-- ❌ `git clean -f` (검증 없이)
-- ❌ `git reset --hard` (커밋 전)
-- ❌ `--no-verify` (훅 우회)
-
-### 워크플로우
-```bash
-# 작업 완료 후
-> /verify              # 검증 먼저
-> /sync                # STATE.md 갱신 + 커밋+푸시
-
-# 전체 프로젝트 동기화
-> /sync-all
-
-# 세션 종료 전
-> /verify
-> /sync (또는 /sync-all)
-```
-
----
+- **orchestration**: main, **portfolio**: master
+- 커밋: `[project] 한줄 설명` + `Co-Authored-By:`
+- 금지: `git push --force`, `git clean -f`, `git reset --hard`, `--no-verify`
 
 ## 파일 구조
 
-### context/ (프로젝트 컨텍스트)
 ```
 context/
-├── STATE.md         # 지금 상태 (고수준)
+├── STATE.md         # 지금 상태 (SoT: 시스템 인벤토리)
 ├── PLANNING.md      # 아키텍처 결정 (ADR)
 ├── KNOWLEDGE.md     # 모범 사례 (이 파일)
-├── decisions.md     # 결정 사항 추적 (❌미반영/✅반영)
-├── live-context.md  # 실시간 세션 간 공유 (hook 자동 관리)
-├── METRICS.md       # 세션별 완료 태스크/결정 수
-└── logs/
-    └── YYYY-MM-DD.md  # 시간순 상세 로그
+├── decisions.md     # 결정 추적 (❌/✅)
+├── live-context.md  # 세션 간 공유 (hook 자동, 100줄 캡)
+├── METRICS.md       # 세션별 완료/결정 수
+└── logs/            # 시간순 상세 (읽기 금지, append만)
 ```
-
-### STATE.md 형식 (루트 STATE.md가 SoT)
-```markdown
-## 지금 상태 (YYYY-MM-DD 기준)
-
-**완료**
-- Phase X: 설명
-
-**다음 할 일**
-- 구체적 작업
-
-**막힌 것**
-- 없음 (또는 구체적 블로커)
-```
-
-### LOG 형식 (append만, 읽기 금지)
-```bash
-## YYYY-MM-DD HH:MM [project] Claude Code
-- 작업 요약
-- [Decision] 확정된 결정
-- [Pending] 보류 중인 사항
-- [Discarded] 폐기한 아이디어
-```
-
-**태그**:
-- 프로젝트: `[orchestration]`, `[portfolio]`, `[tech-review]`, `[dev-vault]`
-- 결정: `[Decision]`, `[Pending]`, `[Discarded]`
-- 협업: `[cowork]` (다른 AI와 협업 시)
-
----
 
 ## 토큰 관리
 
-### 규칙
-- **1세션 = 1목표**: 한 세션에 하나의 명확한 목표만
-- **150K+**: /compact 또는 /clear
-- **탐색**: 서브에이전트 (메인 컨텍스트 보호)
-- **파일 묶음**: 2-3개 한 턴에 처리
-- **읽기 금지**: node_modules/, .git/, dist/, build/, logs/
+- 1세션=1목표, 150K+ → /compact
+- 읽기 금지: node_modules/, .git/, dist/, build/, logs/
+- 서브에이전트: Haiku(요약) / Sonnet(분석) / Opus(설계)
 
-### 모니터링
-```bash
-# 터미널에서
-claude --context
+## 리좀형 팀 구조 (v3.2)
 
-# 또는 /context (세션 내)
+```
+meta-orchestrator (디스패치 허브, /dispatch)
+    ├── ops: 일상 운영 (morning-briefer 리드)
+    ├── build: 구현/배포 (code-reviewer 리드)
+    ├── analyze: 분석/검증 (ai-synthesizer 리드)
+    └── maintain: 문서/시스템 (compressor 리드)
+
+리좀 연결자: context-linker ◆── live-context.md ──◆ project-linker
+크로스팀 유틸리티: commit-writer, orch-state, project-context, content-writer
 ```
 
-### 서브에이전트 모델 선택
-- **Haiku**: 상태 확인, 브리핑, 요약 (빠름, 저렴)
-- **Sonnet**: 탐색, 검색, 코드 분석 (균형)
-- **Opus**: 설계 결정, 크로스 검증, 복잡한 실행 (느림, 비쌈)
+## 에이전트 체인 (SoT: CLAUDE.md)
 
----
+- **구현**: implement → code-reviewer → commit-writer → project-linker → living docs
+- **배포**: pf-deployer → security-auditor → 사용자 확인 → push
+- **분석**: gemini + codex (병렬) → ai-synthesizer → agent.md 반영
+- **디스패치**: /dispatch → context-linker → meta-orchestrator → 팀 활성화
+- **압축**: compressor 7단계 → orch-doc-writer(조건부) → doc-syncer
 
-## 스킬 사용법
+## 에이전트 표준 구조
 
-### 글로벌 스킬 (어디서든)
-```bash
-/morning              # 전체 프로젝트 브리핑
-/sync-all             # 전체 동기화
-/verify               # 통합 검증 (브랜치/STATE/커밋/LOG 형식)
-/docs-review          # stale 문서 점검
-/todo                 # TODO 관리
-```
-
-### 프로젝트별 스킬 (orchestration)
-```bash
-/sync                 # STATE.md 갱신 + LOG + 커밋+푸시
-/handoff gpt "요청"   # GPT에게 핸드오프 문서 생성
-/status               # 프로젝트 현황
-```
-
-### 사용 시나리오
-
-**시나리오 1: 일일 작업 시작**
-```bash
-cd C:\dev
-claude
-> /morning            # 전체 브리핑 확인 (catchup + orch-state 통합)
-# (작업 결정 후 해당 프로젝트 디렉토리로 이동)
-```
-
-**시나리오 2: 작업 완료**
-```bash
-> /verify             # 검증
-> /sync               # 동기화
-```
-
-**시나리오 3: 세션 종료 전**
-```bash
-> /verify
-> /sync-all           # 모든 프로젝트 동기화
-# (세션 종료)
-```
-
----
-
-## 권한 (Permissions)
-
-### 허용 (Allow)
-- Read (전체, 단 deny 제외)
-- Edit (코드, 문서)
-- Bash (git, npm, npx)
-
-### 거부 (Deny)
-- ❌ `Read(.env*)` - 환경 변수
-- ❌ `Read(C:/dev/03_evidence/**)` - 세션 로그
-- ❌ `Read(**/.ssh/**)` - SSH 키
-- ❌ `Read(**/secrets/**)` - 시크릿
-- ❌ `Bash(rm -rf *)` - 파괴적 삭제
-- ❌ `Bash(git push --force*)` - Force push
-- ❌ `Bash(curl *)`, `Bash(wget *)` - 외부 다운로드
-
----
-
-## 에이전트 체인 규칙 (v3.1)
-
-### 구현 체인 (건너뛰기 금지)
-```
-implement → code-reviewer(Opus) → commit-writer(Haiku)
-```
-- code-reviewer 🔴 있으면: 수정 후 재리뷰 (commit-writer 호출 금지)
-- code-reviewer ✅ 이면: commit-writer 즉시 호출
-
-### 배포 체인
-```
-pf-deployer → security-auditor → 사용자 확인 → push
-```
-- 둘 중 하나라도 NO-GO → 배포 중단
-
-### 분석 체인 (강화)
-```
-gemini + codex (병렬) → ai-synthesizer(Opus) → 사용자 확인 → agent.md 반영
-```
-- ai-synthesizer 합의 항목: agent.md 자동 반영 가능
-- ai-synthesizer 불일치 항목: 사용자 판단 필수
-
-### tech-review 체인
-```
-tr-monitor(Haiku) → tr-updater(Sonnet) → commit-writer(Haiku)
-```
-
-### 일일 운영 체인
-```
-inbox-processor(Haiku) → orch-state(Sonnet) → morning-briefer(Haiku)
-```
-
-### 디스패치 체인
-```
-catchup → meta-orchestrator(Sonnet) → 팀 활성화
-```
-
-### 프로젝트 연동 (독립, 상시)
-```
-파일 변경 → bash hook append → context-linker(Haiku, 주기적) → 맥락 주입
-커밋 감지 → project-linker(Sonnet) → TODO/알림
-```
-
-### Living Docs 업데이트 규칙 (건너뛰기 금지)
-설계 변경 시 커밋 전 반드시 업데이트:
-- 에이전트/스킬/hook 변경 → KNOWLEDGE.md + STATE.md + CHANGELOG.md
-- 설계 결정 → PLANNING.md (ADR) + decisions.md
-- 체인 규칙 변경 → CLAUDE.md + KNOWLEDGE.md
-- 버전 변경 → STATE.md + CHANGELOG.md + MEMORY.md
-
-### 에이전트 호출 규칙
-- 코드 리뷰 = custom code-reviewer만 (coderabbit, feature-dev 사용 금지)
-- 커밋 = commit-writer만 (commit-commands 플러그인 사용 금지)
-
----
-
-## 에이전트 시스템 (v3.1)
-
-### Agents (23개)
-- PROACTIVELY: code-reviewer[Opus], commit-writer[Haiku], orch-state[Sonnet], compressor[Sonnet], context-linker[Haiku], project-linker[Sonnet]
-- Portfolio: pf-context[Sonnet], pf-reviewer[Opus], pf-deployer[Sonnet]
-- Orchestration: orch-doc-writer[Opus], orch-skill-builder[Opus], meta-orchestrator[Sonnet]
-- Monet-lab: ml-experimenter[Opus], ml-porter[Sonnet]
-- Tech-review: tr-monitor[Haiku], tr-updater[Sonnet]
-- AI Pipeline: gemini-analyzer[Opus], codex-reviewer[Sonnet+Codex], ai-synthesizer[Opus]
-- Daily: inbox-processor[Haiku], morning-briefer[Haiku]
-- 기타: content-writer[Opus], security-auditor[Sonnet]
-
-### Teams (3개)
-- **tech-review-ops**: tr-monitor → tr-updater → commit-writer (tech-review 자동화)
-- **ai-feedback-loop**: gemini + codex → ai-synthesizer (멀티 AI 교차 검증 통합)
-- **daily-ops**: inbox-processor → orch-state → morning-briefer (일일 운영)
-
-### 실시간 세션 공유
-- **live-context.md**: PostToolUse hook이 매 Edit마다 자동 기록 (0 토큰)
-- **context-linker**: 주기적으로 정리/스캔 (Haiku)
-- **project-linker**: 커밋 시점에 프로젝트 간 영향 감지 (Sonnet)
-
-## 에이전트 표준 구조 (v3.1)
-
-모든 agent.md는 기존 섹션 외에 아래 3개 섹션을 포함:
-
-### 검증 (## 검증)
-에이전트 자기 작업 완료 전 확인 단계. 번호 목록으로 체크.
-→ 하나라도 누락이면 보완 후 출력.
-
-### 암묵지 (## 암묵지)
-프로젝트별 핵심 규칙. 서브에이전트에도 전달됨.
-- 브랜치 규칙 (orchestration=main, portfolio=master)
-- 프로젝트 경로, 스택 정보
-
-### 학습된 패턴 (## 학습된 패턴)
-세션 간 축적. 최대 5줄.
-- compressor가 세션 종료 시 자동 업데이트 (선택)
-- sync-all이 5개 초과 시 알림
-
----
-
-## 멀티 AI 오케스트레이션
-
-### 역할 분담
-- **Claude Code**: 실행 + 기록 (유일한 쓰기)
-- **GPT Plus**: 사고 확장, Canvas, Packet 생성
-- **Gemini Pro**: 대량 검증 (100만 토큰)
-- **Perplexity Pro**: 리서치 + 교차검증
-
-### 데이터 흐름
-```
-Claude Code (쓰기)
-→ STATE.md 갱신
-→ git commit + push
-→ GitHub Pages
-→ GPT/Gemini/Perplexity (읽기)
-   ↓
-  분석/검증/리서치
-   ↓
-  Packet 생성
-   ↓
-Claude Code (실행)
-```
-
-### STATE.md URL (읽기 전용)
-- **Orchestration**: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/STATE.md
-- **Portfolio**: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
-
-### 핸드오프 패턴
-```bash
-# orchestration에서
-> /handoff gpt "포트폴리오 디자인 검증 요청"
-
-# GPT에 붙여넣기
-# (GPT가 분석)
-
-# GPT Canvas에서 Packet 생성
-# (Claude Code로 다시 전달)
-```
-
----
-
-## 자주하는 실수
-
-### ❌ STATE.md 직접 편집 (Obsidian)
-→ ✅ Claude Code + /sync만 사용
-
-### ❌ 커밋 전 검증 생략
-→ ✅ /verify 먼저, /sync 나중
-
-### ❌ 여러 목표를 한 세션에
-→ ✅ 1세션 = 1목표
-
-### ❌ logs/ 파일 읽기
-→ ✅ append만, 읽기 금지 (토큰 보호)
-
-### ❌ 프로젝트 컨텍스트 없이 /sync 실행
-→ ✅ 프로젝트 디렉토리에서 실행
-
----
+모든 agent.md 필수 섹션:
+1. **검증**: 자기 작업 완료 전 확인 (번호 목록)
+2. **암묵지**: 프로젝트별 핵심 규칙 (브랜치, 경로, 스택)
+3. **학습된 패턴**: 세션 간 축적 (최대 5줄, compressor 자동 업데이트)
 
 ## Hooks
 
-### SessionStart (글로벌)
-- 자동: 오늘 LOG tail-30 + 미커밋 상태 + decisions.md 미반영 항목 출력
-- 목적: 작업 시작 시 컨텍스트 파악
+| Hook | 트리거 | 역할 |
+|------|--------|------|
+| SessionStart | 세션 시작 | 오늘 LOG + 미커밋 + 미반영 결정 + live-context 최근 10줄 |
+| PostToolUse | Write/Edit | live-context.md auto-append + auto-trim (100줄 캡) |
+| PreToolUse | Bash | 위험 명령 차단 (rm -rf, force push) |
+| SessionEnd | 세션 종료 | 미커밋 현황 + MEMORY.md 줄 수 경고 |
 
-### PostToolUse (글로벌)
-- 트리거: Write|Edit 도구 사용
-- 대상 1: context/*.md 수정 시 → "check before commit" 알림
-- 대상 2: 모든 Write/Edit → live-context.md 자동 append (세션 간 실시간 공유)
+## 멀티 AI 오케스트레이션
 
-### SessionEnd (글로벌)
-- 자동: 프로젝트별 미커밋 현황 출력
-- 추가: MEMORY.md 150줄 초과 시 경고
+- **Claude Code**: 유일한 쓰기
+- **GPT Plus**: 사고 확장, Canvas
+- **Gemini Pro**: 대량 검증 (1M 토큰)
+- **Perplexity Pro**: 리서치 + 교차검증
 
-### PreToolUse (글로벌)
-- 트리거: Bash 명령 실행 전
-- 차단: rm -rf, git push --force 등 위험 명령 (페일클로즈)
+## 권한
 
----
+- 허용: Read, Edit, Bash (git/npm/npx)
+- 거부: .env*, .ssh/**, secrets/**, rm -rf, force push, curl/wget
 
-## 참고 자료
+## 참고
 
-- [PLANNING.md](./PLANNING.md): 아키텍처 결정 기록
-- [STATE.md](./STATE.md): 현재 프로젝트 상태
-- [C:\dev\CLAUDE.md](../../CLAUDE.md): 전역 규칙
-- [GitHub: orchestration](https://github.com/paulseongminpark/orchestration)
+- [PLANNING.md](./PLANNING.md): 아키텍처 결정
+- [STATE.md](../STATE.md): 현재 상태 + 시스템 인벤토리
+- [CLAUDE.md](../../CLAUDE.md): 전역 규칙 + 체인

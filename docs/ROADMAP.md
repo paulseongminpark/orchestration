@@ -50,8 +50,26 @@
 - [x] 스킬 13개 (사용자 + 플러그인 통합 집계)
 - [x] README.md v3.1 업데이트
 
-## v3.2 📋 (계획)
-**TBD — v3.1 실전 테스트 후 결정**
+## v3.2 ✅ (2026-02-24)
+**리좀형 팀 재설계 + SoT 확립**
+- [x] SoT 확립: CLAUDE.md(체인), STATE.md(인벤토리), KNOWLEDGE.md(패턴)
+- [x] 에이전트 23→24개 (doc-syncer 신규, pf-context→project-context)
+- [x] 스킬 13→11개 (catchup/skill-creator/hook-creator 삭제, dispatch 신규)
+- [x] 리좀형 4팀+허브 (ops/build/analyze/maintain + meta-orchestrator)
+- [x] 리좀 연결자 (context-linker + project-linker + live-context.md)
+- [x] 크로스팀 유틸리티 (commit-writer, orch-state, project-context, content-writer)
+- [x] 자동화 강화 (live-context auto-trim, session-start OVERDUE)
+- [x] compressor 7→9단계
+- [x] 플러그인 4개 비활성화 + stale 파일 정리
+- [x] REFERENCE.md (SYSTEM-GUIDE + USER-GUIDE 통합)
+
+## v3.3 📋 (계획)
+**실전 테스트 + 미결 처리**
+- [ ] 팀 구조 실전 테스트 (TeamCreate 활용)
+- [ ] dispatch/morning 실전 테스트
+- [ ] doc-syncer / project-linker 실전 테스트
+- [ ] 미반영 결정 처리 (tech-review, portfolio)
+- [ ] Obsidian Git Auto push 설정
 
 ---
 

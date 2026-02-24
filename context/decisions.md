@@ -12,7 +12,11 @@
 2026-02-24 [monet-lab] 피그마 내보내기 보류 — 수동 전달 비효율 | ml:✅
 2026-02-24 [monet-lab] 가로선: GALLERY, GROWTH & METRICS eyebrow 기준으로만 삽입 | ml:❌
 2026-02-24 [monet-lab] 동영상: 원본 git 미커밋, _web.mp4만 커밋 (기존 규칙 유지) | ml:✅
-2026-02-24 [orchestration] v3.2 계획: 문서 소스 단일화 + 폴더 구조 정리 | orch:❌
+2026-02-24 [orchestration] v3.2 리좀형 4팀+허브 + SoT 확립 + 에이전트 24개 | orch:✅
+2026-02-24 [orchestration] pf-context→project-context 범용화 (프로젝트 파라미터) | orch:✅
+2026-02-24 [orchestration] doc-syncer 신규 (3레이어 검증) | orch:✅
+2026-02-24 [orchestration] /dispatch 신규 스킬 (catchup 흡수) | orch:✅
+2026-02-24 [orchestration] live-context.md auto-trim 100줄 캡 | orch:✅
 2026-02-24 [orchestration] compressor 7단계에 MEMORY.md 추가 | orch:✅
 2026-02-23 [monet-lab] 프로그레스 바 드래그: animation-delay 음수로 해당 지점부터 재개 | ml:❌
 2026-02-23 [monet-lab] quote-image 블록: 엇갈린 배치, qiCount % 2 === 1이면 reverse | ml:✅
