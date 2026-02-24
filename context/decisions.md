@@ -6,20 +6,14 @@
 
 ## 미반영
 
-2026-02-24 [tech-review] sonar-deep-research 파이프라인 전환: 5건/일, URL검증, 도메인필터, 폴백 | tr:✅
-2026-02-24 [tech-review] 일요일 프롬프트 글로벌 AI 현장 전환 + 이번 주 월~토 키워드 합산 | tr:✅
 2026-02-24 [monet-lab] VisualCuesGallery: 전용 컴포넌트, 마크다운 블록 `**[visual-cues-gallery]**` | ml:❌
 2026-02-24 [monet-lab] ActivityGallery: 전용 컴포넌트, CSS grid-area, `**[activity-gallery]**` | ml:❌
-2026-02-24 [monet-lab] 페이지 에디터 구현 중단 — 직접 지시 방식이 더 효율적 | ml:✅
-2026-02-24 [monet-lab] 피그마 내보내기 보류 — 수동 전달 비효율 | ml:✅
 2026-02-24 [monet-lab] 가로선: GALLERY, GROWTH & METRICS eyebrow 기준으로만 삽입 | ml:❌
-2026-02-24 [monet-lab] 동영상: 원본 git 미커밋, _web.mp4만 커밋 (기존 규칙 유지) | ml:✅
-2026-02-24 [orchestration] v3.2 리좀형 4팀+허브 + SoT 확립 + 에이전트 24개 | orch:✅
-2026-02-24 [orchestration] pf-context→project-context 범용화 (프로젝트 파라미터) | orch:✅
-2026-02-24 [orchestration] doc-syncer 신규 (3레이어 검증) | orch:✅
-2026-02-24 [orchestration] /dispatch 신규 스킬 (catchup 흡수) | orch:✅
-2026-02-24 [orchestration] live-context.md auto-trim 100줄 캡 | orch:✅
-2026-02-24 [orchestration] compressor 7단계에 MEMORY.md 추가 | orch:✅
+2026-02-23 [monet-lab] 프로그레스 바 드래그: animation-delay 음수로 해당 지점부터 재개 | ml:❌
+2026-02-23 [monet-lab] SurveyTable CSV 병합: Survey 1(38명) col5=rating, Survey 2(5명) col6=rating | ml:❌
+2026-02-23 [monet-lab] 파서 블록 문법: **[survey-viz]**, **[survey-table]** | ml:❌
+2026-02-23 [portfolio] Obsidian 섹션 모바일 반응형 미확인 (375px 양옆 배치) | pf:❌
+2026-02-22 [portfolio] 07~10 스크린샷 → lab.md 이미지 링크 추가 | pf:❌
 2026-02-23 [monet-lab] 프로그레스 바 드래그: animation-delay 음수로 해당 지점부터 재개 | ml:❌
 2026-02-23 [monet-lab] quote-image 블록: 엇갈린 배치, qiCount % 2 === 1이면 reverse | ml:✅
 2026-02-23 [monet-lab] placeholder 블록: `**[placeholder: N]**` 문법 | ml:✅
@@ -32,6 +26,17 @@
 
 ## 아카이브
 
+2026-02-24 [tech-review] sonar-deep-research 파이프라인 전환: 5건/일, URL검증, 도메인필터, 폴백 | tr:✅
+2026-02-24 [tech-review] 일요일 프롬프트 글로벌 AI 현장 전환 + 이번 주 월~토 키워드 합산 | tr:✅
+2026-02-24 [monet-lab] 페이지 에디터 구현 중단 — 직접 지시 방식이 더 효율적 | ml:✅
+2026-02-24 [monet-lab] 피그마 내보내기 보류 — 수동 전달 비효율 | ml:✅
+2026-02-24 [monet-lab] 동영상: 원본 git 미커밋, _web.mp4만 커밋 (기존 규칙 유지) | ml:✅
+2026-02-24 [orchestration] v3.2 리좀형 4팀+허브 + SoT 확립 + 에이전트 24개 | orch:✅
+2026-02-24 [orchestration] pf-context→project-context 범용화 (프로젝트 파라미터) | orch:✅
+2026-02-24 [orchestration] doc-syncer 신규 (3레이어 검증) | orch:✅
+2026-02-24 [orchestration] /dispatch 신규 스킬 (catchup 흡수) | orch:✅
+2026-02-24 [orchestration] live-context.md auto-trim 100줄 캡 | orch:✅
+2026-02-24 [orchestration] compressor 7단계에 MEMORY.md 추가 | orch:✅
 2026-02-23 [monet-lab] page-12 CSS 레이아웃: 1100px→1540px, 프로즈/미디어 분리 (860px 중앙) | ml:✅
 2026-02-23 [monet-lab] 이미지 그리드 자동 그룹핑 (2+개 연속) → preprocessBlocks | ml:✅
 2026-02-23 [monet-lab] 히어로 슬라이더: CSS animation 무한루프, 프로그레스 바 드래그 | ml:✅

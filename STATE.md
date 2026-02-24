@@ -10,12 +10,12 @@
 ## 진행 중
 
 ### orchestration
-- **v3.2 구현 진행 중** (2026-02-24)
+- **v3.2 완료** (2026-02-24, 커밋 2977f78 + 83970f1)
   - SoT 확립: CLAUDE.md/STATE.md/KNOWLEDGE.md/MEMORY.md 리팩토링
-  - 에이전트 배선: 5개 dead code → alive
-  - 리좀형 4팀 + 디스패치 허브 재설계
-  - 자동화 강화: session-start, live-context auto-trim
-- **다음**: 검증 + 최종 갱신 + 커밋
+  - 리좀형 4팀 + 디스패치 허브 재설계 완료
+  - doc-syncer 신규, /dispatch 신규, live-context auto-trim
+  - pf-context → project-context 범용화
+- **다음**: 팀 실전 테스트 + Obsidian 작업 + v3.3 계획
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
