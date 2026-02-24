@@ -91,3 +91,4 @@
 | 2026-02-24 | 10개 (Visual Cues + Activity Gallery + 페이지 에디터 + 섹션 구분) | monet-lab | 6개 |
 | 2026-02-24 | 12개 (Living Docs 5개 파일 + compressor 강화) | orchestration | 2개 |
 | 2026-02-24 | 9개 (v3.2 Phase 0~5 전체 구현 + 테스트 + 커밋) | orchestration | 5개 |
+| 2026-02-24 | 11개 (fetch-perplexity 재작성 + 프롬프트 7개 + translate/parse/yml + 통합 테스트 3회) | tech-review | 4개 |

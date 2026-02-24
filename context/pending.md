@@ -3,6 +3,9 @@
 > compressor가 수집 → sync-all/Opus 검증 → 채택 시 agent.md 반영
 > 직접 agent.md 수정 금지. 이 파일에 append만.
 
+[패턴후보][tr-updater] Perplexity API search_domain_filter 최대 20개 제한. 도메인 목록이 20개 초과 시 slice(0,20)으로 자름. deep research는 도메인 필터 미지원 (넣으면 거부 응답).
+[패턴후보][code-reviewer] API 응답이 HTTP 200이지만 거부 메시지인 경우 폴백 미작동 버그 패턴. 거부 패턴 검사를 API 호출 직후 (폴백 분기 내)에서 수행해야 함.
+
 ---
 
 ## 2026-02-23 [tech-review 세션, 다섯 번째]

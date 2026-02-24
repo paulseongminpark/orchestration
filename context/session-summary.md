@@ -5,37 +5,35 @@
 
 === 컨텍스트 압축 요약 ===
 
-세션 목표: orchestration v3.2 구현 (리좀형 팀 재설계 + SoT 확립)
+세션 목표: tech-review 파이프라인 근본 개편 — sonar-deep-research 전환
 
-완료 (9항목):
-  - [Phase 0] settings.json 플러그인 4개 비활성화, ai-config GitHub archived, HOME.md 정리, config/docs/ stale 9개 → docs/archive/
-  - [Phase 1] CLAUDE.md 89→60줄, STATE.md SoT, KNOWLEDGE.md 366→120줄, MEMORY.md 89→55줄, REFERENCE.md 신규 (SYSTEM-GUIDE+USER-GUIDE 통합)
-  - [Phase 2A] doc-syncer 신규, pf-context→project-context 범용화, compressor 7→9단계
-  - [Phase 2B-D] catchup/skill-creator/hook-creator 삭제, /dispatch 신규, /morning 강화, 팀 구조 문서화
-  - [Phase 3] session-start.sh +live-context+OVERDUE, post-tool-live-context.sh +auto-trim, live-context.md 리셋
-  - [Phase 4-5] CHANGELOG v3.2, PLANNING ADR D-021, decisions.md 반영, ROADMAP v3.2 완료+v3.3 계획, README v3.2
-  - [테스트] doc-syncer PASS, session-start.sh PASS, /dispatch PASS, /morning PASS
-  - [커밋] 2977f78 + 83970f1 (모두 pushed)
-  - [TODO.md] v3.2 해결 2건 체크
+완료 (8항목):
+  - [fetch-perplexity.js] 대규모 재작성: submitDeepResearch + callSonarPro 폴백 + callWithRetry
+  - [fetch-perplexity.js] DOMAIN_FILTERS 7요일별 도메인, validateUrls HTTP HEAD 검증, validateContent 로컬 분량 검증
+  - [fetch-perplexity.js] removeBracketHeadlines, getThisWeekAllKeywords 일요일 합산, isRejected 추출
+  - [프롬프트 01~06] 3건→5건, 분량 강화 (10문장/항목), Source 다중URL, 대괄호 금지
+  - [프롬프트 07] 주간종합 → 글로벌 AI 현장 5건 (미국 외 지역)
+  - [translate] max_tokens 10000 + callWithRetry
+  - [parse-content] 브라켓 헤드라인 방어 1줄
+  - [create-post.yml] cron 30분 앞당김, timeout-minutes, USE_DEEP_RESEARCH env
 
-현재 상태: orchestration v3.2 완료. 리좀형 4팀+허브 + SoT 확립. 에이전트 24개. 2커밋 pushed. 다음 세션: 팀 실전 테스트 + Obsidian 작업.
+현재 상태: deep research 파이프라인 동작 확인됨. GitHub Actions 통합 테스트 3회 시행착오 후 성공. deep research가 5건 요청에 3건만 반환하는 문제 + 대괄호 헤드라인 잔존. 다음 세션에서 2단계 파이프라인(deep research 조사 → sonar-pro 구조화) 설계부터 재진행.
 
 다음 할 것:
-  1. 팀 구조 실전 테스트 (TeamCreate로 빌드팀 돌려보기)
-  2. Obsidian 관련 작업 (사용자가 다음 세션 언급)
-  3. v3.3 계획 구체화
-  4. 미반영 결정 10건 처리 (monet-lab 6, tech-review 2, portfolio 2)
+  1. 2단계 파이프라인 설계: deep research → sonar-pro 구조화 (5건 보장)
+  2. 대괄호 헤드라인 잔존 수정 (deep research 응답에 removeBracketHeadlines 미적용 확인)
+  3. API 비용 검토 ($5/월 예산 내 2단계 파이프라인 가능 여부)
 
 열린 결정:
-  - ADR D-021: v3.2 리좀형 4팀+허브 + SoT 확립 (반영 완료)
-  - 미반영: monet-lab VisualCuesGallery, ActivityGallery, 가로선 패턴 6건
-  - 미반영: portfolio 07~10 스크린샷 이미지 링크, Obsidian 모바일 반응형 2건
-  - 미반영: tech-review GitHub Actions 통합 테스트 (workflow_dispatch)
+  - deep research 단독 vs 2단계 파이프라인 (미결정, 다음 세션 설계)
+  - 도메인 필터 20개 제한 대응 (현재 slice(0,20)으로 잘라내는 중)
+  - deep research가 search_domain_filter 미지원 (제거됨, 프롬프트로만 안내)
 
 주의사항:
-  - pf-context 삭제됨 → project-context로 대체 (파라미터: project_name, project_path)
-  - catchup 삭제됨 → /dispatch가 흡수
-  - doc-syncer는 3레이어 검증 (실제파일 vs STATE.md vs KNOWLEDGE.md)
-  - live-context.md 100줄 캡 (auto-trim, PostToolUse hook)
+  - blog/는 별도 git repo (tech-review와 분리)
+  - deep research 거부 시 sonar-pro 폴백 작동 확인됨 (isRejected → fallback)
+  - search_domain_filter max 20개 (Perplexity API 제한)
+  - deep research에 domain filter 넣으면 거부 응답 반환 (제거 필수)
+  - 기존 포스트 존재 시 parse-content.js가 덮어쓰지 않음 (재생성 시 삭제 필요)
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
