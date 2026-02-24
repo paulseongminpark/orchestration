@@ -92,3 +92,4 @@
 | 2026-02-24 | 12개 (Living Docs 5개 파일 + compressor 강화) | orchestration | 2개 |
 | 2026-02-24 | 9개 (v3.2 Phase 0~5 전체 구현 + 테스트 + 커밋) | orchestration | 5개 |
 | 2026-02-24 | 11개 (fetch-perplexity 재작성 + 프롬프트 7개 + translate/parse/yml + 통합 테스트 3회) | tech-review | 4개 |
+| 2026-02-25 | 5개 (daily-memo 파이프라인 수정 + e2e 2회 성공 + 알림 무시 + 문서 업데이트 + RC 리서치) | daily-memo/orchestration | 2개 |
