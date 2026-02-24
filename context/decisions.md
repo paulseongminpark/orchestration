@@ -6,6 +6,7 @@
 
 ## 미반영
 
+2026-02-25 [daily-memo] GitHub Actions 자동 sync 파이프라인 완성: 브랜치 push → main Inbox.md 자동 반영 + 레포 알림 무시 설정 | dm:✅
 2026-02-24 [monet-lab] VisualCuesGallery: 전용 컴포넌트, 마크다운 블록 `**[visual-cues-gallery]**` | ml:❌
 2026-02-24 [monet-lab] ActivityGallery: 전용 컴포넌트, CSS grid-area, `**[activity-gallery]**` | ml:❌
 2026-02-24 [monet-lab] 가로선: GALLERY, GROWTH & METRICS eyebrow 기준으로만 삽입 | ml:❌

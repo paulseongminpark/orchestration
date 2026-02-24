@@ -27,6 +27,13 @@
   - 프롬프트 7개: 3건→5건, 분량 강화, 일요일 글로벌 AI 현장
 - **다음**: GitHub Actions 통합 테스트 (workflow_dispatch)
 
+### daily-memo
+- GitHub Actions 자동 sync 파이프라인 완성 (2026-02-25)
+  - 핸드폰 Claude Code → 브랜치 push → Actions → main Inbox.md 자동 반영
+  - 워크플로우: `.github/workflows/sync-claude-to-main.yml`
+  - 레포 알림 무시 설정 완료 (이메일 수신 안 함)
+- **다음**: daily-ops 팀 연동 실전 테스트 (/todo, /morning)
+
 ### portfolio
 - TechReviewSystemSection.tsx 완료
 - **미완**: 07~10 스크린샷 → lab.md 이미지 링크
