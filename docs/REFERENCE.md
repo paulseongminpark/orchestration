@@ -1,6 +1,6 @@
-# Orchestration v3.2 — Reference
+# Orchestration v3.3 — Reference
 
-> SYSTEM-GUIDE + USER-GUIDE 통합. 마지막 갱신: 2026-02-24
+> SYSTEM-GUIDE + USER-GUIDE 통합. 마지막 갱신: 2026-02-25
 
 ---
 
@@ -45,11 +45,13 @@ C:\dev\                          ← 볼트 허브 (dev-vault, git: main)
 /dispatch         → 방향 전환 시 재호출 가능
 ```
 
-### 마무리
+### 마무리 (세션 전환 체인 v3.3)
 ```
 /verify           → 규칙 검증
 /sync-all         → 전체 프로젝트 동기화
 /compressor       → 세션 압축 (9단계)
+context-linker    → 크로스세션 맥락 기록
+→ 완료 후에만 /clear 허용
 ```
 
 ---
@@ -71,7 +73,7 @@ C:\dev\                          ← 볼트 허브 (dev-vault, git: main)
 |----|------|------|--------|
 | ops | morning-briefer | inbox-processor, tr-updater, tr-monitor | /morning |
 | build | code-reviewer | pf-reviewer, pf-deployer, ml-experimenter, security-auditor | 구현 시작 |
-| analyze | ai-synthesizer | gemini-analyzer, codex-reviewer | 명시적 요청 |
+| analyze | ai-synthesizer(adversarial verify) | gemini-analyzer(벌크추출), codex-reviewer(정밀검증) | /context-scan, /cross-review |
 | maintain | compressor | doc-syncer, orch-doc-writer, orch-skill-builder | /compressor |
 
 ---
@@ -91,6 +93,9 @@ C:\dev\                          ← 볼트 허브 (dev-vault, git: main)
 | /write | 글쓰기 (content-writer) | 필요 시 |
 | /session-insights | 토큰 사용량 분석 | 필요 시 |
 | /memory-review | MEMORY.md 주간 정리 | 주 1회 |
+| /context-scan | 컨텍스트 오프로딩 (Gemini/Codex) | 세션 시작 / 프로젝트 진입 |
+| /tr-verify | tech-review 콘텐츠 QA | 포스트 생성 후 |
+| /cross-review | 외부 모델 병렬 코드 리뷰 | 대규모 변경 시 |
 
 ---
 
@@ -106,9 +111,18 @@ implement → code-reviewer(Opus) → commit-writer(Haiku) → project-linker(So
 pf-deployer → security-auditor → 사용자 확인 → push
 ```
 
-### 분석 체인
+### 추출/검증 체인 (v3.3)
 ```
-gemini + codex (병렬) → ai-synthesizer(Opus) → agent.md 반영
+Gemini 추출(벌크) + Codex 추출(정밀) → Claude verify barrier(3단계) → 사용
+- Gemini: -m gemini-3.1-pro-preview --output-format json --yolo
+- Codex: -p [extract|verify|review] --ephemeral --dangerously-bypass-approvals-and-sandbox
+- 외부 CLI 출력 → 반드시 _meta 블록 검증 후 사용
+```
+
+### 세션 전환 체인 (v3.3)
+```
+"새 세션" 제안 시 반드시 먼저:
+verify → sync-all → compressor → context-linker → "새 세션 준비 완료"
 ```
 
 ### 디스패치 체인
@@ -148,14 +162,23 @@ compressor 7단계 → orch-doc-writer(조건부) → doc-syncer
 
 ---
 
-## 8. 멀티 AI
+## 8. 멀티 AI 오케스트레이션 (v3.3)
 
-| AI | 역할 |
-|----|------|
-| Claude Code | 실행 + 기록 (유일한 쓰기) |
-| GPT Plus | 사고 확장, Canvas |
-| Gemini Pro | 대량 검증 (1M 토큰) |
-| Perplexity | 리서치 + 교차검증 |
+| AI | 역할 | 플랜 | 제한 |
+|----|------|------|------|
+| Claude Code (Opus 4.6) | 설계/결정/코드 작성 + 최종 판단 (verify barrier) | Max | 1M 컨텍스트 |
+| Codex CLI (GPT-5.3) | 정밀 검증기: diff 리뷰 + 포맷 QA + git 추출 | Plus $20 | 5시간 롤링, 세션당 3~5회 |
+| Gemini CLI (3.1 Pro) | 벌크 추출기: 컨텍스트 오프로딩 + 웹 검색 | AI Pro $20 | 일일 rate limit, 1M 컨텍스트 |
+| Perplexity | tech-review 소스 (sonar-deep-research) | Pro | 월 예산 $5 |
+
+### 외부 CLI 설정 위치
+- Codex: `~/.codex/` (instructions.md, config.toml, prompts/)
+- Gemini: `~/.gemini/` (GEMINI.md, skills/)
+
+### Verify Barrier (모든 외부 CLI 출력에 적용)
+1. 구조 검증: JSON 파싱 + _meta 블록 확인
+2. 스팟체크: 임의 2~3개 항목 원본 대조
+3. 반박 검증: 고위험 작업 시 "빠진 것 없는가?"
 
 STATE.md URL: `https://raw.githubusercontent.com/paulseongminpark/orchestration/main/STATE.md`
 
