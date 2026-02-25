@@ -55,7 +55,7 @@
 **maintain 팀**: compressor[Sonnet], doc-syncer[Haiku], orch-doc-writer[Opus], orch-skill-builder[Opus]
 **리좀 연결자**: context-linker[Haiku], project-linker[Sonnet]
 **크로스팀 유틸리티**: commit-writer[Haiku], orch-state[Sonnet], project-context[Sonnet], content-writer[Opus]
-**디스패치 허브**: meta-orchestrator[Sonnet]
+**디스패치 허브**: meta-orchestrator[Opus]
 **실험**: ml-porter[Sonnet]
 
 ### Teams (4팀 + 허브)
