@@ -6,6 +6,9 @@
 
 ## 미반영
 
+2026-02-25 [orchestration] v3.3 세션 전환 체인: verify→sync-all→compressor→linker 건너뛰기 금지 | orch:✅
+2026-02-25 [orchestration] Gemini 스킬 절대 경로 필수: ~/→/c/Users/pauls/ (로컬 .claude/ 우선 문제) | orch:✅
+2026-02-25 [orchestration] _meta 스키마: Codex 3필드 vs Gemini 5필드 분리 확정 | orch:✅
 2026-02-25 [orchestration] v3.3 Claude=결정권자 Codex/Gemini=추출기 Verify Barrier 3단계 | orch:✅
 2026-02-25 [orchestration] v3.3 세션 전환 체인 신설: verify→sync-all→compressor→linker 후 /clear 허용 | orch:✅
 2026-02-25 [orchestration] Gemini=벌크추출기(4스킬) Codex=정밀검증기(3프로필) 역할 분리 | orch:✅

@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 마지막 갱신: 2026-02-25 (v3.3 설계 완료)
+> 마지막 갱신: 2026-02-25 (v3.3 구현 완료 + e2e PASS)
 
 ## 현재 상태
 
@@ -15,17 +15,15 @@
   - 리좀형 4팀 + 디스패치 허브 재설계 완료
   - doc-syncer 신규, /dispatch 신규, live-context auto-trim
   - pf-context → project-context 범용화
-- **v3.3 설계 완료** (2026-02-25, 커밋 e948b45)
-  - 설계 문서: docs/plans/2026-02-25-v3.3-codex-gemini-design.md (~950줄)
-  - 구현 플랜: docs/plans/2026-02-25-v3.3-codex-gemini-impl.md (23태스크, 6 Phase)
-  - 핵심: Claude=결정권자, Codex/Gemini=추출기, Verify Barrier, ~170K 토큰 절약
-- **v3.3 구현 완료** (2026-02-25)
-  - Codex CLI: instructions.md + config.toml 프로필 3종 + prompts 3종
-  - Gemini CLI: GEMINI.md + 커스텀 스킬 4종 (system/project/state-scanner, news-verifier)
-  - Claude 에이전트 3개 재작성: gemini-analyzer→벌크추출, codex-reviewer→정밀검증, ai-synthesizer→adversarial verify
+- **v3.3 구현 완료** (2026-02-25, 커밋 b57c15c, 048572a, 3f9f87d, 174505d)
+  - Codex CLI: instructions.md + config.toml 프로필 3종(extract/verify/review) + prompts 3종
+  - Gemini CLI: GEMINI.md + 스킬 4종(system/project/state-scanner, news-verifier)
+  - Claude 에이전트 3개 재작성: gemini-analyzer(벌크추출), codex-reviewer(정밀검증), ai-synthesizer(adversarial verify)
   - Claude 스킬 3개 신규: /context-scan, /tr-verify, /cross-review
+  - 세션 전환 체인 신설 (CLAUDE.md + KNOWLEDGE.md)
   - Verify Barrier 3단계 (구조→스팟체크→반박)
-- **다음**: 실전 테스트 + 옵시디언 문서화
+  - e2e 테스트 23/23 ALL PASS
+- **다음**: Obsidian 문서화 + Gemini system-scanner 실전 재테스트
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
@@ -75,7 +73,12 @@
 
 ### 외부 CLI 설정 (v3.3)
 - **Codex CLI**: instructions.md(글로벌), config.toml 프로필(review/extract/verify), prompts 3종
+  - 경로: /c/Users/pauls/.codex/
+  - 5시간 롤링 제한 주의
 - **Gemini CLI**: GEMINI.md(글로벌), skills 4종(system-scanner/project-scanner/state-scanner/news-verifier)
+  - 경로: /c/Users/pauls/.gemini/
+  - 절대 경로 필수 (/c/Users/pauls/): ~/ 사용 금지 (로컬 .claude/ 우선 읽기 문제)
+  - -m gemini-3.1-pro-preview 필수
 
 ### Hooks (7종)
 - SessionStart: session-start.sh (오늘 LOG + 미커밋 + 미반영 결정 + live-context)

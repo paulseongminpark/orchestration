@@ -5,6 +5,40 @@
 
 === 컨텍스트 압축 요약 (최신) ===
 
+세션 목표: orchestration v3.3 구현 + 미흡 항목 해결 + e2e 테스트
+
+완료 (7항목):
+  - [orchestration] v3.3 Phase 1~6 구현 완료 (23 tasks): Codex CLI instructions.md + config.toml 3종 + prompts 3종, Gemini CLI GEMINI.md + 스킬 4종
+  - [orchestration] Claude 에이전트 3개 재작성: gemini-analyzer(벌크추출), codex-reviewer(정밀검증), ai-synthesizer(adversarial verify)
+  - [orchestration] Claude 스킬 3개 신규: /context-scan, /tr-verify, /cross-review
+  - [orchestration] Living Docs 전체 업데이트 + 세션 전환 체인 신설 (CLAUDE.md + KNOWLEDGE.md)
+  - [orchestration] Opus 전체 리뷰 → 수정 6건 반영 (_meta 스키마 통일, decisions.md 4건, KNOWLEDGE.md 업데이트 등)
+  - [orchestration] 미흡 항목 해결: Gemini 절대 경로 전환, 에러 핸들링 6시나리오+폴백, news-verifier/content-qa 역할 경계
+  - [orchestration] Opus e2e 테스트 23/23 ALL PASS
+
+현재 상태: v3.3 구현 완료 + e2e PASS. 커밋: b57c15c, 048572a, 3f9f87d, 174505d (main 브랜치).
+
+다음 할 것:
+  1. Obsidian 문서화 (옵시디언 전체 범위 — v3.3 변경사항 반영)
+  2. Gemini system-scanner 절대 경로 수정 후 실전 재테스트
+  3. /context-scan, /tr-verify, /cross-review 실전 사용 시작
+
+열린 결정:
+  - 없음
+
+주의사항:
+  - Gemini 스킬에서 ~/ 대신 절대 경로 필수 (/c/Users/pauls/): Gemini가 프로젝트 로컬 .claude/ 우선 읽는 문제
+  - 세션 전환 체인 (건너뛰기 금지): verify → sync-all → compressor → linker → /clear 허용
+  - _meta 스키마: Codex 3필드(files_scanned/fields_extracted/skipped), Gemini 5필드(+model, completeness)
+  - 모든 Gemini 호출에 -m gemini-3.1-pro-preview 필수
+  - Codex 5시간 롤링 제한 — 아껴쓰기
+
+=== 이 내용을 새 세션 시작 시 붙여넣으세요 ===
+
+---
+
+=== 컨텍스트 압축 요약 (이전) ===
+
 세션 목표: orchestration v3.3 설계 — Codex/Gemini CLI 통합 강화
 
 완료 (8항목):
@@ -29,42 +63,11 @@
 
 주의사항:
   - Claude = 유일한 설계/결정권자. Codex/Gemini = 사실 확인과 추출만
-  - "해석이 아니라 추출": 외부 CLI에게 JSON 구조화 출력 강제 + _meta 블록으로 검증
   - Gemini = 벌크 추출기 (1M 컨텍스트): system-scanner, project-scanner, state-scanner, news-verifier 4개 스킬 예정
   - Codex = 정밀 검증기 (5시간 롤링 제한, 아껴쓰기): extract/verify/review 3개 프로필 + prompts 3개 예정
   - Verify Barrier: 모든 외부 CLI 출력에 3단계 검증 (구조→스팟체크→반박)
   - 컨텍스트 절약 추정: 세션당 ~170K 토큰 (88%)
   - 모든 Gemini 호출에 -m gemini-3.1-pro-preview 필수
   - 구현 플랜 경로: /c/dev/01_projects/01_orchestration/docs/plans/2026-02-25-v3.3-codex-gemini-impl.md
-
-=== 이 내용을 새 세션 시작 시 붙여넣으세요 ===
-
----
-
-=== 컨텍스트 압축 요약 (이전) ===
-
-세션 목표: daily-memo GitHub Actions 파이프라인 완성 + Claude Code RC 리서치
-
-완료 (5항목):
-  - [daily-memo] GitHub Actions push 트리거 수정: origin/main merge로 워크플로우 파일 포함
-  - [daily-memo] e2e 테스트 2회 성공 (07:35, 07:38 항목 main Inbox.md 자동 반영 확인)
-  - [daily-memo] 레포 알림 무시 설정 (gh api --field ignored=true)
-  - [daily-ops] inbox-processor(git fetch+diff), /todo(gh api), /morning(/todo 경유) 동기화 방식 확인
-  - [orchestration] decisions.md + STATE.md + MEMORY.md 업데이트 + 커밋 a885da3
-
-현재 상태: daily-memo 파이프라인 완성. 브랜치 push → GitHub Actions → main 자동 sync 운영 중.
-
-다음 할 것:
-  1. Claude Code 2.1.51 → 2.1.52 업데이트
-  2. /rc (Remote Control) 기능 테스트 (Max plan Research Preview)
-  3. daily-ops 팀 연동 실전 테스트 (/todo, /morning)
-
-열린 결정:
-  - /rc Remote Control: 버전 업데이트 후 테스트 예정
-
-주의사항:
-  - 새 daily-memo 브랜치는 반드시 main에서 분기 (워크플로우 파일 포함 위해)
-  - gh CLI: -f는 문자열 강제, --field는 자동 타입 추론 (boolean 지정 시 --field 필수)
-  - daily-memo 레포 알림 무시됨 (이메일 수신 없음)
 
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
