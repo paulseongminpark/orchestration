@@ -2,6 +2,29 @@
 
 ---
 
+## v3.3 — Codex/Gemini CLI 통합 강화 (2026-02-25)
+
+### 추가
+- Codex CLI 설정: instructions.md(글로벌 페르소나), config.toml 프로필 3종(review/extract/verify), prompts 3종
+- Gemini CLI 설정: GEMINI.md(글로벌 페르소나), 커스텀 스킬 4종(system-scanner/project-scanner/state-scanner/news-verifier)
+- Claude Code 스킬 3종: /context-scan(컨텍스트 오프로딩), /tr-verify(tech-review QA), /cross-review(병렬 코드 리뷰)
+- Verify Barrier: 모든 외부 CLI 출력에 3단계 검증(구조→스팟체크→반박)
+- _meta 블록: 외부 CLI JSON 출력에 검증용 메타데이터 강제
+
+### 변경
+- gemini-analyzer: 코드베이스 분석 → 벌크 추출기(컨텍스트 오프로딩 + 웹 검색)
+- codex-reviewer: 8관점 설계 결함 → 정밀 검증기(diff 리뷰 + 포맷 QA + git 추출)
+- ai-synthesizer: 교차 검증 합성 → adversarial verifier(completeness + 반박 검증)
+- 분석 체인 → 추출/검증 체인 재정의
+
+### 설계 원칙
+- Claude = 유일한 설계/결정권자. 외부 CLI = 사실 확인과 추출만.
+- 해석이 아니라 추출. JSON 구조화 출력으로 신뢰성 확보.
+- Gemini = 벌크(넉넉, 1M). Codex = 정밀(귀한, 5시간 롤링).
+- 세션당 컨텍스트 절약 추정: ~170K 토큰 (88%)
+
+---
+
 ## v3.2 — 리좀형 팀 + SoT 확립 (2026-02-24)
 
 ### SoT 확립
