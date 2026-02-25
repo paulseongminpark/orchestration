@@ -67,12 +67,12 @@ meta-orchestrator (디스패치 허브, /dispatch)
 | PreToolUse | Bash | 위험 명령 차단 (rm -rf, force push) |
 | SessionEnd | 세션 종료 | 미커밋 현황 + MEMORY.md 줄 수 경고 |
 
-## 멀티 AI 오케스트레이션
+## 멀티 AI 오케스트레이션 (v3.3)
 
-- **Claude Code**: 유일한 쓰기
-- **GPT Plus**: 사고 확장, Canvas
-- **Gemini Pro**: 대량 검증 (1M 토큰)
-- **Perplexity Pro**: 리서치 + 교차검증
+- **Claude Code (Opus 4.6)**: 유일한 설계/결정권자 + 코드 작성 + 최종 판단 (verify barrier)
+- **Codex CLI (GPT-5.3, Plus $20)**: 정밀 검증기. diff 리뷰 + 포맷 QA + git 추출. 5시간 롤링, 세션당 3~5회.
+- **Gemini CLI (3.1 Pro, AI Pro $20)**: 벌크 추출기. 컨텍스트 오프로딩(system/project/state-scanner) + 웹 검색(news-verifier). 1M 컨텍스트.
+- **Perplexity Pro**: 리서치 + tech-review 소스 (sonar-deep-research)
 
 ## 권한
 
