@@ -46,9 +46,10 @@ meta-orchestrator (디스패치 허브, /dispatch)
 
 - **구현**: implement → code-reviewer → commit-writer → project-linker → living docs
 - **배포**: pf-deployer → security-auditor → 사용자 확인 → push
-- **분석**: gemini + codex (병렬) → ai-synthesizer → agent.md 반영
+- **추출/검증 (v3.3)**: Gemini 추출(벌크) + Codex 추출(정밀) → Claude verify barrier(3단계) → 사용
 - **디스패치**: /dispatch → context-linker → meta-orchestrator → 팀 활성화
 - **압축**: compressor 7단계 → orch-doc-writer(조건부) → doc-syncer
+- **세션 전환 (v3.3)**: verify → sync-all → compressor → context-linker → "새 세션 준비 완료"
 
 ## 에이전트 표준 구조
 

@@ -6,7 +6,8 @@
 
 ## 미반영
 
-2026-02-25 [orchestration] v3.3 Claude=결정권자 Codex/Gemini=추출기 Verify Barrier 3단계 | orch:❌
+2026-02-25 [orchestration] v3.3 Claude=결정권자 Codex/Gemini=추출기 Verify Barrier 3단계 | orch:✅
+2026-02-25 [orchestration] v3.3 세션 전환 체인 신설: verify→sync-all→compressor→linker 후 /clear 허용 | orch:✅
 2026-02-25 [orchestration] Gemini=벌크추출기(4스킬) Codex=정밀검증기(3프로필) 역할 분리 | orch:❌
 2026-02-25 [orchestration] 컨텍스트 오프로딩 세션당 ~170K 토큰(88%) 절약 설계 | orch:❌
 2026-02-25 [daily-memo] GitHub Actions 자동 sync 파이프라인 완성: 브랜치 push → main Inbox.md 자동 반영 + 레포 알림 무시 설정 | dm:✅
