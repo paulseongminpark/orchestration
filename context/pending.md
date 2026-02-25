@@ -6,6 +6,7 @@
 [패턴후보][tr-updater] Perplexity API search_domain_filter 최대 20개 제한. 도메인 목록이 20개 초과 시 slice(0,20)으로 자름. deep research는 도메인 필터 미지원 (넣으면 거부 응답).
 [패턴후보][code-reviewer] API 응답이 HTTP 200이지만 거부 메시지인 경우 폴백 미작동 버그 패턴. 거부 패턴 검사를 API 호출 직후 (폴백 분기 내)에서 수행해야 함.
 [패턴후보][gemini-analyzer] Gemini CLI 스킬에서 ~/ 경로 사용 금지. Gemini가 프로젝트 로컬 .claude/ 디렉토리를 우선 읽어 경로 오작동 발생. 절대 경로 /c/Users/pauls/ 필수.
+[패턴후보][compressor] 타임스탬프 LLM 추정 금지. 반드시 `date +%H:%M` 명령 실행 후 실제 시간 사용. 추정 시 수십 분 오차 발생.
 
 ---
 
@@ -58,3 +59,9 @@
 - 학습: Gemini 스킬에서 파일 경로는 항상 /c/Users/pauls/ 절대 경로 사용. ~/ 금지.
 - 적용 후보: gemini-analyzer (스킬 작성 가이드에 반영)
 - 신뢰도: 높음 (실제 테스트에서 발견 + 수정 후 해결)
+
+### 패턴 9: compressor 타임스탬프 — LLM 추정 금지
+- 관찰: compressor가 타임스탬프를 LLM 추정값으로 기록 → 실제와 수십 분 오차 발생
+- 학습: 타임스탬프는 반드시 `date +%H:%M` 명령 실행 후 실제 시간 사용. 추정 금지.
+- 적용 후보: compressor (타임스탬프 작성 규칙에 반영)
+- 신뢰도: 높음 (실제 버그 수정 사례)

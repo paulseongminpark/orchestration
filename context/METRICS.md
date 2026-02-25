@@ -25,6 +25,7 @@
 | 2026-02-24 | (직접 구현) | orchestration v3.2 전체 구현 (Phase 0~5) | 5 | 리좀형 4팀+허브, SoT 확립, doc-syncer+/dispatch 신규, auto-trim, 2커밋 pushed |
 | 2026-02-25 | (직접 설계) | orchestration v3.3 Codex/Gemini CLI 통합 설계 | 5 | 설계문서 ~950줄, 구현플랜 23태스크 6Phase, 커밋 e948b45 |
 | 2026-02-25 | (직접 구현+테스트) | orchestration v3.3 전체 구현 (Phase 1~6, 23 tasks) + e2e PASS | 5 | Codex/Gemini CLI 설정 완성, 에이전트 3개 재작성, 스킬 3개 신규, 23/23 ALL PASS |
+| 2026-02-25 | (직접 구현+문서화) | v3.3 에비던스 문서 2건 + HOME.md/REFERENCE.md 업데이트 + compressor 버그 수정 | 5 | diagram.md + members-skills.md, meta-orchestrator Opus 승격, 타임스탬프 규칙 확정 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -78,6 +79,7 @@
 | 2026-02-24 | orchestration v3.1 Living Docs 전면 갱신 (5개 파일) | ~1.5h | - |
 | 2026-02-25 | orchestration v3.3 Codex/Gemini 통합 설계 (설계문서+구현플랜 작성+커밋) | ~2h | - |
 | 2026-02-25 | orchestration v3.3 전체 구현 + 리뷰 반영 + 미흡 해결 + e2e 23/23 PASS | ~4h | Gemini 경로 문제 디버깅 |
+| 2026-02-25 | v3.3 에비던스 문서 + HOME.md/REFERENCE.md + compressor 버그 수정 + 문서화 | ~2h | - |
 
 ---
 
@@ -99,3 +101,4 @@
 | 2026-02-25 | 5개 (daily-memo 파이프라인 수정 + e2e 2회 성공 + 알림 무시 + 문서 업데이트 + RC 리서치) | daily-memo/orchestration | 2개 |
 | 2026-02-25 | 8개 (v3.3 Codex/Gemini 통합 설계+구현플랜 작성+커밋+sync) | orchestration | 5개 |
 | 2026-02-25 | 23개 (v3.3 전체 구현 + Opus 리뷰 반영 + 미흡 해결 + e2e 23/23 PASS) | orchestration | 3개 |
+| 2026-02-25 | 11개 (에비던스 문서 2건 + HOME.md/REFERENCE.md + compressor 버그 수정 + 타임스탬프 규칙) | orchestration | 3개 |

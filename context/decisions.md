@@ -6,6 +6,9 @@
 
 ## 미반영
 
+2026-02-25 [orchestration] compressor 타임스탬프: date +%H:%M 필수, LLM 추정 금지 | orch:❌
+2026-02-25 [orchestration] meta-orchestrator + verify barrier = Opus 사용 명시 | orch:❌
+2026-02-25 [orchestration] v3.3 전체 e2e: 24에이전트+14스킬+4팀+6체인+7훅+2CLI evidence/v3.3 기록 | orch:❌
 2026-02-25 [orchestration] v3.3 세션 전환 체인: verify→sync-all→compressor→linker 건너뛰기 금지 | orch:✅
 2026-02-25 [orchestration] Gemini 스킬 절대 경로 필수: ~/→/c/Users/pauls/ (로컬 .claude/ 우선 문제) | orch:✅
 2026-02-25 [orchestration] _meta 스키마: Codex 3필드 vs Gemini 5필드 분리 확정 | orch:✅

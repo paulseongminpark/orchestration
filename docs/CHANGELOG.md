@@ -10,11 +10,17 @@
 - Claude Code 스킬 3종: /context-scan(컨텍스트 오프로딩), /tr-verify(tech-review QA), /cross-review(병렬 코드 리뷰)
 - Verify Barrier: 모든 외부 CLI 출력에 3단계 검증(구조→스팟체크→반박)
 - _meta 블록: 외부 CLI JSON 출력에 검증용 메타데이터 강제
+- 에비던스 문서: docs/evidence/v3.3/diagram.md + members-skills.md (전체 시스템 카탈로그)
+- 세션 전환 체인: verify→sync-all→compressor→linker (건너뛰기 금지, CLAUDE.md + KNOWLEDGE.md 반영)
 
 ### 변경
 - gemini-analyzer: 코드베이스 분석 → 벌크 추출기(컨텍스트 오프로딩 + 웹 검색)
 - codex-reviewer: 8관점 설계 결함 → 정밀 검증기(diff 리뷰 + 포맷 QA + git 추출)
 - ai-synthesizer: 교차 검증 합성 → adversarial verifier(completeness + 반박 검증)
+- meta-orchestrator: Sonnet → Opus 승격 (디스패치 판단 품질 강화)
+- verify barrier: Opus 명시 (검증 말단 품질 보장)
+- compressor: 타임스탬프 규칙 강화 (date +%H:%M 명령 필수, LLM 추정 금지)
+- live-context hook: codex-cli, gemini-cli 경로 분류 추가
 - 분석 체인 → 추출/검증 체인 재정의
 
 ### 설계 원칙
@@ -22,6 +28,11 @@
 - 해석이 아니라 추출. JSON 구조화 출력으로 신뢰성 확보.
 - Gemini = 벌크(넉넉, 1M). Codex = 정밀(귀한, 5시간 롤링).
 - 세션당 컨텍스트 절약 추정: ~170K 토큰 (88%)
+
+### e2e 검증
+- Codex extract 실전 테스트: 16커밋 JSON 추출 성공
+- Gemini system-scanner 실전 테스트: 24개 에이전트 추출 성공 (절대 경로 수정 후)
+- Opus e2e 23/23 ALL PASS
 
 ---
 
@@ -185,7 +196,7 @@
 - Rules 구조화: common-mistakes.md, workflow.md 추가
 - MCP 2개 추가: sequential-thinking, memory
 - session-summary.md 추가 (catchup 스킬 연동)
-- 02_ai_config 로컬 폴더 완전 삭제 (config → orchestration/config/ 흡수)
+- 02_ai_config 로컬 폴더 완전 삭제 (config → orchestration/config/로 흡수)
 - Agent Teams 활성화 (CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)
 
 ### 에이전트 14개 구축
