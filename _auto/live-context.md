@@ -2,12 +2,9 @@
 > 자동 관리. 수동 편집 금지.
 > PostToolUse hook이 자동 append, context-linker가 주기적 정리.
 
-## Recent (auto-trimmed at 2026-02-27 01:11)
-- [01:01][config] codex-reviewer.md 수정 (sess:49363)
-- [01:01][config] commit-writer.md 수정 (sess:49473)
-- [01:01][config] compressor.md 수정 (sess:49522)
-- [01:01][config] content-writer.md 수정 (sess:49620)
-- [01:02][config] context-linker.md 수정 (sess:49663)
+## Recent (auto-trimmed at 2026-02-27 02:02)
+- [02:00][orchestration] v3.3.1 일관성 감사 15건 수정 + 커밋 7cf654e
+- [02:02][orchestration] compressor 세션 마무리 + 커밋 3c26fde
 - [01:02][config] doc-syncer.md 수정 (sess:49719)
 - [01:02][config] gemini-analyzer.md 수정 (sess:49780)
 - [01:02][config] inbox-processor.md 수정 (sess:49851)
