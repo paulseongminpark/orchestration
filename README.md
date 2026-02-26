@@ -1,6 +1,6 @@
 # Orchestration System
 
-Claude Code 기반 멀티 프로젝트 오케스트레이션 시스템 **v3.2**
+Claude Code 기반 멀티 프로젝트 오케스트레이션 시스템 **v3.3.1**
 
 ---
 
@@ -16,22 +16,34 @@ Claude Code 기반 멀티 프로젝트 오케스트레이션 시스템 **v3.2**
 
 ---
 
-## 디렉토리 구조
+## 디렉토리 구조 (Flat Root)
 
 ```
 orchestration/
-├── context/          # 시스템 지식 베이스
-│   ├── KNOWLEDGE.md  # 규칙, 패턴, 에이전트 목록
-│   ├── PLANNING.md   # ADR (설계 결정 기록)
+├── *.md (12개)       # Living Docs — 루트에서 바로 접근
+│   ├── STATE.md      # 시스템 인벤토리 SoT
+│   ├── CHANGELOG.md  # 버전 이력
+│   ├── KNOWLEDGE.md  # 규칙, 패턴
+│   ├── PLANNING.md   # ADR (설계 결정)
+│   ├── REFERENCE.md  # 종합 가이드
+│   ├── ROADMAP.md    # 개발 계획
+│   ├── METRICS.md    # 시스템 지표
+│   ├── TODO.md       # 작업 관리
 │   ├── decisions.md  # 결정 추적
-│   └── live-context.md  # 실시간 갱신 컨텍스트 (Linker System)
-├── docs/             # 문서
-│   ├── SYSTEM-GUIDE.md
-│   ├── USER-GUIDE.md
-│   ├── CHANGELOG.md
-│   └── ROADMAP.md
-├── config/           # AI 모델 설정 (claude/gpt/gemini/perplexity)
-└── hooks/            # 자동화 훅 스크립트
+│   ├── session-summary.md  # 세션 요약
+│   └── pending.md    # 미반영 결정
+├── _history/         # 시간순 기록 (읽기 전용)
+│   ├── logs/         # 세션 로그
+│   ├── plans/        # 설계 문서
+│   ├── evidence/     # 버전별 검증 기록
+│   └── archive/      # 아카이브
+├── _prompts/         # 외부 AI 프롬프트
+│   ├── claude/, gemini/, gpt/, perplexity/
+├── _auto/            # 자동 관리 (에이전트 전용)
+│   ├── live-context.md
+│   └── .chain-temp/
+├── scripts/          # 훅 스크립트
+└── .claude/          # Claude Code 설정
 ```
 
 ---
@@ -72,11 +84,11 @@ orchestration/
 
 ## 문서
 
-- [SYSTEM-GUIDE](docs/SYSTEM-GUIDE.md) — 시스템 전체 구조 설명
-- [USER-GUIDE](docs/USER-GUIDE.md) — 사용자 운영 가이드
-- [CHANGELOG](docs/CHANGELOG.md) — 버전별 변경 이력
-- [ROADMAP](docs/ROADMAP.md) — 개발 계획
+- [CHANGELOG](CHANGELOG.md) — 버전별 변경 이력
+- [REFERENCE](REFERENCE.md) — 종합 가이드
+- [ROADMAP](ROADMAP.md) — 개발 계획
+- [KNOWLEDGE](KNOWLEDGE.md) — 규칙, 패턴, 모범 사례
 
 ---
 
-_v3.1 · 2026-02-24_
+_v3.3.1 · 2026-02-27_
