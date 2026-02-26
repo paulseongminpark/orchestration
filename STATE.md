@@ -1,10 +1,10 @@
 # Orchestration STATE
 
-> 마지막 갱신: 2026-02-25 (v3.3 전체 e2e 테스트 완료 + 버그 3건 수정)
+> 마지막 갱신: 2026-02-26 (v3.3.1 200K Context 최적화)
 
 ## 현재 상태
 
-**시스템 버전**: v3.3
+**시스템 버전**: v3.3.1
 **활성 프로젝트**: tech-review, portfolio, orchestration, monet-lab
 
 ## 진행 중
@@ -32,6 +32,15 @@
   - 1차(기본 모델): FAIL 0, WARN 3 / 2차(All Opus): 추가 발견 +15건
   - 버그 3건 수정: meta-orchestrator model, Codex 문법, PreToolUse 파싱
   - 에비던스: docs/evidence/v3.3/e2e-test-plan.md + e2e-test-report.md
+- **v3.3.1 완료** (2026-02-26)
+  - 200K Context 최적화: baseline 축소(~4K), .chain-temp 오프로딩, compact 전략
+  - MEMORY.md/CLAUDE.md/KNOWLEDGE.md 경량화
+  - decisions.md 정리 (중복 제거, ✅→아카이브)
+  - session-start.sh 축소 (❌만 5건, live-context 5줄)
+  - 에이전트 4개 .chain-temp 오프로딩 (code-reviewer, gemini-analyzer, codex-reviewer, ai-synthesizer)
+  - PreCompact 스냅샷 hook + PostCompact 자동 Read hook
+  - Playwright/document-skills 플러그인 비활성화 (~6.5K 토큰 절감)
+  - statusline.py 세션 목표 🎯 표시
 - **다음**: portfolio 모바일 반응형 + Tech Review 설계 섹션 + monet-lab 미커밋 정리
 
 ### monet-lab
@@ -89,17 +98,18 @@
   - 절대 경로 필수 (/c/Users/pauls/): ~/ 사용 금지 (로컬 .claude/ 우선 읽기 문제)
   - -m gemini-3.1-pro-preview 필수
 
-### Hooks (7종)
-- SessionStart: session-start.sh (오늘 LOG + 미커밋 + 미반영 결정 + live-context)
+### Hooks (8종)
+- SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + 스냅샷 알림)
 - SessionEnd: 미커밋 현황 + MEMORY.md 경고
 - PreToolUse: 위험 명령 차단
 - PostToolUse: context/*.md 감지 + live-context.md auto-append + auto-trim
-- PreCompact: 미커밋 확인
+- PreCompact: pre-compact.sh (스냅샷 생성 + 미커밋 경고)
+- PostCompact: 스냅샷 자동 Read 안내
 - TeammateIdle: 팀원 유휴 알림
 - TaskCompleted: 태스크 완료 알림
 
-### Plugins (12개 활성)
-- superpowers, context7, vercel, document-skills, playwright, greptile, frontend-design
+### Plugins (4개 활성)
+- superpowers, context7, vercel, frontend-design
 
 ## 브랜치 정보
 - orchestration: main

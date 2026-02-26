@@ -2,6 +2,35 @@
 
 ---
 
+## v3.3.1 — 200K Context 최적화 (2026-02-26)
+
+### 추가
+- `.chain-temp/` 디렉토리: 체인 중간 결과 오프로딩 (메인 context 보호)
+- PreCompact hook: `pre-compact.sh` — compact 전 스냅샷 자동 생성
+- PostCompact hook: compact 후 스냅샷 자동 Read 안내
+- statusline.py: 세션 목표 🎯 표시
+
+### 변경
+- MEMORY.md: Common Patterns/Codex/Gemini 상세 축약, 교훈 8→3항목 (~700 tokens 절감)
+- CLAUDE.md: 프로젝트 구조→"MEMORY.md 참조", CLI 플래그→에이전트 위임, Living Docs 축약, compact 임계값 100K/120K (~400 tokens 절감)
+- workflow.md: 모델 사용 기준 섹션 제거 (CLAUDE.md 중복, ~100 tokens)
+- session-start.sh: ❌만 최대 5건, live-context 5줄, 오늘 로그 제거 (~1,000 tokens 절감)
+- decisions.md: 중복 4건 제거, ✅→아카이브 이동, 미반영 10건만 유지
+- KNOWLEDGE.md: .chain-temp 패턴, 200K 운영 규칙, Hooks 표 갱신
+- 에이전트 4개 .chain-temp 오프로딩: code-reviewer, gemini-analyzer, codex-reviewer, ai-synthesizer
+- dispatch/SKILL.md: STATE.md 섹션 읽기, decisions 재읽기 금지, meta-orchestrator Opus 갱신
+- compressor.md: orch-doc-writer 항상 호출, .chain-temp 오프로딩
+- 압축 체인: 7단계→9단계 표기 통일
+- Playwright/document-skills 플러그인 비활성화 (~6.5K tokens 절감)
+
+### 설계 원칙
+- 100K compact 권장, 120K 필수, 150K auto-compact은 최후 방어선
+- compact 전 스냅샷 → compact 후 자동 Read → 언제 compact해도 맥락 보존
+- 서브에이전트 적극 활용, 메인 context는 의사결정용
+- .chain-temp = 체인의 공유 메모리, 메인 context 대신 파일 전달
+
+---
+
 ## v3.3 — Codex/Gemini CLI 통합 강화 (2026-02-25)
 
 ### 추가
