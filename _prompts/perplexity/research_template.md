@@ -1,7 +1,7 @@
 # Perplexity 리서치 템플릿
 
 ## Context: [프로젝트명]
-STATE: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+STATE: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/STATE.md
 
 ## Research Topic: [주제]
 

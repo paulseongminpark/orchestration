@@ -17,10 +17,10 @@
 C:\Users\pauls\.claude\
 ├── CLAUDE.md                             ← 4줄 핵심 규칙
 ├── rules\
-│   ├── token_budget.md                   ← 토큰 관리
-│   └── git_workflow.md                   ← Git 규칙
-└── skills\
-    └── morning\SKILL.md                  ← /morning (전체 브리핑)
+│   ├── common-mistakes.md               ← 반복 실수 패턴
+│   └── workflow.md                      ← 워크플로우 규칙
+├── skills\                               ← /dispatch, /morning, /compressor 등 14개
+└── agents\                               ← 24개 커스텀 에이전트
 ```
 
 ### 오케스트레이션
@@ -29,7 +29,7 @@ C:\dev\01_projects\01_orchestration\.claude\
 ├── CLAUDE.md                             ← 프로젝트 컨텍스트
 ├── settings.json                         ← permissions + hooks
 ├── skills\
-│   ├── sync\SKILL.md                     ← /sync
+│   ├── sync\skill.md                     ← /sync
 │   ├── handoff\SKILL.md                  ← /handoff
 │   └── status\SKILL.md                   ← /status
 └── agents\
@@ -41,10 +41,10 @@ C:\dev\01_projects\01_orchestration\.claude\
 ```
 C:\dev\01_projects\02_portfolio\.claude\
 ├── CLAUDE.md                             ← 프로젝트 컨텍스트
-├── settings.json                         ← permissions + hooks (prettier 포함)
+├── settings.json                         ← permissions + hooks
 └── skills\
     ├── sync\SKILL.md                     ← /sync
     └── status\SKILL.md                   ← /status
 ```
 
-## 상세: [[claude-code-guide]]
+## 상세: REFERENCE.md 참조

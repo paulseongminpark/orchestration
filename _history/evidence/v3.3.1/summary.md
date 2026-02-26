@@ -29,7 +29,7 @@
 체인 에이전트 결과를 파일로 오프로딩, 메인 context에 1줄 요약만 반환.
 
 ```
-orchestration/context/.chain-temp/
+orchestration/_auto/.chain-temp/
 ├── review-{date}.md     ← code-reviewer 상세 결과
 ├── gemini-{date}.txt    ← gemini-analyzer 추출 결과
 ├── codex-{date}.txt     ← codex-reviewer 검증 결과
@@ -76,7 +76,7 @@ orchestration/context/.chain-temp/
 ## 수정 파일 (15개)
 
 ### 신규 (3개)
-- `context/.chain-temp/.gitkeep`
+- `_auto/.chain-temp/.gitkeep`
 - `hooks/pre-compact.sh`
 - `settings.json` PostCompact hook
 

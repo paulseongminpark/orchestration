@@ -7,7 +7,7 @@ allowed-tools: Read, Edit, Bash
 
 ## Steps
 
-0. (선택) /verify-project-rules 실행 (경고만, 차단 안 함)
+0. (선택) /verify 실행 (경고만, 차단 안 함)
 
 1. STATE.md 읽기
 

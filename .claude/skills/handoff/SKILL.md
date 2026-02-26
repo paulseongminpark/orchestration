@@ -10,7 +10,7 @@ $ARGUMENTS[0] = 대상 AI
 $ARGUMENTS[1:] = 요청 내용
 
 ## Steps
-1. context/STATE.md 읽기
+1. STATE.md 읽기
 2. 대상 AI에 맞는 핸드오프 문서 생성
 3. 클립보드에 복사 안내
 

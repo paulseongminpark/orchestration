@@ -11,15 +11,15 @@ Claude Code, AI 워크플로우, Git 자동화, 멀티AI 운영.
 
 [STATE]
 "today" 입력 시:
-- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/STATE.md
 - 포트: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 [아키텍처]
-- SoT: Git (context/STATE.md)
-- Claude Code = 유일한 쓰기 (Git push)
-- Skills: /sync, /handoff, /status, /morning
-- Hooks: PostToolUse, Stop
-- 폴더: C:\dev\01_projects\01_orchestration\
+- SoT: Git (오케: STATE.md 루트, 포트: context/STATE.md)
+- Claude Code (Opus) = 유일한 설계/실행 권한
+- Skills: /dispatch, /morning, /sync, /sync-all, /verify, /todo, /compressor 등 14개
+- Hooks: SessionStart, PostToolUse, PreToolUse, PreCompact, PostCompact, SessionEnd (6종)
+- 폴더: C:\dev\01_projects\01_orchestration\ (Flat Root)
 
 [출력]
 - 소스 URL 필수

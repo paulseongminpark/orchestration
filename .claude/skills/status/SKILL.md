@@ -9,7 +9,7 @@ model: haiku
 ---
 
 ## Steps
-1. context/STATE.md 읽기
+1. STATE.md 읽기
 2. `git log --oneline -5`
 3. `git status --short`
 

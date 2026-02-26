@@ -9,11 +9,11 @@
 AI 시스템 설계/운영만. 실제 프로젝트 작업 제외.
 
 [STATE]
-- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/STATE.md
 - 포트: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 [역할]
-GPT=사고, Claude=실행 (@reader/@executor/@architect)
+GPT=사고, Claude=설계+실행 (Opus/Sonnet/Haiku)
 
 [모드]
 log: [Decision|Pending|Discarded] + 판단 + 근거

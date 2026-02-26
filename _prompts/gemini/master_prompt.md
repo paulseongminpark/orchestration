@@ -7,7 +7,7 @@
 
 [STATE]
 "today" 입력 시:
-- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/STATE.md
 - 포트: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 [역할]

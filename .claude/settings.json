@@ -30,7 +30,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // empty\"); if echo \"$FILE\" | grep -qE \"(STATE\\.md|CLAUDE\\.md|docs/.*\\.md)\"; then echo \"⚠️ 중요 파일 변경. /sync 권장\"; fi'",
+            "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // empty\"); if echo \"$FILE\" | grep -qE \"(STATE\\.md|CLAUDE\\.md|CHANGELOG\\.md|KNOWLEDGE\\.md|PLANNING\\.md|REFERENCE\\.md)\"; then echo \"⚠️ 중요 파일 변경. /sync 권장\"; fi'",
             "async": true
           }
         ]
@@ -49,7 +49,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'export LANG=en_US.UTF-8; DIRTY=0; for d in C:/dev/01_projects/*/; do if git -C \"$d\" status --porcelain context/STATE.md 2>/dev/null | grep -q .; then echo \"STATE.md uncommitted in $(basename $d). Run /sync before exit.\"; DIRTY=1; fi; done; if [ $DIRTY -eq 1 ]; then exit 1; fi'"
+            "command": "bash -c 'export LANG=en_US.UTF-8; DIRTY=0; for d in C:/dev/01_projects/*/; do for f in STATE.md context/STATE.md; do if git -C \"$d\" status --porcelain \"$f\" 2>/dev/null | grep -q .; then echo \"STATE.md uncommitted in $(basename $d). Run /sync before exit.\"; DIRTY=1; break; fi; done; done; if [ $DIRTY -eq 1 ]; then exit 1; fi'"
           }
         ]
       }

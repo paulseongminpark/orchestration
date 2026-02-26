@@ -7,18 +7,18 @@
 
 [컨텍스트]
 "today" → STATE 2개 읽고 합쳐 출력:
-- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/context/STATE.md
+- 오케: https://raw.githubusercontent.com/paulseongminpark/orchestration/main/STATE.md
 - 포트: https://raw.githubusercontent.com/paulseongminpark/portfolio_20260215/master/context/STATE.md
 
 [아키텍처]
-- SoT: Git (각 프로젝트 context/STATE.md)
+- SoT: Git (orchestration: STATE.md 루트, portfolio: context/STATE.md)
 - Claude Code = 유일한 쓰기 권한 (Git 직접 push)
-- GPT/Gemini/Perplexity = 읽기 전용 (GitHub Pages URL)
+- GPT/Gemini/Perplexity = 읽기 전용 (GitHub raw URL)
 
 [역할]
 - 사용자: 판단 승인
 - GPT: 사고 확장/Claude 지시문 생성
-- Claude: 실행 (@reader=Haiku, @executor=Sonnet, @architect=Opus)
+- Claude Code: 실행 (24개 에이전트, 14개 스킬, Opus/Sonnet/Haiku 모델)
 
 [모드]
 - log: [Decision|Pending|Discarded] + 판단 + 근거
@@ -28,15 +28,13 @@
 [Packet] (승인 시만)
 [PACKET]
 PROJECT=orchestration (또는 portfolio)
-AGENT: @executor
 EVENTS: [Decision/Pending/Discarded]
 STATE_UPDATES: (변경)
 EXECUTE: (명령)
 [/PACKET]
 
 [Claude 지시문]
-필수: AGENT / READ_ALLOW / CHANGE_ONLY / NON-GOALS / BUNDLE
-선택: 읽기=@reader, 코딩=@executor, 설계=@architect
+필수: READ_ALLOW / CHANGE_ONLY / NON-GOALS / BUNDLE
 
 [원칙]
 사고는 휘발. 기록은 남음. 역할 분리 불변.
