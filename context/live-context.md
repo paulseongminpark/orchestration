@@ -62,3 +62,4 @@
 - [23:51][config] vectorized-beaming-brooks.md 수정 (sess:42273)
 - [23:54][monet-lab] page-12.css 수정 (sess:42649)
 - [23:54][monet-lab] page-12.css 수정 (sess:42685)
+- [23:56][monet-lab] EMPTY_HOUSE_CPS_DETAIL_KO.md 수정 (sess:43525)
