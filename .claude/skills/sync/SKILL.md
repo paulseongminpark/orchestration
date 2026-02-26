@@ -9,7 +9,7 @@ allowed-tools: Read, Edit, Bash
 
 0. (선택) /verify-project-rules 실행 (경고만, 차단 안 함)
 
-1. context/STATE.md 읽기
+1. STATE.md 읽기
 
 2. 이번 세션 작업 반영 (완료/다음/막힌것 갱신)
 
@@ -37,13 +37,13 @@ allowed-tools: Read, Edit, Bash
 
    bash append:
    ```bash
-   LOG="context/logs/$(date '+%Y-%m-%d').md"
+   LOG="_history/logs/$(date '+%Y-%m-%d').md"
    printf "위 내용" >> "$LOG"
    ```
 
    **중요:** 형식만 echo하지 말고 실제 이번 세션 내용을 채워서 기록.
 
-5. git add context/ && git commit -m "[orchestration] STATE+LOG 갱신" && git push
+5. git add STATE.md _history/logs/ && git commit -m "[orchestration] STATE+LOG 갱신" && git push
 
 ## LOG 규칙
 - 읽기 절대 금지 (토큰 보호). echo append만.
@@ -53,4 +53,4 @@ allowed-tools: Read, Edit, Bash
 
 ## Output
 DONE: STATE+LOG 갱신 + push 완료
-URL: https://paulseongminpark.github.io/orchestration/context/STATE.md
+URL: https://paulseongminpark.github.io/orchestration/STATE.md

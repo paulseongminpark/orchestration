@@ -4,8 +4,8 @@
 - **STATE.md**: 시스템 인벤토리 SoT (에이전트/스킬/팀/플러그인)
 - **PLANNING.md**: 아키텍처 결정 기록 (ADR)
 - **KNOWLEDGE.md**: 패턴, 규칙, 모범 사례
-- **REFERENCE.md**: 종합 가이드 (docs/)
-- **logs/**: 시간순 상세 로그 (읽기 금지, append만)
+- **REFERENCE.md**: 종합 가이드
+- **_history/logs/**: 시간순 상세 로그 (읽기 금지, append만)
 
 ## Architecture
 - Claude Code = 유일한 쓰기
