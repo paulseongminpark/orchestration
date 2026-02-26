@@ -1,5 +1,7 @@
 # Orchestration System Roadmap
 
+> 최종 수정: 2026-02-27
+
 ## v1.0 ✅ (2026-02-21)
 **기준점 — 현재 안정 버전**
 - Skills 11개, Scripts 5개, orchestrator 에이전트
@@ -63,14 +65,35 @@
 - [x] 플러그인 4개 비활성화 + stale 파일 정리
 - [x] REFERENCE.md (SYSTEM-GUIDE + USER-GUIDE 통합)
 
-## v3.3 📋 (계획)
-**실전 테스트 + 미결 처리**
-- [ ] 팀 구조 실전 테스트 (TeamCreate 활용)
-- [ ] dispatch/morning 실전 테스트
-- [ ] doc-syncer / project-linker 실전 테스트
-- [ ] 미반영 결정 처리 (tech-review, portfolio)
+## v3.3 ✅ (2026-02-25)
+**Codex/Gemini CLI 통합 + Verify Barrier**
+- [x] Codex CLI 설정: instructions.md + config.toml 프로필 3종 + prompts 3종
+- [x] Gemini CLI 설정: GEMINI.md + 스킬 4종
+- [x] 에이전트 3개 재작성: gemini-analyzer(벌크추출), codex-reviewer(정밀검증), ai-synthesizer(adversarial verify)
+- [x] 스킬 3개 신규: /context-scan, /tr-verify, /cross-review
+- [x] Verify Barrier 3단계 (구조→스팟체크→반박)
+- [x] 세션 전환 체인 신설 (verify→sync-all→compressor→context-linker)
+- [x] meta-orchestrator → Opus 승격
+- [x] e2e 테스트 23/23 ALL PASS (12시나리오, 1차 기본 + 2차 All Opus)
+- [x] 에비던스 문서: diagram.md + members-skills.md + e2e-test-plan/report
+
+## v3.3.1 ✅ (2026-02-26~27)
+**200K Context 최적화 + Flat Root**
+- [x] baseline 축소 (~10K 절감): MEMORY.md/CLAUDE.md/workflow.md/session-start.sh 경량화
+- [x] .chain-temp/ 디렉토리: 에이전트 4개 체인 결과 오프로딩
+- [x] compact 3단계 임계값: 100K 권장 / 120K 필수 / 150K 최후 방어선
+- [x] PreCompact/PostCompact hook 추가 (스냅샷 자동 생성 + Read 안내)
+- [x] Playwright/document-skills 플러그인 비활성화 (~6.5K 절감)
+- [x] statusline.py 세션 목표 🎯 표시
+- [x] Flat Root 폴더 개편: Living Docs 12개 루트 이동, _history/_prompts/_auto/ 신설
+- [x] 에이전트 10개 + 훅 3개 + 스킬 3개 + 스크립트 1개 경로 갱신
+
+## 다음 (미정)
+- [ ] portfolio 모바일 반응형 (768px 이하)
+- [ ] monet-lab 44개 미커밋 정리 (스크린샷 PNG)
 - [ ] Obsidian Git Auto push 설정
+- [ ] HOME.md 자동 갱신 체계
 
 ---
 
-_업데이트: 2026-02-24_
+_최종 수정: 2026-02-27_

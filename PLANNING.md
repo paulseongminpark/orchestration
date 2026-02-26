@@ -1,6 +1,85 @@
 # PLANNING — Architecture Decisions
 
+> 최종 수정: 2026-02-27
+
 아키텍처 결정 기록 (Architecture Decision Records). 왜 이렇게 했는가.
+
+---
+
+## D-023: 200K Context 최적화 v3.3.1 (2026-02-26)
+
+**문제**:
+1. baseline ~46K 토큰으로 작업 가용 영역 부족 (200K 중 절반 이상 고정 소모)
+2. 에이전트 체인 결과가 메인 context에 직접 포함 → compact 빈번
+3. compact 시 맥락 유실 위험 (스냅샷 없음)
+
+**결정**: baseline 축소 + .chain-temp 오프로딩 + compact 3단계 전략
+- MEMORY.md 축약 (~700 tokens 절감): Common Patterns 제거, Codex/Gemini 1줄 축약, 교훈 8→3
+- CLAUDE.md 경량화 (~400 tokens): 프로젝트 구조→"MEMORY.md 참조", CLI 플래그→에이전트 위임
+- workflow.md 모델 섹션 제거 (~100 tokens)
+- session-start.sh 축소 (~1,000 tokens): ❌만 5건, live-context 5줄
+- Playwright/document-skills 플러그인 비활성화 (~6.5K tokens)
+- .chain-temp/ 디렉토리: 에이전트 체인 중간 결과 파일 오프로딩
+- 에이전트 4개 .chain-temp 오프로딩: code-reviewer, gemini-analyzer, codex-reviewer, ai-synthesizer
+- PreCompact hook: 스냅샷 자동 생성 (compact 전 맥락 보존)
+- PostCompact hook: 스냅샷 자동 Read 안내
+- compact 임계값: 100K 권장, 120K 필수, 150K 최후 방어선
+
+**이유**:
+- baseline 축소: ~10K 토큰 절감 → 작업 20~30턴 추가 여유
+- .chain-temp: 체인 결과를 파일로 전달 → 메인 context에 1줄 요약만 (체인 예약 ~25K 절약)
+- 스냅샷: 언제 compact해도 맥락 보존 보장
+- 3단계 임계값: 명확한 기준으로 수동 판단 제거
+
+**영향**:
+- MEMORY.md, CLAUDE.md, workflow.md, session-start.sh, KNOWLEDGE.md 경량화
+- .chain-temp/ 디렉토리 및 패턴 신설
+- 에이전트 4개 오프로딩 로직 추가
+- PreCompact/PostCompact hook 2개 추가 (총 8종)
+- statusline.py 세션 목표 🎯 표시
+- dispatch SKILL.md 갱신
+
+**대안 고려**:
+- auto-compact 임계값만 조정: 근본 해결 안 됨 (baseline이 큰 게 문제) → 기각
+- 에이전트 수 축소: 기능 손실 → 기각
+- 서브에이전트 전면 전환: 의사결정 품질 저하 → 기각, 병행 전략 채택
+
+---
+
+## D-022: Codex/Gemini CLI 통합 v3.3 (2026-02-25)
+
+**문제**:
+1. 외부 CLI(Codex, Gemini) 결과를 Claude가 무비판적 수용 → 오류 전파 위험
+2. 세션당 ~195K 토큰 소모 (대규모 분석 시)
+3. 외부 CLI 역할 불명확 (중복 실행, 비효율)
+
+**결정**: Claude=결정권자, Codex=정밀검증, Gemini=벌크추출 + Verify Barrier 3단계
+- Codex CLI: instructions.md + config.toml 프로필 3종(extract/verify/review) + prompts 3종
+- Gemini CLI: GEMINI.md + 스킬 4종(system/project/state-scanner, news-verifier)
+- 에이전트 3개 재작성: gemini-analyzer(벌크추출), codex-reviewer(정밀검증), ai-synthesizer(adversarial verify)
+- 스킬 3개 신규: /context-scan, /tr-verify, /cross-review
+- Verify Barrier: 구조 검증 → 스팟체크 → 반박 검증
+- _meta 블록: 외부 CLI JSON 출력에 검증용 메타데이터 강제
+- 세션 전환 체인: verify → sync-all → compressor → context-linker
+- meta-orchestrator → Opus 승격
+
+**이유**:
+- 역할 분리: Gemini=벌크(1M 컨텍스트, 넉넉), Codex=정밀(5시간 롤링, 귀한 자원)
+- Verify Barrier: 외부 추출 결과를 Claude(Opus)가 3단계 검증 → 오류 전파 차단
+- 토큰 절약: 세션당 ~170K 토큰(88%) 절감 (컨텍스트 오프로딩)
+- Claude 독립성: 해석은 Claude만, 외부는 사실 추출만
+
+**영향**:
+- Codex/Gemini CLI 설정 파일 구축 (~/.codex/, ~/.gemini/)
+- 에이전트 3개 재작성 + 스킬 3개 신규
+- CLAUDE.md: 추출/검증 체인 + 세션 전환 체인 추가
+- KNOWLEDGE.md: 멀티 AI 오케스트레이션 섹션 추가
+- e2e 테스트 23/23 ALL PASS (에비던스: _history/evidence/v3.3/)
+
+**대안 고려**:
+- 외부 CLI 결과 무조건 신뢰: 오류 전파 위험 → 기각
+- Claude만으로 모든 분석: 토큰 한계 (200K) → 기각
+- MCP 서버로 통합: 유연성 부족 → 기각, CLI 직접 호출이 더 유연
 
 ---
 

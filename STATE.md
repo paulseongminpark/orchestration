@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 마지막 갱신: 2026-02-27 (v3.3.1 Flat Root 폴더 개편)
+> 최종 수정: 2026-02-27 (v3.3.1 Flat Root 폴더 개편)
 
 ## 현재 상태
 

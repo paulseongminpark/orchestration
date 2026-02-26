@@ -1,5 +1,7 @@
 # 에이전트 학습 후보 (pending)
 
+> 최종 수정: 2026-02-27
+
 > compressor가 수집 → sync-all/Opus 검증 → 채택 시 agent.md 반영
 > 직접 agent.md 수정 금지. 이 파일에 append만.
 

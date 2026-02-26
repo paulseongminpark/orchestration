@@ -1,12 +1,13 @@
 # Decisions Log
 
+> 최종 수정: 2026-02-27
+
 > 세션별 중요 결정 사항. compressor가 자동 append.
 > 태그: pf=portfolio, tr=tech-review, ml=monet-lab, orch=orchestration
 > ❌=미반영, ✅=반영완료, 🚫=취소
 
 ## 미반영
 
-2026-02-26 [orchestration] v3.3.1 200K Context 최적화: baseline 축소 + .chain-temp + compact 전략 | orch:❌
 2026-02-25 [orchestration] monet-lab 44개 미커밋 정리 필요 (스크린샷 PNG 산재) | ml:❌
 2026-02-24 [monet-lab] VisualCuesGallery: 전용 컴포넌트, 마크다운 블록 `**[visual-cues-gallery]**` | ml:❌
 2026-02-24 [monet-lab] ActivityGallery: 전용 컴포넌트, CSS grid-area, `**[activity-gallery]**` | ml:❌
@@ -19,6 +20,7 @@
 
 ## 아카이브
 
+2026-02-26 [orchestration] v3.3.1 200K Context 최적화: baseline 축소 + .chain-temp + compact 전략 | orch:✅
 2026-02-25 [orchestration] Opus 가치="발견": 기본 수행 동일, 숨겨진 문제·패턴·리스크 자발적 탐색이 차별점 | orch:✅
 2026-02-25 [orchestration] 모델 정책 e2e 검증 완료: Haiku=수집, Sonnet=분석, Opus=판단·리뷰 최적 | orch:✅
 2026-02-25 [orchestration] compressor 타임스탬프: date +%H:%M 필수, LLM 추정 금지 | orch:✅

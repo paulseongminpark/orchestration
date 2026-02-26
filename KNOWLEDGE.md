@@ -1,5 +1,7 @@
 # KNOWLEDGE — Best Practices
 
+> 최종 수정: 2026-02-27
+
 프로젝트 규칙, 패턴, 모범 사례. 에이전트/스킬/팀 목록은 **STATE.md** 참조.
 
 ---
@@ -10,18 +12,32 @@
 - 커밋: `[project] 한줄 설명` + `Co-Authored-By:`
 - 금지: `git push --force`, `git clean -f`, `git reset --hard`, `--no-verify`
 
-## 파일 구조
+## 파일 구조 (Flat Root, v3.3.1)
 
 ```
-context/
-├── STATE.md         # 지금 상태 (SoT: 시스템 인벤토리)
-├── PLANNING.md      # 아키텍처 결정 (ADR)
-├── KNOWLEDGE.md     # 모범 사례 (이 파일)
-├── decisions.md     # 결정 추적 (❌/✅)
-├── live-context.md  # 세션 간 공유 (hook 자동, 100줄 캡)
-├── METRICS.md       # 세션별 완료/결정 수
-├── .chain-temp/     # 체인 중간 결과 오프로딩 (메인 context 보호)
-└── logs/            # 시간순 상세 (읽기 금지, append만)
+orchestration/
+├── *.md (12개)       # Living Docs — 루트에서 바로 접근
+│   ├── STATE.md      # 시스템 인벤토리 SoT
+│   ├── CHANGELOG.md  # 버전 이력
+│   ├── KNOWLEDGE.md  # 규칙, 패턴 (이 파일)
+│   ├── PLANNING.md   # ADR (설계 결정)
+│   ├── REFERENCE.md  # 종합 가이드
+│   ├── ROADMAP.md    # 개발 계획
+│   ├── METRICS.md    # 시스템 지표
+│   ├── TODO.md       # 작업 관리
+│   ├── decisions.md  # 결정 추적 (❌/✅)
+│   ├── session-summary.md  # 세션 요약
+│   └── pending.md    # 미반영 결정
+├── _history/         # 시간순 기록 (읽기 전용)
+│   ├── logs/         # 세션 로그
+│   ├── plans/        # 설계 문서
+│   ├── evidence/     # 버전별 검증 기록
+│   └── archive/      # 아카이브
+├── _prompts/         # 외부 AI 프롬프트
+├── _auto/            # 자동 관리 (에이전트 전용)
+│   ├── live-context.md   # 세션 간 공유 (100줄 캡)
+│   └── .chain-temp/      # 체인 중간 결과 오프로딩
+└── scripts/          # 훅 스크립트
 ```
 
 ## 토큰 관리 (200K Context, v3.3.1)
@@ -111,5 +127,5 @@ meta-orchestrator (디스패치 허브, /dispatch)
 ## 참고
 
 - [PLANNING.md](./PLANNING.md): 아키텍처 결정
-- [STATE.md](../STATE.md): 현재 상태 + 시스템 인벤토리
+- [STATE.md](./STATE.md): 현재 상태 + 시스템 인벤토리
 - [CLAUDE.md](../../CLAUDE.md): 전역 규칙 + 체인

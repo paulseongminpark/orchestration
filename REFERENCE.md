@@ -1,6 +1,6 @@
-# Orchestration v3.3 — Reference
+# Orchestration v3.3.1 — Reference
 
-> SYSTEM-GUIDE + USER-GUIDE 통합. 마지막 갱신: 2026-02-25
+> 최종 수정: 2026-02-27
 
 ---
 
@@ -97,6 +97,18 @@ context-linker    → 크로스세션 맥락 기록
 | /tr-verify | tech-review 콘텐츠 QA | 포스트 생성 후 |
 | /cross-review | 외부 모델 병렬 코드 리뷰 | 대규모 변경 시 |
 
+### 200K Context 운영 (v3.3.1)
+
+| 임계값 | 조치 |
+|--------|------|
+| ~42K | baseline (고정) |
+| 100K | compact 권장 |
+| 120K | compact 필수 |
+| 150K | auto-compact (최후 방어선) |
+
+- **.chain-temp/**: 에이전트 체인 결과 파일 오프로딩 → 메인 context에 1줄 요약만
+- compact 전 스냅샷 → compact 후 자동 Read → 맥락 보존
+
 ---
 
 ## 5. 에이전트 체인 (SoT: CLAUDE.md)
@@ -127,12 +139,12 @@ verify → sync-all → compressor → context-linker → "새 세션 준비 완
 
 ### 디스패치 체인
 ```
-/dispatch → context-linker(Haiku) → meta-orchestrator(Sonnet) → 팀 활성화
+/dispatch → context-linker(Haiku) → meta-orchestrator(Opus) → 팀 활성화
 ```
 
 ### 압축 체인
 ```
-compressor 7단계 → orch-doc-writer(조건부) → doc-syncer
+compressor 9단계 → orch-doc-writer(항상) → doc-syncer
 ```
 
 ---

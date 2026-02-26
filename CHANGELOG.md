@@ -1,5 +1,7 @@
 # Orchestration System Changelog
 
+> 최종 수정: 2026-02-27
+
 ---
 
 ## v3.3.1 — 200K Context 최적화 + Flat Root (2026-02-26~27)
