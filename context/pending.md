@@ -7,6 +7,8 @@
 [패턴후보][code-reviewer] API 응답이 HTTP 200이지만 거부 메시지인 경우 폴백 미작동 버그 패턴. 거부 패턴 검사를 API 호출 직후 (폴백 분기 내)에서 수행해야 함.
 [패턴후보][gemini-analyzer] Gemini CLI 스킬에서 ~/ 경로 사용 금지. Gemini가 프로젝트 로컬 .claude/ 디렉토리를 우선 읽어 경로 오작동 발생. 절대 경로 /c/Users/pauls/ 필수.
 [패턴후보][compressor] 타임스탬프 LLM 추정 금지. 반드시 `date +%H:%M` 명령 실행 후 실제 시간 사용. 추정 시 수십 분 오차 발생.
+[패턴후보][compressor] 구현 완료 ≠ DONE. 반드시 Living Docs → 옵시디언 → 커밋 → push → compressor 체크리스트 통과 후 DONE 선언. 중간 단계 생략 시 다음 세션에서 불일치 발생.
+[패턴후보][code-reviewer] .chain-temp 오프로딩 패턴: 체인에서 에이전트 간 공유 메모리가 필요할 때 context에 직접 포함 대신 파일(context/.chain-temp/agent-name.md)로 전달. 메인 컨텍스트 절감 효과.
 
 ---
 

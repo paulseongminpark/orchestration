@@ -27,6 +27,7 @@
 | 2026-02-25 | (직접 구현+테스트) | orchestration v3.3 전체 구현 (Phase 1~6, 23 tasks) + e2e PASS | 5 | Codex/Gemini CLI 설정 완성, 에이전트 3개 재작성, 스킬 3개 신규, 23/23 ALL PASS |
 | 2026-02-25 | (직접 구현+문서화) | v3.3 에비던스 문서 2건 + HOME.md/REFERENCE.md 업데이트 + compressor 버그 수정 | 5 | diagram.md + members-skills.md, meta-orchestrator Opus 승격, 타임스탬프 규칙 확정 |
 | 2026-02-25 | (직접 설계+실행) | v3.3 전체 e2e 테스트: 12시나리오 + 1차/2차 + 비교 분석 + 버그 3건 수정 | 5 | FAIL 0, WARN 3, Opus 추가 발견 +15건. meta-orchestrator/Codex/PreToolUse 실제 버그 발견 |
+| 2026-02-26 | (직접 구현) | v3.3.1 200K Context 최적화: baseline 축소 + .chain-temp 오프로딩 + compact 전략 + hook | 5 | ~3.7K baseline 절감, ~6.5K 플러그인 절감, .chain-temp 패턴 신설, compact 3단계 임계값 확정 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -81,6 +82,7 @@
 | 2026-02-25 | orchestration v3.3 Codex/Gemini 통합 설계 (설계문서+구현플랜 작성+커밋) | ~2h | - |
 | 2026-02-25 | orchestration v3.3 전체 구현 + 리뷰 반영 + 미흡 해결 + e2e 23/23 PASS | ~4h | Gemini 경로 문제 디버깅 |
 | 2026-02-25 | v3.3 에비던스 문서 + HOME.md/REFERENCE.md + compressor 버그 수정 + 문서화 | ~2h | - |
+| 2026-02-26 | v3.3.1 200K Context 최적화 전체 (Phase A~D + 리뷰 반영 + 커밋 5건) | ~3h | 여러 파일 간 일관성 유지 |
 
 ---
 
@@ -104,3 +106,4 @@
 | 2026-02-25 | 23개 (v3.3 전체 구현 + Opus 리뷰 반영 + 미흡 해결 + e2e 23/23 PASS) | orchestration | 3개 |
 | 2026-02-25 | 11개 (에비던스 문서 2건 + HOME.md/REFERENCE.md + compressor 버그 수정 + 타임스탬프 규칙) | orchestration | 3개 |
 | 2026-02-25 | 7개 (v3.3 e2e 12시나리오 설계 + 1차·2차 실행 + 비교 분석 + 버그 3건 수정 + 에비던스 기록) | orchestration | 3개 |
+| 2026-02-26 | 26개 (v3.3.1 200K 최적화 Phase A~D + 플러그인 비활성화 + hook + statusline + 리뷰 반영) | orchestration/dev | 6개 |
