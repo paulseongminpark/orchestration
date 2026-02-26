@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 마지막 갱신: 2026-02-26 (v3.3.1 200K Context 최적화)
+> 마지막 갱신: 2026-02-27 (v3.3.1 Flat Root 폴더 개편)
 
 ## 현재 상태
 
@@ -41,6 +41,11 @@
   - PreCompact 스냅샷 hook + PostCompact 자동 Read hook
   - Playwright/document-skills 플러그인 비활성화 (~6.5K 토큰 절감)
   - statusline.py 세션 목표 🎯 표시
+- **Flat Root 폴더 개편** (2026-02-27)
+  - Living Docs 12개 루트로 이동 (context/, docs/, config/docs/ → root)
+  - _history/ (logs, plans, evidence, archive), _prompts/ (claude/gemini/gpt/perplexity), _auto/ (live-context, .chain-temp)
+  - 에이전트 10개 + 훅 3개 + 스킬 3개 + 스크립트 1개 경로 갱신
+  - context/, docs/, config/, logs/ 폴더 삭제
 - **다음**: portfolio 모바일 반응형 + Tech Review 설계 섹션 + monet-lab 미커밋 정리
 
 ### monet-lab
@@ -102,7 +107,7 @@
 - SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + 스냅샷 알림)
 - SessionEnd: 미커밋 현황 + MEMORY.md 경고
 - PreToolUse: 위험 명령 차단
-- PostToolUse: context/*.md 감지 + live-context.md auto-append + auto-trim
+- PostToolUse: *.md 감지 + _auto/live-context.md auto-append + auto-trim
 - PreCompact: pre-compact.sh (스냅샷 생성 + 미커밋 경고)
 - PostCompact: 스냅샷 자동 Read 안내
 - TeammateIdle: 팀원 유휴 알림

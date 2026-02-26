@@ -2,6 +2,19 @@
 
 ---
 
+## v3.3.1 — 200K Context 최적화 + Flat Root (2026-02-26~27)
+
+### Flat Root 폴더 개편 (2026-02-27)
+- Living Docs 12개 루트로 이동: STATE, CHANGELOG, KNOWLEDGE, PLANNING, REFERENCE, ROADMAP, METRICS, TODO, decisions, session-summary, pending, README
+- `_history/` 신설: logs(9), plans(15), evidence(v3.2/v3.3/v3.3.1), archive(docs/context/config)
+- `_prompts/` 신설: claude, gemini, gpt, perplexity 외부 AI 프롬프트 통합
+- `_auto/` 신설: live-context.md, .chain-temp/ 자동 관리 파일
+- context/, docs/, config/, logs/ 폴더 삭제
+- Phase 2: 에이전트 10개, 훅 3개, 스킬 3개, 스크립트 1개 경로 갱신
+- MEMORY.md, README.md 갱신
+
+---
+
 ## v3.3.1 — 200K Context 최적화 (2026-02-26)
 
 ### 추가
