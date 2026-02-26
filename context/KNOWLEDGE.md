@@ -20,14 +20,41 @@ context/
 ├── decisions.md     # 결정 추적 (❌/✅)
 ├── live-context.md  # 세션 간 공유 (hook 자동, 100줄 캡)
 ├── METRICS.md       # 세션별 완료/결정 수
+├── .chain-temp/     # 체인 중간 결과 오프로딩 (메인 context 보호)
 └── logs/            # 시간순 상세 (읽기 금지, append만)
 ```
 
-## 토큰 관리
+## 토큰 관리 (200K Context, v3.3.1)
 
-- 1세션=1목표, 150K+ → /compact
+- 1세션=1목표
+- **100K → compact 권장, 120K → compact 필수** (150K auto-compact은 최후 방어선)
+- compact 요약: 200자 이내, 파일명+결정 위주, 대화 반복 금지
+- compact 전 스냅샷 → compact 후 자동 Read → 맥락 보존
 - 읽기 금지: node_modules/, .git/, dist/, build/, logs/
 - 서브에이전트: Haiku(요약) / Sonnet(분석) / Opus(설계)
+
+## .chain-temp 패턴 (v3.3.1)
+
+체인 에이전트 결과를 파일로 오프로딩, 메인 context에 1줄 요약만 반환:
+- `code-reviewer` → `.chain-temp/review-{date}.md`, 메인에 "3 RED, 2 YELLOW"
+- `gemini-analyzer` → `.chain-temp/gemini-{date}.txt`, 메인에 "추출 N건"
+- `codex-reviewer` → `.chain-temp/codex-{date}.txt`, 메인에 요약 1줄
+- `ai-synthesizer` → `.chain-temp/synthesis-{date}.md`, 메인에 GO/NO-GO
+- `compressor` → `.chain-temp/docs-{date}.md` (orch-doc-writer 결과)
+- 다음 체인 에이전트는 `.chain-temp/` 파일을 직접 Read
+
+## 200K 세션 운영 (v3.3.1)
+
+```
+200K 세션 예산
+├── Baseline:        ~42K (고정)
+├── 작업 Phase:     42K → 100K (~20-30 턴)
+├── Compact 후:     ~50K → 100K까지 추가 작업
+├── 체인 예약:      ~25K (.chain-temp 사용)
+└── Auto-compact:   150K (최후 방어선)
+```
+
+체인 전 확인: 현재 context + 25K < 120K
 
 ## 리좀형 팀 구조 (v3.2)
 
@@ -48,7 +75,7 @@ meta-orchestrator (디스패치 허브, /dispatch)
 - **배포**: pf-deployer → security-auditor → 사용자 확인 → push
 - **추출/검증 (v3.3)**: Gemini 추출(벌크) + Codex 추출(정밀) → Claude verify barrier(3단계) → 사용
 - **디스패치**: /dispatch → context-linker → meta-orchestrator → 팀 활성화
-- **압축**: compressor 7단계 → orch-doc-writer(조건부) → doc-syncer
+- **압축**: compressor 9단계 → orch-doc-writer(항상) → doc-syncer
 - **세션 전환 (v3.3)**: verify → sync-all → compressor → context-linker → "새 세션 준비 완료"
 
 ## 에이전트 표준 구조
@@ -62,16 +89,18 @@ meta-orchestrator (디스패치 허브, /dispatch)
 
 | Hook | 트리거 | 역할 |
 |------|--------|------|
-| SessionStart | 세션 시작 | 오늘 LOG + 미커밋 + 미반영 결정 + live-context 최근 10줄 |
+| SessionStart | 세션 시작 | 미커밋 + ❌ 결정(5건) + live-context(5줄) |
 | PostToolUse | Write/Edit | live-context.md auto-append + auto-trim (100줄 캡) |
 | PreToolUse | Bash | 위험 명령 차단 (rm -rf, force push) |
+| PreCompact | compact 전 | 스냅샷 생성 + 미커밋 경고 |
+| PostCompact | compact 후 | 스냅샷 자동 Read 안내 |
 | SessionEnd | 세션 종료 | 미커밋 현황 + MEMORY.md 줄 수 경고 |
 
 ## 멀티 AI 오케스트레이션 (v3.3)
 
 - **Claude Code (Opus 4.6)**: 유일한 설계/결정권자 + 코드 작성 + 최종 판단 (verify barrier)
 - **Codex CLI (GPT-5.3, Plus $20)**: 정밀 검증기. diff 리뷰 + 포맷 QA + git 추출. 5시간 롤링, 세션당 3~5회.
-- **Gemini CLI (3.1 Pro, AI Pro $20)**: 벌크 추출기. 컨텍스트 오프로딩(system/project/state-scanner) + 웹 검색(news-verifier). 1M 컨텍스트.
+- **Gemini CLI (3.1 Pro, AI Pro $20)**: 벌크 추출기. 컨텍스트 오프로딩 + 웹 검색. 1M 컨텍스트.
 - **Perplexity Pro**: 리서치 + tech-review 소스 (sonar-deep-research)
 
 ## 권한
