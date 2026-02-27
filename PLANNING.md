@@ -6,6 +6,52 @@
 
 ---
 
+## D-024: Context as Currency v4.0 (2026-02-27)
+
+**문제**:
+1. 에이전트 24개 → 세션 baseline 과다 (에이전트 정의 로딩)
+2. 스킬 14개 중 사용 빈도 낮은 스킬이 토큰 점유
+3. Claude/Codex/Gemini CLI 간 컨텍스트 공유 수단 없음
+4. rulesync 없이 규칙 동기화 수동 (CLAUDE.md ↔ GEMINI.md ↔ AGENTS.md)
+5. 병렬 작업 시 격리 환경(worktree) 부재
+
+**결정**: 에이전트 통합 + 스킬 축소 + Cross-CLI 인프라 + worktree
+- Phase 1: 에이전트 24→15 (삭제 4 + 병합 10→5 + memory:user 3개)
+  - 삭제: morning-briefer, inbox-processor, tr-monitor, tr-updater (→ daily-ops, tr-ops로 병합)
+  - 병합: project-linker+context-linker→linker, pf-reviewer+pf-deployer→pf-ops, doc-syncer+orch-doc-writer→doc-ops
+  - memory:user 전환: content-writer, orch-skill-builder, ml-experimenter
+- Phase 2: 스킬 14→9 (삭제 9, 신규 4: /status, /handoff, /session-insights, /context-scan→disable)
+  - AUTOCOMPACT 50%, disable-model-invocation
+- Phase 3: rulesync v7.9.0 도입 (.rulesync/ SoT → CLAUDE.md/GEMINI.md/AGENTS.md 자동 생성)
+- Phase 4: Codex CLI 세팅 (config.toml 프로필 4종: review/implement/extract/verify + 스킬 5종 + worktree 템플릿)
+- Phase 5: Gemini CLI 세팅 (settings.json + bulk-extract + Conductor)
+- Phase 6: .ctx/ Cross-CLI 공유 메모리 (shared-context.md + provenance.log + hooks)
+- Phase 7: Worktree 인프라 (create/cleanup 스크립트 + /handoff 스킬)
+- Phase 8: Living Docs 전체 갱신 + 최종 검증
+
+**이유**:
+- 에이전트 통합: 유사 기능 에이전트 병합 → baseline 토큰 절감 + 관리 복잡도 감소
+- 스킬 축소: 저빈도 스킬 제거 → 로딩 토큰 절감
+- rulesync: 규칙 SoT 1곳 관리 → 멀티 CLI 규칙 불일치 제거
+- .ctx/: CLI 간 작업 위임 시 컨텍스트 유실 방지
+- worktree: 병렬 CLI 작업 시 git 충돌 방지
+
+**영향**:
+- 에이전트 24→15, 스킬 14→9, 팀 구조 유지 (4+허브)
+- .rulesync/ 디렉토리 신설 (rules/ SoT)
+- .ctx/ 디렉토리 신설 (shared-context.md, provenance.log)
+- scripts/ 2개 신설 (worktree-create.sh, worktree-cleanup.sh)
+- Codex config.toml 프로필 3→4종 (implement 추가)
+- /handoff 스킬 신규 (CLI 간 위임)
+- Living Docs 12개 전체 갱신
+
+**대안 고려**:
+- 에이전트 수 유지 + 지연 로딩만: baseline 절감 불충분 → 기각
+- MCP 서버로 CLI 통합: 유연성 부족, 설정 복잡 → 기각
+- 단일 CLI(Claude만): Gemini 1M/Codex 정밀검증 못 씀 → 기각
+
+---
+
 ## D-023: 200K Context 최적화 v3.3.1 (2026-02-26)
 
 **문제**:

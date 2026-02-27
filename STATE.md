@@ -38,7 +38,7 @@
   - decisions.md 정리 (중복 제거, ✅→아카이브)
   - session-start.sh 축소 (❌만 5건, live-context 5줄)
   - 에이전트 4개 .chain-temp 오프로딩 (code-reviewer, gemini-analyzer, codex-reviewer, ai-synthesizer)
-  - PreCompact 스냅샷 hook + PostCompact 자동 Read hook
+  - PreCompact 스냅샷 hook
   - Playwright/document-skills 플러그인 비활성화 (~6.5K 토큰 절감)
   - statusline.py 세션 목표 🎯 표시
 - **Flat Root 폴더 개편** (2026-02-27)
@@ -130,9 +130,9 @@
 - PreToolUse: 위험 명령 차단
 - PostToolUse: *.md 감지 + _auto/live-context.md auto-append + auto-trim
 - PreCompact: pre-compact.sh (스냅샷 생성 + 미커밋 경고)
-- PostCompact: 스냅샷 자동 Read 안내
 - TeammateIdle: 팀원 유휴 알림
 - TaskCompleted: 태스크 완료 알림 + .ctx/shared-context.md 자동 갱신 + provenance.log 기록
+- Notification: 시스템 알림
 
 ### Cross-CLI 인프라 (v4.0)
 - **.ctx/**: Cross-CLI 공유 메모리 (gitignored, 로컬 상태)

@@ -56,7 +56,7 @@ orchestration/
 - `gemini-analyzer` → `.chain-temp/gemini-{date}.txt`, 메인에 "추출 N건"
 - `codex-reviewer` → `.chain-temp/codex-{date}.txt`, 메인에 요약 1줄
 - `ai-synthesizer` → `.chain-temp/synthesis-{date}.md`, 메인에 GO/NO-GO
-- `compressor` → `.chain-temp/docs-{date}.md` (orch-doc-writer 결과)
+- `compressor` → `.chain-temp/docs-{date}.md` (doc-ops 결과)
 - 다음 체인 에이전트는 `.chain-temp/` 파일을 직접 Read
 
 ## 200K 세션 운영 (v3.3.1)
@@ -109,8 +109,8 @@ meta-orchestrator (디스패치 허브, /dispatch)
 | PostToolUse | Write/Edit | live-context.md auto-append + auto-trim (100줄 캡) |
 | PreToolUse | Bash | 위험 명령 차단 (rm -rf, force push) |
 | PreCompact | compact 전 | 스냅샷 생성 + 미커밋 경고 |
-| PostCompact | compact 후 | 스냅샷 자동 Read 안내 |
 | SessionEnd | 세션 종료 | 미커밋 현황 + MEMORY.md 줄 수 경고 |
+| Notification | 알림 | 시스템 알림 |
 | TaskCompleted | 태스크 완료 | 알림 + .ctx/shared-context.md 자동 갱신 |
 | TeammateIdle | 팀원 유휴 | 유휴 알림 |
 
@@ -122,7 +122,7 @@ meta-orchestrator (디스패치 허브, /dispatch)
 - **TaskCompleted hook**: 태스크 완료 시 자동 갱신
 - **/handoff 스킬**: CLI 간 작업 위임 → shared-context.md 갱신 + 실행 안내
 
-## 멀티 AI 오케스트레이션 (v3.3)
+## 멀티 AI 오케스트레이션 (v4.0)
 
 - **Claude Code (Opus 4.6)**: 유일한 설계/결정권자 + 코드 작성 + 최종 판단 (verify barrier)
 - **Codex CLI (GPT-5.3, Plus $20)**: 정밀 검증기. diff 리뷰 + 포맷 QA + git 추출. 5시간 롤링, 세션당 3~5회.

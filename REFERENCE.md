@@ -41,7 +41,7 @@ C:\dev\                          ← 볼트 허브 (dev-vault, git: main)
 
 ### 작업 중
 ```
-(구현)            → code-reviewer → commit-writer → project-linker
+(구현)            → code-reviewer → commit-writer → linker
 /dispatch         → 방향 전환 시 재호출 가능
 ```
 
@@ -118,11 +118,11 @@ implement → code-reviewer(Opus) → commit-writer(Haiku) → linker(Haiku)
 pf-ops(deploy) → security-auditor → 사용자 확인 → push
 ```
 
-### 추출/검증 체인 (v3.3)
+### 추출/검증 체인
 ```
 Gemini 추출(벌크) + Codex 추출(정밀) → Claude verify barrier(3단계) → 사용
 - Gemini: -m gemini-3.1-pro-preview --output-format json --yolo
-- Codex: -p [extract|verify|review] --ephemeral --dangerously-bypass-approvals-and-sandbox
+- Codex: codex exec -p [extract|verify|review|implement]
 - 외부 CLI 출력 → 반드시 _meta 블록 검증 후 사용
 ```
 

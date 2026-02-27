@@ -20,6 +20,7 @@
 
 ## 아카이브
 
+2026-02-27 [orchestration] v4.0 Context as Currency: 에이전트 24→15 통합, 스킬 14→9, rulesync, .ctx/ Cross-CLI, worktree 인프라 | orch:✅
 2026-02-26 [orchestration] v3.3.1 200K Context 최적화: baseline 축소 + .chain-temp + compact 전략 | orch:✅
 2026-02-25 [orchestration] Opus 가치="발견": 기본 수행 동일, 숨겨진 문제·패턴·리스크 자발적 탐색이 차별점 | orch:✅
 2026-02-25 [orchestration] 모델 정책 e2e 검증 완료: Haiku=수집, Sonnet=분석, Opus=판단·리뷰 최적 | orch:✅
