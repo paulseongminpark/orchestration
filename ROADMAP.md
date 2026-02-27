@@ -88,6 +88,17 @@
 - [x] Flat Root 폴더 개편: Living Docs 12개 루트 이동, _history/_prompts/_auto/ 신설
 - [x] 에이전트 10개 + 훅 3개 + 스킬 3개 + 스크립트 1개 경로 갱신
 
+## v4.0 ✅ (2026-02-27)
+**Context as Currency — 토큰 효율 극대화 + 멀티 CLI 인프라**
+- [x] Phase 1: 에이전트 24→15 통합 (삭제 4 + 병합 10→5 + memory:user 3개)
+- [x] Phase 2: 스킬 14→9 (삭제 9 + disable-model-invocation, AUTOCOMPACT 50%)
+- [x] Phase 3: rulesync v7.9.0 도입 (.rulesync/ SoT → CLAUDE.md/GEMINI.md/AGENTS.md)
+- [x] Phase 4: Codex CLI 세팅 (instructions.md + config.toml + 스킬 5종 + worktree 템플릿)
+- [x] Phase 5: Gemini CLI 세팅 (settings.json + bulk-extract + Conductor)
+- [x] Phase 6: .ctx/ Cross-CLI 공유 메모리 (shared-context.md + provenance.log + hooks)
+- [x] Phase 7: Worktree 인프라 (create/cleanup 스크립트 + /handoff 스킬)
+- [x] Phase 8: Living Docs 갱신 + 최종 검증
+
 ## 다음 (미정)
 - [ ] portfolio 모바일 반응형 (768px 이하)
 - [ ] monet-lab 44개 미커밋 정리 (스크린샷 PNG)

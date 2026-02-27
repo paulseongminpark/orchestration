@@ -72,27 +72,27 @@ orchestration/
 
 체인 전 확인: 현재 context + 25K < 120K
 
-## 리좀형 팀 구조 (v3.2)
+## 리좀형 팀 구조 (v4.0)
 
 ```
 meta-orchestrator (디스패치 허브, /dispatch)
-    ├── ops: 일상 운영 (morning-briefer 리드)
+    ├── ops: 일상 운영 (daily-ops 리드)
     ├── build: 구현/배포 (code-reviewer 리드)
     ├── analyze: 분석/검증 (ai-synthesizer 리드)
     └── maintain: 문서/시스템 (compressor 리드)
 
-리좀 연결자: context-linker ◆── live-context.md ──◆ project-linker
-크로스팀 유틸리티: commit-writer, orch-state, project-context, content-writer
+리좀 연결자: linker ◆── live-context.md + .ctx/shared-context.md
+크로스팀 유틸리티: commit-writer, orch-state, project-context
 ```
 
 ## 에이전트 체인 (SoT: CLAUDE.md)
 
-- **구현**: implement → code-reviewer → commit-writer → project-linker → living docs
-- **배포**: pf-deployer → security-auditor → 사용자 확인 → push
-- **추출/검증 (v3.3)**: Gemini 추출(벌크) + Codex 추출(정밀) → Claude verify barrier(3단계) → 사용
-- **디스패치**: /dispatch → context-linker → meta-orchestrator → 팀 활성화
-- **압축**: compressor 9단계 → orch-doc-writer(항상) → doc-syncer
-- **세션 전환 (v3.3)**: verify → sync-all → compressor → context-linker → "새 세션 준비 완료"
+- **구현**: implement → code-reviewer → commit-writer → linker → living docs
+- **배포**: pf-ops(deploy) → security-auditor → 사용자 확인 → push
+- **추출/검증**: Gemini 추출(벌크) + Codex 추출(정밀) → ai-synthesizer verify barrier(3단계) → 사용
+- **디스패치**: /dispatch → linker(자동) → meta-orchestrator → 팀 활성화
+- **압축**: compressor 9단계 → doc-ops(항상) → doc-ops verify
+- **세션 전환**: verify → /sync all → /compact → linker → "새 세션 준비 완료"
 
 ## 에이전트 표준 구조
 
@@ -105,12 +105,22 @@ meta-orchestrator (디스패치 허브, /dispatch)
 
 | Hook | 트리거 | 역할 |
 |------|--------|------|
-| SessionStart | 세션 시작 | 미커밋 + ❌ 결정(5건) + live-context(5줄) |
+| SessionStart | 세션 시작 | 미커밋 + ❌결정(5건) + live-context(5줄) + .ctx/ 공유 상태 + 스냅샷 |
 | PostToolUse | Write/Edit | live-context.md auto-append + auto-trim (100줄 캡) |
 | PreToolUse | Bash | 위험 명령 차단 (rm -rf, force push) |
 | PreCompact | compact 전 | 스냅샷 생성 + 미커밋 경고 |
 | PostCompact | compact 후 | 스냅샷 자동 Read 안내 |
 | SessionEnd | 세션 종료 | 미커밋 현황 + MEMORY.md 줄 수 경고 |
+| TaskCompleted | 태스크 완료 | 알림 + .ctx/shared-context.md 자동 갱신 |
+| TeammateIdle | 팀원 유휴 | 유휴 알림 |
+
+## Cross-CLI 공유 메모리 (v4.0)
+
+- **.ctx/shared-context.md**: 모든 CLI(Claude/Gemini/Codex)가 읽고 쓰는 공유 상태
+- **.ctx/provenance.log**: 출처 마커 ([claude], [gemini], [codex])로 기록 추적
+- **SessionStart hook**: 세션 시작 시 .ctx/shared-context.md 자동 표시
+- **TaskCompleted hook**: 태스크 완료 시 자동 갱신
+- **/handoff 스킬**: CLI 간 작업 위임 → shared-context.md 갱신 + 실행 안내
 
 ## 멀티 AI 오케스트레이션 (v3.3)
 

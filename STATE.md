@@ -1,10 +1,10 @@
 # Orchestration STATE
 
-> 최종 수정: 2026-02-27 (v4.0 Phase 1-5)
+> 최종 수정: 2026-02-27 (v4.0 완료)
 
 ## 현재 상태
 
-**시스템 버전**: v4.0 (Phase 1-5 완료)
+**시스템 버전**: v4.0 (완료)
 **활성 프로젝트**: tech-review, portfolio, orchestration, monet-lab
 
 ## 진행 중
@@ -46,15 +46,18 @@
   - _history/ (logs, plans, evidence, archive), _prompts/ (claude/gemini/gpt/perplexity), _auto/ (live-context, .chain-temp)
   - 에이전트 10개 + 훅 3개 + 스킬 3개 + 스크립트 1개 경로 갱신
   - context/, docs/, config/, logs/ 폴더 삭제
-- **v4.0 Context as Currency** (2026-02-27, Phase 1-5)
+- **v4.0 Context as Currency** (2026-02-27, 완료)
   - Phase 1: 에이전트 24→15 통합 (삭제 4 + 병합 10→5 + 유지 10 + memory:user 3개)
   - Phase 2: 스킬 14→9 (삭제 9 + disable-model-invocation 전체 적용)
   - CLAUDE.md 경량화 74→38줄, AUTOCOMPACT 50% 설정
   - Phase 3: rulesync v7.9.0 도입 — .rulesync/ SoT에서 CLAUDE.md/GEMINI.md/AGENTS.md 자동 생성
   - Phase 4: Codex CLI — instructions.md 안전규칙, config.toml implement 프로필, 스킬 5종, worktree 템플릿
   - Phase 5: Gemini CLI — settings.json(enableAgents/modelRouting/tokenBudget), bulk-extract 스킬, Conductor 구조
+  - Phase 6: .ctx/ Cross-CLI 공유 메모리 — shared-context.md, provenance.log, SessionStart/TaskCompleted hook 연동
+  - Phase 7: Worktree 인프라 — worktree-create.sh, worktree-cleanup.sh, /handoff 스킬
+  - Phase 8: Living Docs 갱신 + 최종 검증
   - 설계 문서: _history/plans/2026-02-27-v4.0-context-as-currency-design.md
-- **다음**: v4.0 Phase 6~8 (메모리 .ctx/, worktree, Living Docs + 테스트)
+- **다음**: e2e 테스트 재실행, portfolio 모바일 반응형
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
@@ -122,14 +125,23 @@
   - -m gemini-3.1-pro-preview 필수
 
 ### Hooks (8종)
-- SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + 스냅샷 알림)
+- SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + .ctx/ 공유 상태 + 스냅샷 알림)
 - SessionEnd: 미커밋 현황 + MEMORY.md 경고
 - PreToolUse: 위험 명령 차단
 - PostToolUse: *.md 감지 + _auto/live-context.md auto-append + auto-trim
 - PreCompact: pre-compact.sh (스냅샷 생성 + 미커밋 경고)
 - PostCompact: 스냅샷 자동 Read 안내
 - TeammateIdle: 팀원 유휴 알림
-- TaskCompleted: 태스크 완료 알림
+- TaskCompleted: 태스크 완료 알림 + .ctx/shared-context.md 자동 갱신 + provenance.log 기록
+
+### Cross-CLI 인프라 (v4.0)
+- **.ctx/**: Cross-CLI 공유 메모리 (gitignored, 로컬 상태)
+  - shared-context.md: 현재 목표/진행 중/최근 완료 (모든 CLI 공유)
+  - provenance.log: 출처 추적 ([claude]/[gemini]/[codex] 마커)
+  - gemini/, codex/: CLI별 결과 디렉토리
+- **Worktree**: /c/dev/scripts/worktree-create.sh, worktree-cleanup.sh
+  - 경로: /c/dev/01_projects/.worktrees/{cli}-{task}
+- **Conductor**: /c/dev/conductor/ (context.md + tracks/) — Gemini 태스크 관리
 
 ### Plugins (4개 활성)
 - superpowers, context7, vercel, frontend-design

@@ -4,7 +4,24 @@
 
 ---
 
-## v4.0 — Context as Currency (2026-02-27, Phase 1-5)
+## v4.0 — Context as Currency (2026-02-27, 완료)
+
+### Phase 8: Living Docs + 최종 검증
+- STATE.md, CHANGELOG.md, KNOWLEDGE.md, REFERENCE.md, ROADMAP.md, HOME.md 일괄 v4.0 갱신
+- 팀 구조/에이전트 이름/hooks/skills 전체 반영
+
+### Phase 7: Worktree 인프라
+- **worktree-create.sh**: 프로젝트/CLI/태스크 → /c/dev/01_projects/.worktrees/{cli}-{task} 생성
+- **worktree-cleanup.sh**: 활성 worktree 나열/제거
+- **/handoff** 스킬 신규: 다른 CLI에게 작업 위임 (.ctx/shared-context.md 갱신 + 실행 안내)
+
+### Phase 6: .ctx/ Cross-CLI 공유 메모리
+- **shared-context.md**: 모든 CLI 공유 상태 (현재 목표/진행 중/최근 완료)
+- **provenance.log**: 출처 추적 ([claude]/[gemini]/[codex] 마커)
+- **CLI별 결과 디렉토리**: .ctx/gemini/, .ctx/codex/
+- **SessionStart hook 강화**: .ctx/shared-context.md 자동 읽기 (목표/진행 중/최근 완료)
+- **TaskCompleted hook 강화**: 태스크 완료 시 shared-context.md + provenance.log 자동 갱신
+- `.gitignore`에 `.ctx/` 추가 (로컬 상태)
 
 ### Phase 5: Gemini CLI 세팅
 - **settings.json** 갱신: enableAgents, modelRouting(Pro↔Flash 자동), tokenBudget(셸 2000토큰), security(API키 차단)

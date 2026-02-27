@@ -1,4 +1,4 @@
-# Orchestration v3.3.1 — Reference
+# Orchestration v4.0 — Reference
 
 > 최종 수정: 2026-02-27
 
@@ -45,18 +45,18 @@ C:\dev\                          ← 볼트 허브 (dev-vault, git: main)
 /dispatch         → 방향 전환 시 재호출 가능
 ```
 
-### 마무리 (세션 전환 체인 v3.3)
+### 마무리 (세션 전환 체인)
 ```
 /verify           → 규칙 검증
-/sync-all         → 전체 프로젝트 동기화
-/compressor       → 세션 압축 (9단계)
-context-linker    → 크로스세션 맥락 기록
+/sync all         → 전체 프로젝트 동기화
+/compact          → 세션 압축 (9단계)
+linker            → 크로스세션 맥락 기록
 → 완료 후에만 /clear 허용
 ```
 
 ---
 
-## 3. 리좀형 팀 구조
+## 3. 리좀형 팀 구조 (v4.0)
 
 ```
            meta-orchestrator (디스패치 허브, /dispatch)
@@ -65,16 +65,16 @@ context-linker    → 크로스세션 맥락 기록
            └───┬───┘
             maintain
 
-리좀 연결자: context-linker ◆── live-context.md ──◆ project-linker
-크로스팀: commit-writer, orch-state, project-context, content-writer
+리좀 연결자: linker ◆── live-context.md + .ctx/shared-context.md
+크로스팀: commit-writer, orch-state, project-context
 ```
 
 | 팀 | 리드 | 멤버 | 진입점 |
 |----|------|------|--------|
-| ops | morning-briefer | inbox-processor, tr-updater, tr-monitor | /morning |
-| build | code-reviewer | pf-reviewer, pf-deployer, ml-experimenter, security-auditor | 구현 시작 |
-| analyze | ai-synthesizer(adversarial verify) | gemini-analyzer(벌크추출), codex-reviewer(정밀검증) | /context-scan, /cross-review |
-| maintain | compressor | doc-syncer, orch-doc-writer, orch-skill-builder | /compressor |
+| ops | daily-ops | tr-ops | /morning |
+| build | code-reviewer | pf-ops, security-auditor | 구현 시작 |
+| analyze | ai-synthesizer(adversarial verify) | gemini-analyzer(벌크추출), codex-reviewer(정밀검증) | 추출/검증 체인 |
+| maintain | compressor | doc-ops | /compact |
 
 ---
 
@@ -86,16 +86,11 @@ context-linker    → 크로스세션 맥락 기록
 | /dispatch | 팀 추천 + 세션 목표 설정 | 세션 시작 / 방향 전환 |
 | /todo | TODO CRUD + Inbox 동기화 | 수시 |
 | /verify | 커밋 전 규칙 검증 | 커밋 전 |
-| /sync-all | 전체 프로젝트 동기화 | 세션 마무리 |
-| /compressor | 세션 압축 (9단계) | 세션 종료 전 |
-| /docs-review | stale 문서 점검 | 주 1회 |
-| /research | 딥 리서치 워크플로우 | 필요 시 |
-| /write | 글쓰기 (content-writer) | 필요 시 |
+| /sync | STATE 갱신 + git push (/sync all: 전체) | 세션 마무리 |
+| /compact | 세션 압축 (9단계) | 세션 종료 전 |
 | /session-insights | 토큰 사용량 분석 | 필요 시 |
-| /memory-review | MEMORY.md 주간 정리 | 주 1회 |
-| /context-scan | 컨텍스트 오프로딩 (Gemini/Codex) | 세션 시작 / 프로젝트 진입 |
-| /tr-verify | tech-review 콘텐츠 QA | 포스트 생성 후 |
-| /cross-review | 외부 모델 병렬 코드 리뷰 | 대규모 변경 시 |
+| /handoff | CLI 간 작업 위임 (.ctx/ 갱신) | 필요 시 |
+| /status | 현재 시스템 상태 | 필요 시 |
 
 ### 200K Context 운영 (v3.3.1)
 
@@ -115,12 +110,12 @@ context-linker    → 크로스세션 맥락 기록
 
 ### 구현 체인
 ```
-implement → code-reviewer(Opus) → commit-writer(Haiku) → project-linker(Sonnet)
+implement → code-reviewer(Opus) → commit-writer(Haiku) → linker(Haiku)
 ```
 
 ### 배포 체인
 ```
-pf-deployer → security-auditor → 사용자 확인 → push
+pf-ops(deploy) → security-auditor → 사용자 확인 → push
 ```
 
 ### 추출/검증 체인 (v3.3)
@@ -131,20 +126,27 @@ Gemini 추출(벌크) + Codex 추출(정밀) → Claude verify barrier(3단계) 
 - 외부 CLI 출력 → 반드시 _meta 블록 검증 후 사용
 ```
 
-### 세션 전환 체인 (v3.3)
+### 세션 전환 체인
 ```
 "새 세션" 제안 시 반드시 먼저:
-verify → sync-all → compressor → context-linker → "새 세션 준비 완료"
+verify → /sync all → /compact → linker → "새 세션 준비 완료"
 ```
 
 ### 디스패치 체인
 ```
-/dispatch → context-linker(Haiku) → meta-orchestrator(Opus) → 팀 활성화
+/dispatch → linker(Haiku, 자동) → meta-orchestrator(Opus) → 팀 활성화
 ```
 
 ### 압축 체인
 ```
-compressor 9단계 → orch-doc-writer(항상) → doc-syncer
+compressor 9단계 → doc-ops(항상) → doc-ops verify
+```
+
+### Cross-CLI 위임 (v4.0)
+```
+/handoff <cli> "<작업>" → .ctx/shared-context.md 갱신 → worktree 안내 → CLI 실행 안내
+worktree: /c/dev/scripts/worktree-create.sh <project> <cli> <task>
+정리: /c/dev/scripts/worktree-cleanup.sh [name]
 ```
 
 ---
@@ -174,7 +176,7 @@ compressor 9단계 → orch-doc-writer(항상) → doc-syncer
 
 ---
 
-## 8. 멀티 AI 오케스트레이션 (v3.3)
+## 8. 멀티 AI 오케스트레이션 (v4.0)
 
 | AI | 역할 | 플랜 | 제한 |
 |----|------|------|------|
@@ -184,8 +186,15 @@ compressor 9단계 → orch-doc-writer(항상) → doc-syncer
 | Perplexity | tech-review 소스 (sonar-deep-research) | Pro | 월 예산 $5 |
 
 ### 외부 CLI 설정 위치
-- Codex: `~/.codex/` (instructions.md, config.toml, prompts/)
-- Gemini: `~/.gemini/` (GEMINI.md, skills/)
+- Codex: `~/.codex/` (instructions.md, config.toml, skills/)
+- Gemini: `~/.gemini/` (settings.json, skills/, memories/)
+- 규칙 동기화: `rulesync generate` → CLAUDE.md/GEMINI.md/AGENTS.md 자동 생성
+
+### Cross-CLI 공유 메모리 (.ctx/)
+- `.ctx/shared-context.md`: 모든 CLI가 읽고 쓰는 공유 상태
+- `.ctx/provenance.log`: 출처 추적 ([claude]/[gemini]/[codex])
+- `.ctx/gemini/`, `.ctx/codex/`: CLI별 결과 저장
+- gitignored (로컬 상태)
 
 ### Verify Barrier (모든 외부 CLI 출력에 적용)
 1. 구조 검증: JSON 파싱 + _meta 블록 확인
