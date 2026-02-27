@@ -1,10 +1,10 @@
 # Orchestration STATE
 
-> 최종 수정: 2026-02-27 (v4.0 Phase 1-2)
+> 최종 수정: 2026-02-27 (v4.0 Phase 1-3)
 
 ## 현재 상태
 
-**시스템 버전**: v4.0 (Phase 1-2 완료)
+**시스템 버전**: v4.0 (Phase 1-3 완료)
 **활성 프로젝트**: tech-review, portfolio, orchestration, monet-lab
 
 ## 진행 중
@@ -46,12 +46,13 @@
   - _history/ (logs, plans, evidence, archive), _prompts/ (claude/gemini/gpt/perplexity), _auto/ (live-context, .chain-temp)
   - 에이전트 10개 + 훅 3개 + 스킬 3개 + 스크립트 1개 경로 갱신
   - context/, docs/, config/, logs/ 폴더 삭제
-- **v4.0 Context as Currency** (2026-02-27, Phase 1-2)
+- **v4.0 Context as Currency** (2026-02-27, Phase 1-3)
   - Phase 1: 에이전트 24→15 통합 (삭제 4 + 병합 10→5 + 유지 10 + memory:user 3개)
   - Phase 2: 스킬 14→9 (삭제 9 + disable-model-invocation 전체 적용)
   - CLAUDE.md 경량화 74→38줄, AUTOCOMPACT 50% 설정
+  - Phase 3: rulesync v7.9.0 도입 — .rulesync/ SoT에서 CLAUDE.md/GEMINI.md/AGENTS.md 자동 생성
   - 설계 문서: _history/plans/2026-02-27-v4.0-context-as-currency-design.md
-- **다음**: v4.0 Phase 3~8 (rulesync, Codex/Gemini CLI, .ctx/, worktree, Living Docs)
+- **다음**: v4.0 Phase 4~8 (Codex/Gemini CLI, .ctx/, worktree, Living Docs)
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
@@ -97,6 +98,12 @@
 - 검증: /verify
 - 분석: /session-insights
 - 로컬(orchestration): /handoff, /status
+
+### 규칙 동기화 (v4.0)
+- **rulesync v7.9.0**: .rulesync/rules/ SoT → CLAUDE.md/GEMINI.md/AGENTS.md 자동 생성
+  - global.md(공유), claude.md(Claude), gemini.md(Gemini), codex.md(Codex)
+  - `rulesync generate` 1회로 6개 파일 동기화
+  - 설정: rulesync.jsonc (delete: false, targets: claudecode/geminicli/codexcli)
 
 ### 외부 CLI 설정 (v3.3)
 - **Codex CLI**: instructions.md(글로벌), config.toml 프로필(review/extract/verify), prompts 3종

@@ -4,7 +4,14 @@
 
 ---
 
-## v4.0 — Context as Currency (2026-02-27, Phase 1-2)
+## v4.0 — Context as Currency (2026-02-27, Phase 1-3)
+
+### Phase 3: rulesync 도입
+- **rulesync v7.9.0** 글로벌 설치 + 프로젝트 초기화
+- `.rulesync/rules/` SoT: global.md(공유) + claude/gemini/codex.md(CLI별)
+- `rulesync generate` → CLAUDE.md, GEMINI.md, AGENTS.md + .claude/rules/, .gemini/memories/, .codex/memories/ 자동 생성
+- CLAUDE.md 공유 규칙만 23줄, Claude 전용 → .claude/rules/claude.md 분리
+- `delete: false` 설정 (기존 .claude/rules/common-mistakes.md, workflow.md 보호)
 
 ### Phase 1: 에이전트 통합 (24→15)
 - **삭제 4개**: ml-experimenter, ml-porter, orch-skill-builder, content-writer (ad-hoc/범용 대체)
