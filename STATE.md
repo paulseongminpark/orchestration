@@ -62,7 +62,12 @@
   - stale name 7건 수정 (에이전트 2 + 스킬 1 + hook 1 + 규칙 1 + KNOWLEDGE 1 + STATE 1)
   - PostCompact 미구현 → 문서에서 제거, Notification hook 추가
   - PLANNING.md D-024 v4.0 ADR 추가
-- **다음**: HOW I AI 설계문서 작성, portfolio 모바일 반응형
+- **HOW I AI 설계문서 v4.0** (2026-02-27)
+  - A+B 하이브리드: Context as Currency 은유 + Subtraction Arc 내러티브
+  - 11섹션: 시작→철학→토폴로지→결정6개→멀티AI→체인→Hooks→증거→진화→교훈→다음
+  - 기존 v3.3.1 설계문서 전면 재작성 (24→15 에이전트, 15→9 스킬 반영)
+  - 파일: docs/plans/2026-02-27-how-i-ai-design.md
+- **다음**: portfolio 모바일 반응형
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
