@@ -19,14 +19,13 @@
 4. KNOWLEDGE.md (규칙/패턴)
 5. 작업 파일만 (범위 제한)
 
-## Skills
+## Skills (v4.0)
 /dispatch: 팀 추천 + 세션 목표
 /morning: 통합 대시보드 브리핑
-/sync: STATE 갱신 + git push
-/sync-all: 모든 프로젝트 동기화
+/sync: STATE 갱신 + git push (/sync all: 전체 프로젝트)
 /verify: 통합 규칙 검증
 /todo: TODO 관리
-/compressor: 세션 압축 (9단계)
+/compact: 세션 압축 (9단계, Attention Manipulation)
 
 ## Pages URL
 https://paulseongminpark.github.io/orchestration/STATE.md

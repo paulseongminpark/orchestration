@@ -1,10 +1,10 @@
 # Orchestration STATE
 
-> 최종 수정: 2026-02-27 (v3.3.1 Flat Root 폴더 개편)
+> 최종 수정: 2026-02-27 (v4.0 Phase 1-2)
 
 ## 현재 상태
 
-**시스템 버전**: v3.3.1
+**시스템 버전**: v4.0 (Phase 1-2 완료)
 **활성 프로젝트**: tech-review, portfolio, orchestration, monet-lab
 
 ## 진행 중
@@ -46,7 +46,12 @@
   - _history/ (logs, plans, evidence, archive), _prompts/ (claude/gemini/gpt/perplexity), _auto/ (live-context, .chain-temp)
   - 에이전트 10개 + 훅 3개 + 스킬 3개 + 스크립트 1개 경로 갱신
   - context/, docs/, config/, logs/ 폴더 삭제
-- **다음**: portfolio 모바일 반응형 + Tech Review 설계 섹션 + monet-lab 미커밋 정리
+- **v4.0 Context as Currency** (2026-02-27, Phase 1-2)
+  - Phase 1: 에이전트 24→15 통합 (삭제 4 + 병합 10→5 + 유지 10 + memory:user 3개)
+  - Phase 2: 스킬 14→9 (삭제 9 + disable-model-invocation 전체 적용)
+  - CLAUDE.md 경량화 74→38줄, AUTOCOMPACT 50% 설정
+  - 설계 문서: _history/plans/2026-02-27-v4.0-context-as-currency-design.md
+- **다음**: v4.0 Phase 3~8 (rulesync, Codex/Gemini CLI, .ctx/, worktree, Living Docs)
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
@@ -71,28 +76,27 @@
 
 ## 시스템 인벤토리 (SoT)
 
-### Agents (24개)
-**ops 팀**: morning-briefer[Haiku], inbox-processor[Haiku], tr-updater[Sonnet], tr-monitor[Haiku]
-**build 팀**: code-reviewer[Opus], pf-reviewer[Opus], pf-deployer[Sonnet], ml-experimenter[Opus], security-auditor[Sonnet]
+### Agents (15개, v4.0)
+**ops 팀**: daily-ops[Haiku,morning+inbox], tr-ops[Sonnet,monitor+update]
+**build 팀**: code-reviewer[Opus,memory:user], pf-ops[Sonnet,review+deploy], security-auditor[Sonnet]
 **analyze 팀**: ai-synthesizer[Opus,adversarial-verify], gemini-analyzer[Sonnet,벌크추출], codex-reviewer[Sonnet,정밀검증]
-**maintain 팀**: compressor[Sonnet], doc-syncer[Haiku], orch-doc-writer[Opus], orch-skill-builder[Opus]
-**리좀 연결자**: context-linker[Haiku], project-linker[Sonnet]
-**크로스팀 유틸리티**: commit-writer[Haiku], orch-state[Sonnet], project-context[Sonnet], content-writer[Opus]
-**디스패치 허브**: meta-orchestrator[Opus]
-**실험**: ml-porter[Sonnet]
+**maintain 팀**: compressor[Opus,memory:user], doc-ops[Sonnet,verify+write]
+**연결**: linker[Haiku,cross-project+cross-session+cross-cli]
+**크로스팀 유틸리티**: commit-writer[Haiku], orch-state[Sonnet], project-context[Sonnet]
+**디스패치 허브**: meta-orchestrator[Opus,memory:user]
 
 ### Teams (4팀 + 허브)
-- **ops**: morning-briefer(리드) + inbox-processor + tr-updater + tr-monitor
-- **build**: code-reviewer(리드) + pf-reviewer + pf-deployer + ml-experimenter + security-auditor
+- **ops**: daily-ops(리드) + tr-ops
+- **build**: code-reviewer(리드) + pf-ops + security-auditor
 - **analyze**: ai-synthesizer(리드) + gemini-analyzer + codex-reviewer
-- **maintain**: compressor(리드) + doc-syncer + orch-doc-writer + orch-skill-builder
+- **maintain**: compressor(리드) + doc-ops
 - **허브**: meta-orchestrator (/dispatch)
 
-### Skills (14개)
-- 운영: /morning, /sync-all, /todo, /dispatch, /compressor
-- 검증: /verify, /docs-review, /cross-review
-- 분석: /session-insights, /memory-review, /research, /context-scan
-- 콘텐츠: /write, /tr-verify
+### Skills (9개, v4.0)
+- 운영: /morning, /sync (sync all 포함), /todo, /dispatch, /compact
+- 검증: /verify
+- 분석: /session-insights
+- 로컬(orchestration): /handoff, /status
 
 ### 외부 CLI 설정 (v3.3)
 - **Codex CLI**: instructions.md(글로벌), config.toml 프로필(review/extract/verify), prompts 3종

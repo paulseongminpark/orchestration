@@ -4,6 +4,30 @@
 
 ---
 
+## v4.0 — Context as Currency (2026-02-27, Phase 1-2)
+
+### Phase 1: 에이전트 통합 (24→15)
+- **삭제 4개**: ml-experimenter, ml-porter, orch-skill-builder, content-writer (ad-hoc/범용 대체)
+- **병합 5개 생성**: tr-ops(tr-updater+tr-monitor), daily-ops(inbox-processor+morning-briefer), linker(project-linker+context-linker), pf-ops(pf-reviewer+pf-deployer), doc-ops(doc-syncer+orch-doc-writer)
+- **원본 10개 삭제**: 병합된 에이전트 원본 제거
+- **memory:user 3개**: code-reviewer, meta-orchestrator, compressor (세션 간 학습)
+- **compressor 강화**: Sonnet→Opus 승격, Attention Manipulation, Preserve Failures
+
+### Phase 2: 스킬 최적화 (14→9)
+- **삭제 9개**: context-scan, cross-review, tr-verify, sync-all, docs-review, research, write, writing-plans, memory-review
+- **disable-model-invocation: true** 전체 적용 (per-turn system-reminder 제거, ~8K 토큰 절감)
+- **/sync → /sync all**: sync-all 기능 흡수
+- **/compressor → /compact**: 리네임 + 9단계 강화
+- **CLAUDE.md 경량화**: 74줄→38줄 (체인 상세→REFERENCE.md)
+- **AUTOCOMPACT 50%**: settings.json 환경변수 추가
+
+### 설계 원칙
+- Context = Currency: 토큰은 통화, 모든 baseline 비용 최소화
+- "빠지지 않는 것"만 남기기 (스킬 9개, 에이전트 15개)
+- 설계 문서: _history/plans/2026-02-27-v4.0-context-as-currency-design.md
+
+---
+
 ## v3.3.1 — 200K Context 최적화 + Flat Root (2026-02-26~27)
 
 ### Flat Root 폴더 개편 (2026-02-27)

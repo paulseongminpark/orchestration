@@ -1,6 +1,7 @@
 ---
 name: handoff
 description: 다른 AI에게 전달할 컨텍스트 문서 생성
+disable-model-invocation: true
 argument-hint: <gpt|gemini|perplexity> <요청내용>
 user-invocable: true
 allowed-tools: Read, Write

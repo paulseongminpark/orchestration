@@ -1,6 +1,7 @@
 ---
 name: status
 description: 프로젝트 현황
+disable-model-invocation: true
 user-invocable: true
 allowed-tools: Read, Bash
 context: fork
