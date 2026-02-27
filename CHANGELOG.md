@@ -4,7 +4,20 @@
 
 ---
 
-## v4.0 — Context as Currency (2026-02-27, Phase 1-3)
+## v4.0 — Context as Currency (2026-02-27, Phase 1-5)
+
+### Phase 5: Gemini CLI 세팅
+- **settings.json** 갱신: enableAgents, modelRouting(Pro↔Flash 자동), tokenBudget(셸 2000토큰), security(API키 차단)
+- **bulk-extract** 스킬 신규 (대량 파일 구조화 추출)
+- **Conductor** 기본 구조 생성: context.md(프로젝트 컨텍스트) + tracks/(태스크별 spec/plan/review)
+- `.gemini/memories/gemini.md` 갱신: 브랜치 규칙, shared-context, Conductor 참조
+
+### Phase 4: Codex CLI 세팅
+- **instructions.md** 안전 규칙 강화: push 금지, main 직접 커밋 금지, .ctx/ 읽기
+- **config.toml** implement 프로필 추가: auto-edit, high reasoning
+- **MCP context7** 서버 연결
+- **스킬 5종**: state-reader, diff-only, review-checklist, worktree-setup, test-matrix
+- **worktree 템플릿**: .agents/templates/worktree-override.md
 
 ### Phase 3: rulesync 도입
 - **rulesync v7.9.0** 글로벌 설치 + 프로젝트 초기화
