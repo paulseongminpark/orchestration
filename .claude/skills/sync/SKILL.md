@@ -1,9 +1,9 @@
 ---
 name: sync
 description: STATE.md 갱신 + LOG append + git commit + push (sync-all 통합)
-disable-model-invocation: true
 user-invocable: true
-allowed-tools: Read, Edit, Bash
+disable-model-invocation: true
+model: haiku
 ---
 
 ## 모드

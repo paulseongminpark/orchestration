@@ -6,9 +6,13 @@
 
 ## v4.0 — Context as Currency (2026-02-27, 완료)
 
-### Phase 8: Living Docs + 최종 검증
+### Phase 8: Living Docs + 최종 검증 + 인프라 정규화
 - STATE.md, CHANGELOG.md, KNOWLEDGE.md, REFERENCE.md, ROADMAP.md, HOME.md 일괄 v4.0 갱신
 - 팀 구조/에이전트 이름/hooks/skills 전체 반영
+- **스킬 frontmatter 정규화 6건**: compact(user-invocable+context:fork), dispatch(context:fork), morning(context:fork), session-insights(user-invocable+context:fork), handoff(instructions.md→SKILL.md+키형식), sync(skill.md→SKILL.md)
+- **전체 스킬 model 태그 추가**: compact(opus), dispatch(opus), morning(haiku), session-insights(haiku), handoff(haiku), sync(haiku)
+- **팀 구조 v4.0 반영**: 4팀+허브(ops/build/analyze/maintain) → 3팀+허브(build/verify/maintain)
+- 설계 문서 상태: "Planning (미구현)" → "완료 (구현 완료)"
 
 ### Phase 7: Worktree 인프라
 - **worktree-create.sh**: 프로젝트/CLI/태스크 → /c/dev/01_projects/.worktrees/{cli}-{task} 생성

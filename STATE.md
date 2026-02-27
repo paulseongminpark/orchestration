@@ -88,19 +88,16 @@
 ## 시스템 인벤토리 (SoT)
 
 ### Agents (15개, v4.0)
-**ops 팀**: daily-ops[Haiku,morning+inbox], tr-ops[Sonnet,monitor+update]
-**build 팀**: code-reviewer[Opus,memory:user], pf-ops[Sonnet,review+deploy], security-auditor[Sonnet]
-**analyze 팀**: ai-synthesizer[Opus,adversarial-verify], gemini-analyzer[Sonnet,벌크추출], codex-reviewer[Sonnet,정밀검증]
-**maintain 팀**: compressor[Opus,memory:user], doc-ops[Sonnet,verify+write]
-**연결**: linker[Haiku,cross-project+cross-session+cross-cli]
-**크로스팀 유틸리티**: commit-writer[Haiku], orch-state[Sonnet], project-context[Sonnet]
+**build 팀**: code-reviewer[Opus,memory:user], commit-writer[Haiku], pf-ops[Sonnet,review+deploy], security-auditor[Sonnet]
+**verify 팀**: ai-synthesizer[Opus,adversarial-verify], gemini-analyzer[Sonnet,벌크추출], codex-reviewer[Sonnet,정밀검증]
+**maintain 팀**: compressor[Opus,memory:user], doc-ops[Sonnet,verify+write], linker[Haiku,cross-project+cross-session+cross-cli], daily-ops[Haiku,morning+inbox], tr-ops[Sonnet,monitor+update]
+**크로스팀 유틸리티**: orch-state[Sonnet], project-context[Sonnet]
 **디스패치 허브**: meta-orchestrator[Opus,memory:user]
 
-### Teams (4팀 + 허브)
-- **ops**: daily-ops(리드) + tr-ops
-- **build**: code-reviewer(리드) + pf-ops + security-auditor
-- **analyze**: ai-synthesizer(리드) + gemini-analyzer + codex-reviewer
-- **maintain**: compressor(리드) + doc-ops
+### Teams (3팀 + 허브)
+- **build**: code-reviewer(리드) + commit-writer + pf-ops + security-auditor
+- **verify**: ai-synthesizer(리드) + gemini-analyzer + codex-reviewer
+- **maintain**: compressor(리드) + doc-ops + linker + daily-ops + tr-ops
 - **허브**: meta-orchestrator (/dispatch)
 
 ### Skills (9개, v4.0)
