@@ -112,3 +112,5 @@
 | 2026-02-25 | 7개 (v3.3 e2e 12시나리오 설계 + 1차·2차 실행 + 비교 분석 + 버그 3건 수정 + 에비던스 기록) | orchestration | 3개 |
 | 2026-02-26 | 26개 (v3.3.1 200K 최적화 Phase A~D + 플러그인 비활성화 + hook + statusline + 리뷰 반영) | orchestration/dev | 6개 |
 | 2026-02-27 | 15건 (전체 .md 일관성 감사 + context/ 경로 수정 + hook 패턴 수정 + 커밋+push) | orchestration | 2개 |
+
+| 2026-02-27 | (직접 검증+문서화) | v4.0 Living Docs 최신화 + e2e 8시나리오 | 5 | stale name 7건 수정, PostCompact 정리, 오탐 3건 확인 |
