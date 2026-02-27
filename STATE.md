@@ -57,7 +57,12 @@
   - Phase 7: Worktree 인프라 — worktree-create.sh, worktree-cleanup.sh, /handoff 스킬
   - Phase 8: Living Docs 갱신 + 최종 검증
   - 설계 문서: _history/plans/2026-02-27-v4.0-context-as-currency-design.md
-- **다음**: e2e 테스트 재실행, portfolio 모바일 반응형
+- **v4.0 Living Docs 최신화** (2026-02-27, 커밋 853650f)
+  - e2e 테스트 8시나리오 (PASS 4/FAIL 3/WARN 1 → FAIL 3건 오탐 확인+수정)
+  - stale name 7건 수정 (에이전트 2 + 스킬 1 + hook 1 + 규칙 1 + KNOWLEDGE 1 + STATE 1)
+  - PostCompact 미구현 → 문서에서 제거, Notification hook 추가
+  - PLANNING.md D-024 v4.0 ADR 추가
+- **다음**: HOW I AI 설계문서 작성, portfolio 모바일 반응형
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
