@@ -1,6 +1,6 @@
 # Decisions Log
 
-> 최종 수정: 2026-02-27
+> 최종 수정: 2026-03-03
 
 > 세션별 중요 결정 사항. compressor가 자동 append.
 > 태그: pf=portfolio, tr=tech-review, ml=monet-lab, orch=orchestration
@@ -8,6 +8,17 @@
 
 ## 미반영
 
+2026-03-03 [orchestration] .ctx/ Cross-CLI 공유 메모리 폐기 — 실사용 없음, 복잡도만 추가 | orch:✅
+2026-03-03 [orchestration] rulesync sandbox 세팅용으로만 유지 (프로덕션 미적용) | orch:✅
+2026-03-03 [orchestration] Playwright MCP 플러그인 활성화 — 브라우저 자동 스크린샷/테스트용 | orch:✅
+2026-03-03 [orchestration] auto-promote.sh 도입 — 에러 2회+ pending.md 항목 MEMORY.md 자동 승격 | orch:✅
+2026-03-02 [portfolio] Obsidian 섹션 구조: 10단계 → 5단계 (Understand→Explore→Refactor→Test→Deploy) | pf:✅
+2026-03-02 [portfolio] E2E 테스트 문서: 8개 → 10개 Phase (Prepare/Execute/Verify 세분화) | pf:✅
+2026-03-02 [portfolio] 타입스크립트→vanilla.js 마이그레이션 (프레임워크 의존성 제거) | pf:✅
+2026-03-02 [portfolio] 타이포그래피 위계 체계화 + sticky 헤더 구현 | pf:✅
+2026-03-02 [orchestration] AUTOCOMPACT 임계값 50%→75% 상향 — compact 빈도 과다 해결 | orch:✅
+2026-03-02 [portfolio] PMCC 어조 평이화 — 학술적 표현→일상 언어 전환 확정 | pf:✅
+2026-03-02 [portfolio] flowchart 위치: Approach 뒤 배치, Gallery: Dataset 뒤 배치 | pf:✅
 2026-02-25 [orchestration] monet-lab 44개 미커밋 정리 필요 (스크린샷 PNG 산재) | ml:❌
 2026-02-24 [monet-lab] VisualCuesGallery: 전용 컴포넌트, 마크다운 블록 `**[visual-cues-gallery]**` | ml:❌
 2026-02-24 [monet-lab] ActivityGallery: 전용 컴포넌트, CSS grid-area, `**[activity-gallery]**` | ml:❌

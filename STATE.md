@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 최종 수정: 2026-02-27 (v4.0 완료)
+> 최종 수정: 2026-03-03 (QMD 설치 + 시각화 3종)
 
 ## 현재 상태
 
@@ -49,7 +49,7 @@
 - **v4.0 Context as Currency** (2026-02-27, 완료)
   - Phase 1: 에이전트 24→15 통합 (삭제 4 + 병합 10→5 + 유지 10 + memory:user 3개)
   - Phase 2: 스킬 14→9 (삭제 9 + disable-model-invocation 전체 적용)
-  - CLAUDE.md 경량화 74→38줄, AUTOCOMPACT 50% 설정
+  - CLAUDE.md 경량화 74→38줄, AUTOCOMPACT 75% 설정 (초기 50% → 빈도 과다로 75% 상향)
   - Phase 3: rulesync v7.9.0 도입 — .rulesync/ SoT에서 CLAUDE.md/GEMINI.md/AGENTS.md 자동 생성
   - Phase 4: Codex CLI — instructions.md 안전규칙, config.toml implement 프로필, 스킬 5종, worktree 템플릿
   - Phase 5: Gemini CLI — settings.json(enableAgents/modelRouting/tokenBudget), bulk-extract 스킬, Conductor 구조
@@ -57,6 +57,15 @@
   - Phase 7: Worktree 인프라 — worktree-create.sh, worktree-cleanup.sh, /handoff 스킬
   - Phase 8: Living Docs 갱신 + 최종 검증
   - 설계 문서: _history/plans/2026-02-27-v4.0-context-as-currency-design.md
+- **QMD + 시각화** (2026-03-03)
+  - QMD @tobilu/qmd v1.0.7 설치 (CPU 모드, CUDA 불가)
+  - collection: knowledge(83 md), sessions(3 md)
+  - `_auto/session-graph.html`: D3 force graph, live-context.md 기반 세션↔파일 관계
+  - `_auto/orch-timeline.html`: v0→v4 수직 타임라인, 버전 카드 + 스파크라인
+  - `_auto/orch-graph.html`: D3 force-directed, 버전11+개념36 노드, CON_EDGES 진화 체인, save layout 기능
+    - 데이터: CHANGELOG.md 실측값 (날짜/에이전트수/스킬수)
+    - 서브에이전트 11개 개별 노드 추가 (code-reviewer~tr-ops)
+    - 멀티셀렉트 필터, SAVED_POSITIONS 레이아웃 저장
 - **v4.0 Living Docs 최신화** (2026-02-27, 커밋 853650f)
   - e2e 테스트 8시나리오 (PASS 4/FAIL 3/WARN 1 → FAIL 3건 오탐 확인+수정)
   - stale name 7건 수정 (에이전트 2 + 스킬 1 + hook 1 + 규칙 1 + KNOWLEDGE 1 + STATE 1)
@@ -132,7 +141,7 @@
   - -m gemini-3.1-pro-preview 필수
 
 ### Hooks (8종)
-- SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + .ctx/ 공유 상태 + 스냅샷 알림)
+- SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + 미검토 선호도 알림 + 스냅샷 알림)
 - SessionEnd: 미커밋 현황 + MEMORY.md 경고
 - PreToolUse: 위험 명령 차단
 - PostToolUse: *.md 감지 + _auto/live-context.md auto-append + auto-trim
@@ -141,17 +150,14 @@
 - TaskCompleted: 태스크 완료 알림 + .ctx/shared-context.md 자동 갱신 + provenance.log 기록
 - Notification: 시스템 알림
 
-### Cross-CLI 인프라 (v4.0)
-- **.ctx/**: Cross-CLI 공유 메모리 (gitignored, 로컬 상태)
-  - shared-context.md: 현재 목표/진행 중/최근 완료 (모든 CLI 공유)
-  - provenance.log: 출처 추적 ([claude]/[gemini]/[codex] 마커)
-  - gemini/, codex/: CLI별 결과 디렉토리
+### Cross-CLI 인프라 (v4.0, 축소)
+- **.ctx/ 폐기** (2026-03-03): 실사용 없어 삭제. Cross-CLI 공유 메모리 비활성.
 - **Worktree**: /c/dev/scripts/worktree-create.sh, worktree-cleanup.sh
   - 경로: /c/dev/01_projects/.worktrees/{cli}-{task}
-- **Conductor**: /c/dev/conductor/ (context.md + tracks/) — Gemini 태스크 관리
+- **rulesync**: sandbox 세팅용으로만 유지 (프로덕션 미적용)
 
-### Plugins (4개 활성)
-- superpowers, context7, vercel, frontend-design
+### Plugins (5개 활성)
+- superpowers, context7, vercel, frontend-design, playwright
 
 ## 브랜치 정보
 - orchestration: main

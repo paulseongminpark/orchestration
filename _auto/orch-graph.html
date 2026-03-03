@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Orchestration Graph</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+  color: #444460;
+}
+
+#canvas { width:100vw; height:100vh; }
+
+/* ── 상단 타이틀 ── */
+#header {
+  position: fixed; top: 28px; left: 50%;
+  transform: translateX(-50%);
+  text-align: center; pointer-events: none;
+}
+#header h1 {
+  font-size: 13px; font-weight: 500;
+  color: rgba(0,0,0,0.3);
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+
+/* ── 필터 (하단 중앙, 미니멀) ── */
+#filters {
+  position: fixed; bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 5px;
+  background: rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 24px; padding: 5px 8px;
+  backdrop-filter: blur(12px);
+}
+.fb {
+  background: transparent; border: none;
+  color: rgba(0,0,0,0.3); padding: 4px 12px;
+  border-radius: 18px; cursor: pointer;
+  font-size: 11px; font-family: inherit; font-weight: 400;
+  transition: all 0.2s; white-space: nowrap;
+}
+.fb:hover { color: rgba(0,0,0,0.65); }
+.fb.on {
+  background: rgba(0,0,0,0.07);
+  color: rgba(0,0,0,0.85);
+}
+
+/* ── 범례 (좌하단, 매우 작게) ── */
+#legend {
+  position: fixed; bottom: 90px; left: 28px;
+  font-size: 10px;
+}
+.lr {
+  display: flex; align-items: center;
+  gap: 7px; margin: 4px 0;
+  color: rgba(0,0,0,0.35);
+}
+.ld {
+  width: 7px; height: 7px; border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── 툴팁 ── */
+#tip {
+  position: fixed; top: 50%; right: 32px;
+  transform: translateY(-50%);
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 14px; padding: 20px 22px;
+  font-size: 12px; width: 240px;
+  display: none; pointer-events: none;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.08);
+}
+.tt {
+  font-size: 13px; font-weight: 600;
+  color: #1a1a2e; margin-bottom: 12px;
+  line-height: 1.4;
+}
+.trow {
+  display: flex; justify-content: space-between;
+  margin: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: 6px;
+}
+.trow:last-child { border-bottom: none; padding-bottom: 0; }
+.tk { color: rgba(0,0,0,0.3); font-size: 11px; }
+.tv { color: rgba(0,0,0,0.7); font-size: 11px; font-weight: 500; }
+.tdesc {
+  margin-top: 10px; font-size: 11px;
+  color: rgba(0,0,0,0.4); line-height: 1.6;
+}
+.tbadge {
+  display: inline-block; padding: 3px 9px;
+  border-radius: 20px; font-size: 10px;
+  margin-top: 10px; font-weight: 500;
+}
+
+/* ── Export 버튼 ── */
+#export-btn {
+  position: fixed; bottom: 32px; right: 28px;
+  background: transparent; border: 1px solid rgba(0,0,0,0.12);
+  color: rgba(0,0,0,0.3); padding: 5px 13px;
+  border-radius: 18px; cursor: pointer;
+  font-size: 11px; font-family: inherit;
+  transition: all 0.2s;
+}
+#export-btn:hover { color: rgba(0,0,0,0.7); border-color: rgba(0,0,0,0.25); }
+#export-toast {
+  position: fixed; bottom: 70px; right: 28px;
+  background: rgba(0,0,0,0.75); color: #fff;
+  font-size: 11px; padding: 6px 14px; border-radius: 10px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+
+/* ── 에이전트 카운터 (우상단) ── */
+#counter {
+  position: fixed; top: 28px; right: 28px;
+  font-size: 11px; color: rgba(0,0,0,0.25);
+  text-align: right; line-height: 1.8;
+}
+.cnt-v { color: rgba(0,0,0,0.6); font-weight: 500; font-size: 18px; }
+</style>
+</head>
+<body>
+
+<svg id="canvas"></svg>
+
+<div id="header">
+  <h1>Orchestration Evolution · v0 → v4</h1>
+</div>
+
+<div id="counter">
+  <div><span class="cnt-v" id="cnt-agents">—</span> agents</div>
+  <div><span class="cnt-v" id="cnt-concepts">—</span> concepts</div>
+</div>
+
+<div id="legend">
+  <div class="lr"><div class="ld" style="background:#8888cc;box-shadow:0 0 6px #8888cc55"></div>version</div>
+  <div class="lr"><div class="ld" style="background:#6b9fd4"></div>agent / team</div>
+  <div class="lr"><div class="ld" style="background:#c4935f"></div>hook / automation</div>
+  <div class="lr"><div class="ld" style="background:#5fac80"></div>skill</div>
+  <div class="lr"><div class="ld" style="background:#a87fd4"></div>CLI / integration</div>
+  <div class="lr"><div class="ld" style="background:#c4b060"></div>memory / context</div>
+  <div class="lr"><div class="ld" style="background:#c47085"></div>principle</div>
+  <div class="lr" style="margin-top:8px">
+    <svg width="14" height="7"><line x1="0" y1="3.5" x2="14" y2="3.5" stroke="rgba(0,0,0,0.4)" stroke-width="1" stroke-dasharray="3,3"/></svg>
+    <span style="color:rgba(0,0,0,0.3)">concept evolution</span>
+  </div>
+</div>
+
+<div id="filters">
+  <button class="fb on" data-f="all">All</button>
+  <button class="fb" data-f="agent">Agent</button>
+  <button class="fb" data-f="hook">Hook</button>
+  <button class="fb" data-f="skill">Skill</button>
+  <button class="fb" data-f="cli">CLI</button>
+  <button class="fb" data-f="memory">Memory</button>
+  <button class="fb" data-f="principle">Principle</button>
+</div>
+
+<div id="tip"></div>
+
+<button id="export-btn" onclick="exportPositions()" title="Save current node positions">⊙ save layout</button>
+<div id="export-toast">Copied to clipboard</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const CAT_COLOR = {
+  agent:'#6b9fd4', hook:'#c4935f', skill:'#5fac80',
+  cli:'#a87fd4', memory:'#c4b060', principle:'#c47085'
+};
+
+const VERSIONS = [
+  { id:'v1',    label:'v1.0',   date:'02-21',    desc:'foundation',             agents:1,  skills:11 },
+  { id:'v2',    label:'v2.0',   date:'02-21',    desc:'agent era',              agents:14, skills:17 },
+  { id:'v2.1',  label:'v2.1',   date:'02-22',    desc:'Gemini CLI',             agents:14, skills:17 },
+  { id:'v2.2',  label:'v2.2',   date:'02-22',    desc:'System Overhaul',        agents:12, skills:13 },
+  { id:'v3.0',  label:'v3.0',   date:'02-23',    desc:'Agentic Workflow',       agents:16, skills:13 },
+  { id:'v3.1',  label:'v3.1',   date:'02-23',    desc:'Agent Teams & Linker',   agents:23, skills:14 },
+  { id:'v3.2',  label:'v3.2',   date:'02-24',    desc:'Rhizome Teams + SoT',    agents:24, skills:11 },
+  { id:'v3.3',  label:'v3.3',   date:'02-25',    desc:'Codex + Verify Barrier', agents:24, skills:14 },
+  { id:'v3.3.1',label:'v3.3.1', date:'02-26',    desc:'200K optimization',      agents:24, skills:14 },
+  { id:'v4',    label:'v4.0',   date:'02-27',    desc:'Context as Currency',    agents:15, skills:9  },
+];
+
+const CONCEPTS = [
+  { id:'c_memory',   label:'Auto Memory',       cat:'memory',    ver:'v1',     desc:'SessionEnd → analyze-session → pending.md' },
+  { id:'c_obsidian', label:'Claude=Write rule',  cat:'principle', ver:'v1',     desc:'Claude=Write / External AI=Read / Obsidian=Viewer' },
+  { id:'c_scripts',  label:'5 scripts',         cat:'hook',      ver:'v1',     desc:'analyze, sync-memory, memory-review, docs-review, token-monitor' },
+  { id:'c_a14',      label:'14 agents',          cat:'agent',     ver:'v2',     desc:'code-reviewer·commit-writer·pf-*·ml-*·gemini-analyzer…' },
+  { id:'c_hooks7',   label:'7 hooks',            cat:'hook',      ver:'v2',     desc:'Stop·SessionStart·SessionEnd·PreToolUse·PostToolUse…' },
+  { id:'c_teams_on', label:'Agent Teams ON',    cat:'agent',     ver:'v2',     desc:'CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1' },
+  { id:'c_gemini',   label:'Gemini CLI',        cat:'cli',       ver:'v2.1',   desc:'@google/gemini-cli v0.29.5 integration' },
+  { id:'c_precp',    label:'PreCompact hook',   cat:'hook',      ver:'v2.1',   desc:'compact 전 /verify 자동 권장' },
+  { id:'c_overhaul', label:'automation repair',  cat:'hook',      ver:'v2.2',   desc:'MSYS compat · stdin parsing · absolute path fix' },
+  { id:'c_prune',    label:'"worse than nothing"',cat:'principle',ver:'v2.2', desc:'dead agents · skills · rules all removed' },
+  { id:'c_linker',   label:'Linker System',     cat:'agent',     ver:'v3.1',   desc:'context-linker(realtime) + project-linker(cross)' },
+  { id:'c_live',     label:'live-context.md',   cat:'memory',    ver:'v3.1',   desc:'PostToolUse → 0-token realtime cross-session share' },
+  { id:'c_metaorch', label:'meta-orchestrator', cat:'agent',     ver:'v3.1',   desc:'session state analysis → team dispatch [Sonnet]' },
+  { id:'c_3t',       label:'3 teams',           cat:'agent',     ver:'v3.1',   desc:'tech-review-ops · ai-feedback-loop · daily-ops' },
+  { id:'c_codex',    label:'Codex CLI',         cat:'cli',       ver:'v3.3',   desc:'instructions.md + config.toml 3 profiles' },
+  { id:'c_verify',   label:'Verify Barrier',    cat:'principle', ver:'v3.3',   desc:'external CLI output 3-step verify: structure→spot→refute' },
+  { id:'c_chain',    label:'.chain-temp',       cat:'memory',    ver:'v3.3.1', desc:'chain shared memory — main context protection' },
+  { id:'c_flat',     label:'Flat Root',         cat:'principle', ver:'v3.3.1', desc:'Living Docs 12 root / _history _auto created' },
+  { id:'c_200k',     label:'200K ops',          cat:'principle', ver:'v3.3.1', desc:'100K→recommend / 120K→required / snapshot preserve' },
+  { id:'c_cur',      label:'Context=Currency',  cat:'principle', ver:'v4',     desc:'Tokens are currency. Minimize all baseline costs.' },
+  { id:'c_merge',    label:'agent merge →15',   cat:'agent',     ver:'v4',     desc:'24→15: deleted 4 + merged 5 + memory:user 3' },
+  { id:'c_skillmin', label:'skills →9',         cat:'skill',     ver:'v4',     desc:'14→9: disable-model-invocation, ~8K saved' },
+  { id:'c_rulesync', label:'rulesync',          cat:'cli',       ver:'v4',     desc:'.rulesync/rules/ SoT → all CLI auto sync' },
+  { id:'c_ctx',      label:'.ctx/ Cross-CLI',   cat:'memory',    ver:'v4',     desc:'shared-context.md + provenance.log all CLI share' },
+  { id:'c_wt',       label:'Worktree + /handoff',cat:'cli',      ver:'v4',     desc:'isolated env + CLI-to-CLI handoff skill' },
+
+  // ── 서브에이전트 (개별) ─────────────────────────────────────────────────
+  { id:'sa_code_rev',  label:'code-reviewer',   cat:'agent', ver:'v2',   desc:'[Opus] PROACTIVE — review chain anchor' },
+  { id:'sa_commit',    label:'commit-writer',    cat:'agent', ver:'v2',   desc:'[Haiku] PROACTIVE — conventional commit' },
+  { id:'sa_compress',  label:'compressor',       cat:'agent', ver:'v2',   desc:'[Opus] 9-step compact, Sonnet→Opus in v4' },
+  { id:'sa_sec',       label:'security-auditor', cat:'agent', ver:'v2',   desc:'[Opus] deploy XSS/env/CORS checker' },
+  { id:'sa_morning',   label:'morning-briefer',  cat:'agent', ver:'v2',   desc:'[Haiku] daily dashboard → daily-ops(v4)' },
+  { id:'sa_aisynth',   label:'ai-synthesizer',   cat:'agent', ver:'v3.1', desc:'[Opus] adversarial verify — external CLI' },
+  { id:'sa_codex_rev', label:'codex-reviewer',   cat:'agent', ver:'v3.3', desc:'[Sonnet] diff review · format QA · git' },
+  { id:'sa_pf_ops',    label:'pf-ops',           cat:'agent', ver:'v4',   desc:'merged: pf-reviewer + pf-deployer' },
+  { id:'sa_doc_ops',   label:'doc-ops',          cat:'agent', ver:'v4',   desc:'merged: doc-syncer + orch-doc-writer' },
+  { id:'sa_daily_ops', label:'daily-ops',        cat:'agent', ver:'v4',   desc:'merged: inbox-processor + morning-briefer' },
+  { id:'sa_tr_ops',    label:'tr-ops',           cat:'agent', ver:'v4',   desc:'merged: tr-updater + tr-monitor' },
+];
+
+const VER_EDGES = [
+  {s:'v1',t:'v2'},{s:'v2',t:'v2.1'},
+  {s:'v2.1',t:'v2.2'},{s:'v2.2',t:'v3.0'},{s:'v3.0',t:'v3.1'},
+  {s:'v3.1',t:'v3.2'},{s:'v3.2',t:'v3.3'},
+  {s:'v3.3',t:'v3.3.1'},{s:'v3.3.1',t:'v4'}
+];
+
+// 개념 간 진화 관계
+const CON_EDGES = [
+  {s:'c_scripts',  t:'c_overhaul'},   // 5 scripts → automation repair
+  {s:'c_memory',   t:'c_live'},        // auto memory → live-context
+  {s:'c_live',     t:'c_ctx'},         // live-context → .ctx/ cross-CLI
+  {s:'c_a14',      t:'c_merge'},       // 14 agents → agent merge →15
+  {s:'c_prune',    t:'c_merge'},       // worse-than-nothing → agent merge
+  {s:'c_prune',    t:'c_skillmin'},    // worse-than-nothing → skills →9
+  {s:'c_gemini',   t:'c_verify'},      // Gemini CLI → verify barrier
+  {s:'c_codex',    t:'c_verify'},      // Codex CLI → verify barrier
+  {s:'c_verify',   t:'c_cur'},         // verify → Context=Currency
+  {s:'c_chain',    t:'c_200k'},        // .chain-temp → 200K ops
+  {s:'c_flat',     t:'c_200k'},        // flat root → 200K ops
+  {s:'c_wt',       t:'c_ctx'},         // worktree → .ctx/
+  {s:'c_rulesync', t:'c_ctx'},         // rulesync → .ctx/ cross-CLI
+  // 서브에이전트 진화 체인
+  {s:'sa_morning',  t:'sa_daily_ops'}, // morning-briefer → daily-ops (merged)
+  {s:'sa_aisynth',  t:'c_verify'},     // ai-synthesizer → verify barrier
+  {s:'c_a14',       t:'sa_code_rev'},  // 14agents → code-reviewer
+  {s:'c_a14',       t:'sa_commit'},
+  {s:'c_a14',       t:'sa_compress'},
+  {s:'c_a14',       t:'sa_morning'},
+  {s:'c_merge',     t:'sa_pf_ops'},    // agent merge → pf-ops
+  {s:'c_merge',     t:'sa_doc_ops'},
+  {s:'c_merge',     t:'sa_daily_ops'},
+  {s:'c_merge',     t:'sa_tr_ops'},
+];
+
+// ── 그래프 빌드 ──────────────────────────────────────────────────────────────
+function buildGraph(cf) {
+  const cons = cf==='all' ? CONCEPTS
+    : Array.isArray(cf) ? CONCEPTS.filter(c=>cf.includes(c.cat))
+    : CONCEPTS.filter(c=>c.cat===cf);
+  const conIds = new Set(cons.map(c=>c.id));
+  const nodes = [
+    ...VERSIONS.map(v=>({...v, kind:'version'})),
+    ...cons.map(c=>({...c, kind:'concept', color:CAT_COLOR[c.cat]}))
+  ];
+  const links = [
+    ...VER_EDGES.map(e=>({source:e.s, target:e.t, type:'ver'})),
+    ...cons.map(c=>({source:c.ver, target:c.id, type:'con', cat:c.cat})),
+    ...CON_EDGES.filter(e=>conIds.has(e.s)&&conIds.has(e.t))
+               .map(e=>({source:e.s, target:e.t, type:'cc'}))
+  ];
+  return {nodes, links};
+}
+
+// ── SVG ──────────────────────────────────────────────────────────────────────
+const svg = d3.select('#canvas');
+let W=innerWidth, H=innerHeight;
+svg.attr('width',W).attr('height',H);
+
+// 글로우 필터
+const defs = svg.append('defs');
+['ver','con'].forEach((id,i) => {
+  const f = defs.append('filter').attr('id','glow-'+id)
+    .attr('x','-80%').attr('y','-80%').attr('width','260%').attr('height','260%');
+  f.append('feGaussianBlur').attr('stdDeviation', i===0?'6':'3').attr('result','b');
+  const m = f.append('feMerge');
+  m.append('feMergeNode').attr('in','b');
+  m.append('feMergeNode').attr('in','SourceGraphic');
+});
+
+const gMain = svg.append('g');
+svg.call(d3.zoom().scaleExtent([0.08,8])
+  .on('zoom', e=>gMain.attr('transform',e.transform)));
+
+const agentMax = Math.max(...VERSIONS.map(v=>v.agents));
+
+let sim, lv, lc, lcc, ns, curF='all';
+let currentNodes = null;
+
+// 저장된 초기 위치 (export 후 붙여넣기)
+const SAVED_POSITIONS = {
+  "v1": {"x":195,"y":348,"fx":195,"fy":348},
+  "v2": {"x":313,"y":308,"fx":313,"fy":308},
+  "v2.1": {"x":444,"y":270,"fx":444,"fy":270},
+  "v2.2": {"x":524,"y":365,"fx":524,"fy":365},
+  "v3.0": {"x":637,"y":404,"fx":637,"fy":404},
+  "v3.1": {"x":757,"y":304,"fx":757,"fy":304},
+  "v3.2": {"x":835,"y":417,"fx":835,"fy":417},
+  "v3.3": {"x":955,"y":289,"fx":955,"fy":289},
+  "v3.3.1": {"x":1081,"y":205,"fx":1081,"fy":205},
+  "v4": {"x":1156,"y":371,"fx":1156,"fy":371},
+  "c_memory": {"x":476,"y":450},
+  "c_obsidian": {"x":167,"y":450},
+  "c_scripts": {"x":291,"y":455},
+  "c_a14": {"x":605,"y":308,"fx":605,"fy":308},
+  "c_hooks7": {"x":320,"y":404,"fx":320,"fy":404},
+  "c_teams_on": {"x":254,"y":234,"fx":254,"fy":234},
+  "c_gemini": {"x":713,"y":211},
+  "c_precp": {"x":450,"y":362},
+  "c_overhaul": {"x":418,"y":469,"fx":418,"fy":469},
+  "c_prune": {"x":601,"y":487,"fx":601,"fy":487},
+  "c_linker": {"x":839,"y":222},
+  "c_live": {"x":764,"y":490,"fx":764,"fy":490},
+  "c_metaorch": {"x":870,"y":325},
+  "c_3t": {"x":861,"y":264},
+  "c_codex": {"x":1005,"y":162,"fx":1005,"fy":162},
+  "c_verify": {"x":955,"y":203},
+  "c_chain": {"x":1226,"y":226},
+  "c_flat": {"x":1210,"y":145},
+  "c_200k": {"x":1263,"y":179},
+  "c_cur": {"x":1109,"y":277},
+  "c_merge": {"x":899,"y":546,"fx":899,"fy":546},
+  "c_skillmin": {"x":939,"y":455},
+  "c_rulesync": {"x":1242,"y":443,"fx":1242,"fy":443},
+  "c_ctx": {"x":1050,"y":480,"fx":1050,"fy":480},
+  "c_wt": {"x":1175,"y":492,"fx":1175,"fy":492}
+};
+
+function render(f) {
+  gMain.selectAll('*').remove();
+  const {nodes, links} = buildGraph(f);
+
+  // 저장된 위치 적용
+  if(Object.keys(SAVED_POSITIONS).length > 0) {
+    nodes.forEach(n => {
+      if(SAVED_POSITIONS[n.id]) {
+        n.x = SAVED_POSITIONS[n.id].x;
+        n.y = SAVED_POSITIONS[n.id].y;
+        n.fx = SAVED_POSITIONS[n.id].fx ?? null;
+        n.fy = SAVED_POSITIONS[n.id].fy ?? null;
+      }
+    });
+  }
+
+  currentNodes = nodes;
+
+  document.getElementById('cnt-agents').textContent =
+    nodes.filter(n=>n.kind==='version').reduce((s,v)=>Math.max(s,v.agents||0),0);
+  document.getElementById('cnt-concepts').textContent =
+    nodes.filter(n=>n.kind==='concept').length;
+
+  if(sim) sim.stop();
+
+  sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d=>d.id)
+      .distance(d=>d.type==='ver'?140:75)
+      .strength(d=>d.type==='ver'?0.9:0.3))
+    .force('charge', d3.forceManyBody()
+      .strength(d=>d.kind==='version'?-300:-65))
+    .force('center', d3.forceCenter(W/2, H/2))
+    .force('x', d3.forceX(d=>{
+      if(d.kind!=='version') return W/2;
+      const i = VERSIONS.findIndex(v=>v.id===d.id);
+      return W*0.12 + i*(W*0.76)/(VERSIONS.length-1);
+    }).strength(d=>d.kind==='version'?0.04:0))
+    .force('collision', d3.forceCollide()
+      .radius(d=>d.kind==='version'?40:14));
+
+  // ── 엣지 ────────────────────────────────────────────────────────────────
+  // 버전 간
+  lv = gMain.append('g').selectAll('line')
+    .data(links.filter(l=>l.type==='ver')).join('line')
+    .attr('stroke','rgba(0,0,0,0.13)')
+    .attr('stroke-width', 1.5);
+
+  // 개념 연결 (카테고리 색)
+  lc = gMain.append('g').selectAll('line')
+    .data(links.filter(l=>l.type==='con')).join('line')
+    .attr('stroke', d=>CAT_COLOR[d.cat])
+    .attr('stroke-opacity', 0.4)
+    .attr('stroke-width', 1.2);
+
+  // 개념 간 진화 관계 (점선)
+  lcc = gMain.append('g').selectAll('line')
+    .data(links.filter(l=>l.type==='cc')).join('line')
+    .attr('stroke','rgba(0,0,0,0.22)')
+    .attr('stroke-width', 1)
+    .attr('stroke-dasharray','3,3')
+    .attr('stroke-opacity', 0.55);
+
+  // ── 노드 ────────────────────────────────────────────────────────────────
+  ns = gMain.append('g').selectAll('.nd')
+    .data(nodes).join('g').attr('class','nd')
+    .style('cursor','pointer')
+    .call(d3.drag()
+      .on('start',(e,d)=>{ if(!e.active) sim.alphaTarget(.3).restart(); d.fx=d.x; d.fy=d.y; })
+      .on('drag', (e,d)=>{ d.fx=e.x; d.fy=e.y; })
+      .on('end',  (e,d)=>{ if(!e.active) sim.alphaTarget(0); })
+    )
+    .on('mouseover', onHover)
+    .on('mouseout',  onOut)
+    .on('click',(e,d)=>{ d.fx=d.fx!=null?null:d.x; d.fy=d.fy!=null?null:d.y; });
+
+  // 버전: 큰 원 (에이전트 수 비례 크기)
+  const verNodes = ns.filter(d=>d.kind==='version');
+
+  // 바깥 글로우 링
+  verNodes.append('circle')
+    .attr('r', d=>{ const b=22; const x=d.agents>0?(d.agents/agentMax)*14:0; return b+x+10; })
+    .attr('fill','none')
+    .attr('stroke','#8888cc')
+    .attr('stroke-width',0.8)
+    .attr('stroke-opacity', d=>d.id==='v4'?0.55:0.25)
+    .style('filter','url(#glow-ver)');
+
+  // 메인 원
+  verNodes.append('circle')
+    .attr('r', d=>{ const b=22; const x=d.agents>0?(d.agents/agentMax)*14:0; return b+x; })
+    .attr('fill','#8888cc')
+    .attr('fill-opacity', d=>d.id==='v4'?0.38:0.22)
+    .attr('stroke','#8888cc')
+    .attr('stroke-width', d=>d.id==='v4'?2:1.5)
+    .attr('stroke-opacity', d=>d.id==='v4'?0.95:0.7)
+    .style('filter','url(#glow-ver)');
+
+  // 버전 라벨
+  verNodes.append('text')
+    .text(d=>d.label)
+    .attr('text-anchor','middle').attr('y',-3)
+    .attr('font-size',12).attr('font-weight','600')
+    .attr('font-family','Inter,-apple-system,sans-serif')
+    .attr('fill','rgba(0,0,0,0.75)')
+    .style('pointer-events','none');
+
+  // 에이전트 수
+  verNodes.append('text')
+    .text(d=>d.agents>0?`${d.agents}A`:'')
+    .attr('text-anchor','middle').attr('y',13)
+    .attr('font-size',9).attr('font-weight','400')
+    .attr('font-family','Inter,-apple-system,sans-serif')
+    .attr('fill','rgba(0,0,0,0.35)')
+    .style('pointer-events','none');
+
+  // 개념: 작은 원
+  const conNodes = ns.filter(d=>d.kind==='concept');
+
+  conNodes.append('circle')
+    .attr('r', 6)
+    .attr('fill', d=>d.color)
+    .attr('fill-opacity', 0.32)
+    .attr('stroke', d=>d.color)
+    .attr('stroke-width', 1.2)
+    .attr('stroke-opacity', 0.8)
+    .style('filter','url(#glow-con)');
+
+  // 개념 라벨 (기본 숨김, 작게)
+  conNodes.append('text')
+    .text(d=>d.label)
+    .attr('text-anchor','middle').attr('y',18)
+    .attr('font-size',8.5).attr('font-weight','400')
+    .attr('font-family','Inter,-apple-system,sans-serif')
+    .attr('fill',d=>d.color).attr('fill-opacity',0.75)
+    .style('pointer-events','none');
+
+  // tick
+  sim.on('tick',()=>{
+    lv.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+      .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    lc.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+      .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    lcc.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+       .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+    ns.attr('transform',d=>`translate(${d.x|0},${d.y|0})`);
+  });
+}
+
+// ── 인터랙션 ─────────────────────────────────────────────────────────────────
+function myLinks(d) {
+  return [...lv.data(),...lc.data(),...lcc.data()].filter(l=>{
+    const s=typeof l.source==='object'?l.source.id:l.source;
+    const t=typeof l.target==='object'?l.target.id:l.target;
+    return s===d.id||t===d.id;
+  });
+}
+
+function onHover(e,d) {
+  const ml = myLinks(d);
+  const conn = new Set([d.id]);
+  ml.forEach(l=>{
+    conn.add(typeof l.source==='object'?l.source.id:l.source);
+    conn.add(typeof l.target==='object'?l.target.id:l.target);
+  });
+
+  lv.attr('stroke-opacity', l=>{
+    const s=typeof l.source==='object'?l.source.id:l.source;
+    const t=typeof l.target==='object'?l.target.id:l.target;
+    return (s===d.id||t===d.id)?0.6:0.04;
+  }).attr('stroke-width',l=>{
+    const s=typeof l.source==='object'?l.source.id:l.source;
+    const t=typeof l.target==='object'?l.target.id:l.target;
+    return (s===d.id||t===d.id)?2:1.5;
+  });
+  lc.attr('stroke-opacity', l=>{
+    const s=typeof l.source==='object'?l.source.id:l.source;
+    const t=typeof l.target==='object'?l.target.id:l.target;
+    return (s===d.id||t===d.id)?0.7:0.03;
+  });
+  lcc.attr('stroke-opacity', l=>{
+    const s=typeof l.source==='object'?l.source.id:l.source;
+    const t=typeof l.target==='object'?l.target.id:l.target;
+    return (s===d.id||t===d.id)?0.75:0.06;
+  }).attr('stroke-width', l=>{
+    const s=typeof l.source==='object'?l.source.id:l.source;
+    const t=typeof l.target==='object'?l.target.id:l.target;
+    return (s===d.id||t===d.id)?1.5:1;
+  });
+  ns.selectAll('circle').attr('opacity', function(){
+    const nd=d3.select(this.parentNode).datum();
+    return conn.has(nd.id)?1:0.08;
+  });
+  ns.selectAll('text').attr('opacity', function(){
+    const nd=d3.select(this.parentNode).datum();
+    return conn.has(nd.id)?1:0.08;
+  });
+
+  const tip = document.getElementById('tip');
+  let html='';
+  if(d.kind==='version'){
+    const cc = ml.map(l=>typeof l.target==='object'?l.target:null)
+                  .filter(n=>n&&n.kind==='concept');
+    html=`<div class="tt">${d.label}<br><span style="font-weight:300;color:rgba(0,0,0,0.4);font-size:11px">${d.desc}</span></div>
+      <div class="trow"><span class="tk">Date</span><span class="tv">${d.date||'—'}</span></div>
+      <div class="trow"><span class="tk">Agents</span><span class="tv">${d.agents}</span></div>
+      <div class="trow"><span class="tk">Skills</span><span class="tv">${d.skills}</span></div>
+      <div class="trow"><span class="tk">Concepts</span><span class="tv">${cc.length}</span></div>
+      <div class="tdesc">${cc.slice(0,4).map(c=>`<span style="color:${CAT_COLOR[c.cat]};margin-right:6px">• ${c.label}</span>`).join('<br>')}</div>`;
+  } else {
+    const vn = ml.map(l=>typeof l.source==='object'?l.source:null).find(n=>n&&n.kind==='version');
+    const col = CAT_COLOR[d.cat];
+    html=`<div class="tt">${d.label}</div>
+      <div class="trow"><span class="tk">Introduced</span><span class="tv">${vn?vn.label:'—'}</span></div>
+      <div class="trow"><span class="tk">Category</span><span class="tv" style="color:${col}">${d.cat}</span></div>
+      <div class="tdesc">${d.desc}</div>
+      <span class="tbadge" style="background:${col}15;color:${col};border:1px solid ${col}30">${d.cat}</span>`;
+  }
+  tip.innerHTML=html;
+  tip.style.display='block';
+}
+
+function onOut(){
+  lv.attr('stroke','rgba(0,0,0,0.13)').attr('stroke-width',1.5);
+  lc.attr('stroke-opacity',0.4);
+  lcc.attr('stroke-opacity',0.55).attr('stroke-width',1);
+  ns.selectAll('circle').attr('opacity',1);
+  ns.selectAll('text').attr('opacity',1);
+  document.getElementById('tip').style.display='none';
+}
+
+// ── 필터 (멀티셀렉트 토글) ────────────────────────────────────────────────────
+const ALL_CATS = ['agent','hook','skill','cli','memory','principle'];
+let activeFilters = new Set(ALL_CATS);
+
+function syncFilterButtons() {
+  const allOn = ALL_CATS.every(c=>activeFilters.has(c));
+  document.querySelector('[data-f="all"]').classList.toggle('on', allOn);
+  ALL_CATS.forEach(c=>{
+    document.querySelector(`[data-f="${c}"]`).classList.toggle('on', activeFilters.has(c));
+  });
+}
+
+document.querySelectorAll('.fb').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const f = btn.dataset.f;
+    if(f === 'all') {
+      activeFilters = new Set(ALL_CATS);
+    } else {
+      if(activeFilters.has(f)) {
+        activeFilters.delete(f);
+        if(activeFilters.size === 0) activeFilters = new Set(ALL_CATS);
+      } else {
+        activeFilters.add(f);
+      }
+    }
+    syncFilterButtons();
+    curF = activeFilters.size === ALL_CATS.length ? 'all' : [...activeFilters];
+    render(curF);
+  });
+});
+
+// ── Export 위치 ──────────────────────────────────────────────────────────────
+function exportPositions() {
+  if(!currentNodes) return;
+  const pos = {};
+  currentNodes.forEach(n => {
+    pos[n.id] = {
+      x: Math.round(n.x),
+      y: Math.round(n.y),
+      ...(n.fx != null ? {fx: Math.round(n.fx)} : {}),
+      ...(n.fy != null ? {fy: Math.round(n.fy)} : {})
+    };
+  });
+  const out = 'const SAVED_POSITIONS = ' + JSON.stringify(pos, null, 2) + ';';
+  navigator.clipboard.writeText(out).then(()=>{
+    const t = document.getElementById('export-toast');
+    t.style.opacity = '1';
+    setTimeout(()=> t.style.opacity = '0', 2000);
+  });
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+render('all');
+window.addEventListener('resize',()=>{
+  W=innerWidth; H=innerHeight;
+  svg.attr('width',W).attr('height',H);
+  if(sim) sim.force('center',d3.forceCenter(W/2,H/2)).alpha(.2).restart();
+});
+</script>
+</body>
+</html>

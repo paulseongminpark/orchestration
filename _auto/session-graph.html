@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Session Graph — Dev Context</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #07070f; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; overflow: hidden; color: #c0c0d0; }
+#canvas { width: 100vw; height: 100vh; }
+
+#legend {
+  position: fixed; top: 20px; left: 20px;
+  background: rgba(8,8,20,0.88); border: 1px solid rgba(255,255,255,0.08);
+  padding: 14px 16px; border-radius: 10px; font-size: 11px;
+  backdrop-filter: blur(10px); min-width: 190px;
+}
+#legend h3 { color: #fff; font-size: 13px; margin-bottom: 4px; }
+#legend .sub { color: rgba(255,255,255,0.35); font-size: 9px; margin-bottom: 10px; }
+.legend-section { color: rgba(255,255,255,0.4); font-size: 9px; margin: 10px 0 6px; letter-spacing: 0.08em; }
+.legend-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.l-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.l-rect { width: 14px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.l-label { color: #9090a8; }
+
+#filters {
+  position: fixed; top: 20px; right: 20px;
+  display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 380px;
+}
+.f-btn {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  color: #8888a8; padding: 5px 13px; border-radius: 20px; cursor: pointer;
+  font-size: 10px; font-family: inherit; transition: all 0.15s;
+}
+.f-btn:hover { background: rgba(255,255,255,0.1); color: #e0e0f0; }
+.f-btn.active { background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,0.25); }
+
+#hint { position: fixed; top: 60px; right: 20px; font-size: 9px; color: rgba(255,255,255,0.2); text-align: right; }
+
+#stats {
+  position: fixed; bottom: 20px; left: 20px;
+  background: rgba(8,8,20,0.85); border: 1px solid rgba(255,255,255,0.08);
+  padding: 11px 15px; border-radius: 10px; font-size: 11px;
+}
+.stat { color: #6868a0; margin: 3px 0; }
+.stat span { color: #e0e0f0; }
+
+#tooltip {
+  position: fixed; bottom: 20px; right: 20px;
+  background: rgba(8,8,20,0.92); border: 1px solid rgba(255,255,255,0.12);
+  padding: 13px 16px; border-radius: 10px; font-size: 11px;
+  max-width: 270px; display: none; pointer-events: none;
+}
+.t-title { color: #ffffff; font-size: 12px; margin-bottom: 7px; font-weight: 600; }
+.t-row { color: #7070a0; margin: 3px 0; line-height: 1.5; }
+.t-row span { color: #d0d0ee; }
+.t-badge {
+  display: inline-block; padding: 2px 7px; border-radius: 10px;
+  font-size: 9px; margin-top: 5px;
+}
+</style>
+</head>
+<body>
+<svg id="canvas"></svg>
+
+<div id="legend">
+  <h3>Session Graph</h3>
+  <div class="sub">live-context.md · 2026-03-02~03</div>
+  <div class="legend-section">SESSIONS (●)</div>
+  <div class="legend-row"><div class="l-dot" style="background:#4F7FFF"></div><span class="l-label">portfolio</span></div>
+  <div class="legend-row"><div class="l-dot" style="background:#3DBE7A"></div><span class="l-label">orchestration</span></div>
+  <div class="legend-row"><div class="l-dot" style="background:#BF6FFF"></div><span class="l-label">monet-lab</span></div>
+  <div class="legend-row"><div class="l-dot" style="background:#FF9A3C"></div><span class="l-label">config / global</span></div>
+  <div class="legend-row"><div class="l-dot" style="background:#606080"></div><span class="l-label">unknown</span></div>
+  <div class="legend-section">FILES (■)</div>
+  <div class="legend-row"><div class="l-rect" style="background:#FF6B9D"></div><span class="l-label">.tsx / .ts</span></div>
+  <div class="legend-row"><div class="l-rect" style="background:#FFD166"></div><span class="l-label">.md</span></div>
+  <div class="legend-row"><div class="l-rect" style="background:#06D6A0"></div><span class="l-label">.css / other</span></div>
+  <div style="margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.06); font-size:9px; color:rgba(255,255,255,0.25);">
+    밝을수록 최신 세션
+  </div>
+</div>
+
+<div id="filters">
+  <button class="f-btn active" data-p="all">All</button>
+  <button class="f-btn" data-p="portfolio">portfolio</button>
+  <button class="f-btn" data-p="orchestration">orchestration</button>
+  <button class="f-btn" data-p="monet-lab">monet-lab</button>
+  <button class="f-btn" data-p="config">config</button>
+</div>
+
+<div id="hint">drag · scroll to zoom · hover to connect</div>
+
+<div id="stats">
+  <div class="stat">Sessions <span id="s-sess">—</span></div>
+  <div class="stat">Files    <span id="s-files">—</span></div>
+  <div class="stat">Edges    <span id="s-edges">—</span></div>
+</div>
+
+<div id="tooltip"></div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+// ── Data (parsed from live-context.md) ──────────────────────────────────────
+const RAW = [
+  {t:'21:09', p:'portfolio',    f:'App.tsx',                    s:142488},
+  {t:'21:09', p:'portfolio',    f:'KeyDecisions_v1.tsx',        s:142527},
+  {t:'21:10', p:'portfolio',    f:'KeyDecisions_v2.tsx',        s:142675},
+  {t:'21:10', p:'portfolio',    f:'KeyDecisions_v3.tsx',        s:142863},
+  {t:'21:11', p:'portfolio',    f:'STATE.md',                   s:143071},
+  {t:'21:11', p:'portfolio',    f:'STATE.md',                   s:143112},
+  {t:'21:11', p:'portfolio',    f:'STATE.md',                   s:143151},
+  {t:'21:13', p:'portfolio',    f:'.gitignore',                 s:143423},
+  {t:'21:13', p:'portfolio',    f:'STATE.md',                   s:143511},
+  {t:'21:13', p:'portfolio',    f:'STATE.md',                   s:143620},
+  {t:'21:13', p:'portfolio',    f:'STATE.md',                   s:143663},
+  {t:'21:13', p:'portfolio',    f:'App.tsx',                    s:143749},
+  {t:'21:14', p:'portfolio',    f:'aiWorkflowData.ts',          s:143964},
+  {t:'21:14', p:'global',       f:'HOME.md',                    s:144091},
+  {t:'21:14', p:'global',       f:'HOME.md',                    s:144128},
+  {t:'21:15', p:'portfolio',    f:'STATE.md',                   s:144535},
+  {t:'21:15', p:'orchestration',f:'session-summary.md',         s:144573},
+  {t:'21:15', p:'unknown',      f:'shared-context.md',          s:144602},
+  {t:'21:15', p:'portfolio',    f:'STATE.md',                   s:144649},
+  {t:'21:15', p:'orchestration',f:'2026-03-02.md',              s:144687},
+  {t:'21:15', p:'portfolio',    f:'STATE.md',                   s:144722},
+  {t:'21:15', p:'portfolio',    f:'STATE.md',                   s:144763},
+  {t:'21:15', p:'orchestration',f:'decisions.md',               s:144801},
+  {t:'21:15', p:'orchestration',f:'METRICS.md',                 s:144839},
+  {t:'21:15', p:'orchestration',f:'snapshot-2026-03-02.md',     s:144877},
+  {t:'21:15', p:'orchestration',f:'session-summary.md',         s:144911},
+  {t:'21:16', p:'portfolio',    f:'CHANGELOG.md',               s:144954},
+  {t:'21:16', p:'orchestration',f:'2026-03-04.md',              s:145106},
+  {t:'21:18', p:'orchestration',f:'METRICS.md',                 s:145148},
+  {t:'21:21', p:'orchestration',f:'session-summary.md',         s:145805},
+  {t:'21:22', p:'orchestration',f:'session-summary.md',         s:146032},
+  {t:'21:23', p:'orchestration',f:'session-summary.md',         s:146070},
+  {t:'22:57', p:'monet-lab',    f:'aiWorkflowData.ts',          s:148232},
+  {t:'22:58', p:'monet-lab',    f:'aiWorkflowData.ts',          s:148272},
+  {t:'22:58', p:'monet-lab',    f:'AiWorkflowSection.tsx',      s:148312},
+  {t:'22:58', p:'monet-lab',    f:'AiWorkflowSection.tsx',      s:148352},
+  {t:'22:58', p:'monet-lab',    f:'AiWorkflowSection.tsx',      s:148392},
+  {t:'23:04', p:'portfolio',    f:'aiWorkflowData.ts',          s:148559},
+  {t:'23:04', p:'portfolio',    f:'aiWorkflowData.ts',          s:148600},
+  {t:'23:04', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:148642},
+  {t:'23:05', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:148681},
+  {t:'23:05', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:148724},
+  {t:'05:10', p:'portfolio',    f:'aiWorkflowData.ts',          s:149073},
+  {t:'05:10', p:'portfolio',    f:'aiWorkflowData.ts',          s:149112},
+  {t:'05:11', p:'portfolio',    f:'aiWorkflowData.ts',          s:149151},
+  {t:'05:12', p:'portfolio',    f:'aiWorkflowData.ts',          s:149190},
+  {t:'05:12', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:149230},
+  {t:'05:12', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:149269},
+  {t:'05:12', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:149308},
+  {t:'05:12', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:149347},
+  {t:'05:29', p:'config',       f:'how-i-ai-story.md',          s:149739},
+  {t:'05:32', p:'config',       f:'how-i-ai-story.md',          s:149781},
+  {t:'05:35', p:'config',       f:'how-i-ai-story.md',          s:149826},
+  {t:'05:43', p:'config',       f:'how-i-ai-story.md',          s:149995},
+  {t:'05:45', p:'config',       f:'how-i-ai-story.md',          s:150039},
+  {t:'05:46', p:'config',       f:'how-i-ai-story.md',          s:150080},
+  {t:'05:51', p:'portfolio',    f:'aiWorkflowData.ts',          s:150125},
+  {t:'05:51', p:'portfolio',    f:'aiWorkflowData.ts',          s:150164},
+  {t:'05:52', p:'portfolio',    f:'aiWorkflowData.ts',          s:150203},
+  {t:'05:52', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:150243},
+  {t:'05:52', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:150282},
+  {t:'05:52', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:150322},
+  {t:'05:53', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:150362},
+  {t:'05:53', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:150402},
+  {t:'06:22', p:'config',       f:'idempotent-beaming-puddle.md',s:150487},
+  {t:'06:32', p:'portfolio',    f:'aiWorkflowData.ts',          s:150835},
+  {t:'06:32', p:'portfolio',    f:'portfolio.css',              s:150877},
+  {t:'06:33', p:'portfolio',    f:'AiWorkflowSection.tsx',      s:150919},
+  {t:'06:41', p:'portfolio',    f:'aiWorkflowData.ts',          s:152698},
+  {t:'06:42', p:'portfolio',    f:'aiWorkflowData.ts',          s:152752},
+  {t:'06:43', p:'portfolio',    f:'aiWorkflowData.ts',          s:152901},
+];
+
+const PROJ_COLOR = {
+  portfolio:'#4F7FFF', orchestration:'#3DBE7A',
+  'monet-lab':'#BF6FFF', config:'#FF9A3C',
+  global:'#FF9A3C', unknown:'#606080'
+};
+
+function fileColor(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  if (['tsx','ts'].includes(ext)) return '#FF6B9D';
+  if (ext === 'md') return '#FFD166';
+  return '#06D6A0';
+}
+
+const sMin = Math.min(...RAW.map(d=>d.s));
+const sMax = Math.max(...RAW.map(d=>d.s));
+const age = s => (s - sMin) / (sMax - sMin); // 0=oldest, 1=newest
+
+// ── Build graph ──────────────────────────────────────────────────────────────
+function buildGraph(filter) {
+  const src = filter === 'all' ? RAW : RAW.filter(d => d.p === filter || (filter==='config' && d.p==='global'));
+  const sessMap = new Map(), fileMap = new Map();
+  const links = [], linkSet = new Set();
+
+  src.forEach(d => {
+    const sid = 's' + d.s, fid = 'f:' + d.f;
+    if (!sessMap.has(sid)) sessMap.set(sid, {
+      id: sid, kind:'session', s:d.s, t:d.t, p:d.p,
+      age: age(d.s), color: PROJ_COLOR[d.p]||'#606080'
+    });
+    if (!fileMap.has(fid)) fileMap.set(fid, {
+      id: fid, kind:'file', f:d.f, color: fileColor(d.f), degree:0
+    });
+    fileMap.get(fid).degree++;
+    const key = sid + '|' + fid;
+    if (!linkSet.has(key)) {
+      linkSet.add(key);
+      links.push({ source: sid, target: fid, p: d.p });
+    }
+  });
+
+  return { nodes: [...sessMap.values(), ...fileMap.values()], links };
+}
+
+// ── D3 Setup ─────────────────────────────────────────────────────────────────
+const svg = d3.select('#canvas');
+let W = window.innerWidth, H = window.innerHeight;
+svg.attr('width', W).attr('height', H);
+
+const gMain = svg.append('g');
+svg.call(d3.zoom().scaleExtent([0.15, 8]).on('zoom', e => gMain.attr('transform', e.transform)));
+
+let simRef, linkSel, nodeSel;
+
+function render(filter) {
+  gMain.selectAll('*').remove();
+  const { nodes, links } = buildGraph(filter);
+
+  document.getElementById('s-sess').textContent  = nodes.filter(n=>n.kind==='session').length;
+  document.getElementById('s-files').textContent  = nodes.filter(n=>n.kind==='file').length;
+  document.getElementById('s-edges').textContent  = links.length;
+
+  if (simRef) simRef.stop();
+
+  simRef = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d=>d.id).distance(d => {
+      const tn = typeof d.target === 'object' ? d.target : nodes.find(n=>n.id===d.target);
+      return tn && tn.kind==='file' ? 55 : 80;
+    }).strength(0.4))
+    .force('charge', d3.forceManyBody().strength(n => n.kind==='file' ? -180 : -80))
+    .force('center', d3.forceCenter(W/2, H/2))
+    .force('collision', d3.forceCollide().radius(n => n.kind==='file' ? 30 : 9));
+
+  // Glow filter
+  const defs = gMain.append('defs');
+  const filter_el = defs.append('filter').attr('id','glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+  filter_el.append('feGaussianBlur').attr('stdDeviation','3').attr('result','blur');
+  const feMerge = filter_el.append('feMerge');
+  feMerge.append('feMergeNode').attr('in','blur');
+  feMerge.append('feMergeNode').attr('in','SourceGraphic');
+
+  // Links
+  linkSel = gMain.append('g').attr('class','links').selectAll('line')
+    .data(links).join('line')
+    .attr('stroke', d => PROJ_COLOR[d.p]||'#606080')
+    .attr('stroke-opacity', 0.1)
+    .attr('stroke-width', 1);
+
+  // Nodes
+  nodeSel = gMain.append('g').attr('class','nodes').selectAll('.nd')
+    .data(nodes).join('g').attr('class','nd')
+    .call(d3.drag()
+      .on('start', (e,d) => { if (!e.active) simRef.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+      .on('drag',  (e,d) => { d.fx=e.x; d.fy=e.y; })
+      .on('end',   (e,d) => { if (!e.active) simRef.alphaTarget(0); })
+    )
+    .on('mouseover', onHover)
+    .on('mouseout',  onOut)
+    .on('click', (e,d) => { if (d.fx!=null) { d.fx=null; d.fy=null; } else { d.fx=d.x; d.fy=d.y; } });
+
+  // Session: circle
+  nodeSel.filter(d=>d.kind==='session').append('circle')
+    .attr('r', 6)
+    .attr('fill', d => d.color)
+    .attr('fill-opacity', d => 0.2 + d.age * 0.7)
+    .attr('stroke', d => d.color)
+    .attr('stroke-width', 1.5)
+    .attr('stroke-opacity', d => 0.3 + d.age * 0.7)
+    .style('filter', d => d.age > 0.7 ? 'url(#glow)' : 'none');
+
+  // File: rect + label
+  const fileG = nodeSel.filter(d=>d.kind==='file');
+  fileG.append('rect')
+    .attr('y', -9).attr('height', 18).attr('rx', 4)
+    .attr('x', d => -Math.min(d.f.length * 3.4 + 14, 95) / 2)
+    .attr('width', d => Math.min(d.f.length * 3.4 + 14, 95))
+    .attr('fill', d => d.color)
+    .attr('fill-opacity', 0.1)
+    .attr('stroke', d => d.color)
+    .attr('stroke-opacity', 0.55)
+    .attr('stroke-width', 1.2);
+  fileG.append('text')
+    .text(d => d.f.length > 22 ? d.f.slice(0,20)+'…' : d.f)
+    .attr('text-anchor','middle').attr('y', 4)
+    .attr('font-size', 9).attr('fill', d => d.color)
+    .attr('fill-opacity', 0.9)
+    .style('pointer-events','none');
+
+  simRef.on('tick', () => {
+    linkSel
+      .attr('x1', d=>d.source.x).attr('y1', d=>d.source.y)
+      .attr('x2', d=>d.target.x).attr('y2', d=>d.target.y);
+    nodeSel.attr('transform', d=>`translate(${d.x|0},${d.y|0})`);
+  });
+}
+
+// ── Interactions ─────────────────────────────────────────────────────────────
+function getLinksOf(d) {
+  return linkSel.data().filter(l => {
+    const s = typeof l.source==='object' ? l.source.id : l.source;
+    const t = typeof l.target==='object' ? l.target.id : l.target;
+    return s===d.id || t===d.id;
+  });
+}
+
+function onHover(e, d) {
+  const myLinks = getLinksOf(d);
+  const connected = new Set([d.id]);
+  myLinks.forEach(l => {
+    connected.add(typeof l.source==='object' ? l.source.id : l.source);
+    connected.add(typeof l.target==='object' ? l.target.id : l.target);
+  });
+
+  linkSel.attr('stroke-opacity', l => {
+    const s = typeof l.source==='object' ? l.source.id : l.source;
+    const t = typeof l.target==='object' ? l.target.id : l.target;
+    return (s===d.id || t===d.id) ? 0.75 : 0.03;
+  }).attr('stroke-width', l => {
+    const s = typeof l.source==='object' ? l.source.id : l.source;
+    const t = typeof l.target==='object' ? l.target.id : l.target;
+    return (s===d.id || t===d.id) ? 2 : 1;
+  });
+
+  nodeSel.selectAll('circle,rect').attr('opacity', function() {
+    const nd = d3.select(this.parentNode).datum();
+    return connected.has(nd.id) ? 1 : 0.12;
+  });
+
+  // Tooltip
+  const tip = document.getElementById('tooltip');
+  let html = '';
+  if (d.kind === 'session') {
+    const files = myLinks.map(l => {
+      const tgt = typeof l.target==='object' ? l.target : null;
+      return tgt && tgt.kind==='file' ? tgt.f : null;
+    }).filter(Boolean);
+    html = `<div class="t-title">sess:${d.s}</div>
+      <div class="t-row">시간 <span>${d.t}</span></div>
+      <div class="t-row">프로젝트 <span>${d.p}</span></div>
+      <div class="t-row">파일 <span>${files.join(', ') || '—'}</span></div>
+      <div class="t-row">최신도 <span>${Math.round(d.age*100)}%</span></div>
+      <div><span class="t-badge" style="background:${d.color}22;color:${d.color};border:1px solid ${d.color}44">${d.p}</span></div>`;
+  } else {
+    const sessNodes = myLinks.map(l => typeof l.source==='object' ? l.source : null).filter(n=>n&&n.kind==='session');
+    const projects = [...new Set(sessNodes.map(n=>n.p))];
+    html = `<div class="t-title">${d.f}</div>
+      <div class="t-row">연결 세션 <span>${myLinks.length}개</span></div>
+      <div class="t-row">수정 빈도 <span>${d.degree}회</span></div>
+      <div class="t-row">프로젝트 <span>${projects.join(', ')}</span></div>
+      ${projects.map(p=>`<span class="t-badge" style="background:${PROJ_COLOR[p]||'#888'}22;color:${PROJ_COLOR[p]||'#888'};border:1px solid ${PROJ_COLOR[p]||'#888'}44">${p}</span>`).join(' ')}`;
+  }
+  tip.innerHTML = html;
+  tip.style.display = 'block';
+}
+
+function onOut() {
+  linkSel.attr('stroke-opacity', 0.1).attr('stroke-width', 1);
+  nodeSel.selectAll('circle,rect').attr('opacity', 1);
+  document.getElementById('tooltip').style.display = 'none';
+}
+
+// ── Filters ───────────────────────────────────────────────────────────────────
+document.querySelectorAll('.f-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(btn.dataset.p);
+  });
+});
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+render('all');
+
+window.addEventListener('resize', () => {
+  W = window.innerWidth; H = window.innerHeight;
+  svg.attr('width', W).attr('height', H);
+  if (simRef) simRef.force('center', d3.forceCenter(W/2, H/2)).alpha(0.2).restart();
+});
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # SOT Metrics — 성과 지표
 
-> 최종 수정: 2026-02-27
+> 최종 수정: 2026-03-04
 
 > 목적: 에이전트 효과성 + 작업 품질 데이터 누적. "뭐가 실제로 도움이 됐나"를 측정.
 
@@ -31,6 +31,11 @@
 | 2026-02-25 | (직접 설계+실행) | v3.3 전체 e2e 테스트: 12시나리오 + 1차/2차 + 비교 분석 + 버그 3건 수정 | 5 | FAIL 0, WARN 3, Opus 추가 발견 +15건. meta-orchestrator/Codex/PreToolUse 실제 버그 발견 |
 | 2026-02-26 | (직접 구현) | v3.3.1 200K Context 최적화: baseline 축소 + .chain-temp 오프로딩 + compact 전략 + hook | 5 | ~3.7K baseline 절감, ~6.5K 플러그인 절감, .chain-temp 패턴 신설, compact 3단계 임계값 확정 |
 | 2026-02-27 | (직접 감사) | v3.3.1 전체 .md 일관성 감사: 80+ 파일 스캔, 15건 수정 | 5 | CRITICAL 1(hook 경로), HIGH 10(context/ URL+@agent), MEDIUM 3, LOW 1 |
+| 2026-02-27 | (직접 검증+문서화) | v4.0 Living Docs 최신화 + e2e 8시나리오 | 5 | stale name 7건 수정, PostCompact 정리, 오탐 3건 확인 |
+| 2026-03-02 | (직접 구현) | portfolio PMCC_DETAIL_KO.md 전면 개정 (13개 지시 + 표현 평이화) | 5 | flowchart 이동, Gallery 재배치, 어조 전환 완성. TS 타입 체크 PASS. commit 8e2ed5b |
+| 2026-03-02 | (직접 구현) | portfolio Obsidian/E2E/index 섹션 전면 리라이트| 5 | 구조 10→5단계, Bedford 다이어그램, vanilla.js 마이그레이션, 타이포그래피 위계, sticky 헤더. commit 9e47cda, fb291ef |
+| 2026-03-04 | (직접 구현) | portfolio E2EWorkflow 헤더/배경 분리 + Key Decisions sandbox 3종 | 5 | 헤더 흰색/파란배경 분리, v1(투톤)/v2(아코디언)/v3(내러티브) 제작. commit caca5a8 |
+| 2026-03-03 | (직접 개선) | Auto Memory 파이프라인 개선 + .ctx 정리 + Playwright 활성화 | 5 | analyze-session.sh Python 기반 개선, auto-promote.sh 신규, .ctx/ 폐기, Playwright MCP 활성화 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -85,8 +90,11 @@
 | 2026-02-25 | orchestration v3.3 Codex/Gemini 통합 설계 (설계문서+구현플랜 작성+커밋) | ~2h | - |
 | 2026-02-25 | orchestration v3.3 전체 구현 + 리뷰 반영 + 미흡 해결 + e2e 23/23 PASS | ~4h | Gemini 경로 문제 디버깅 |
 | 2026-02-25 | v3.3 에비던스 문서 + HOME.md/REFERENCE.md + compressor 버그 수정 + 문서화 | ~2h | - |
-| 2026-02-26 | v3.3.1 200K Context 최적화 전체 (Phase A~D + 리뷰 반영 + 커밋 5건) | ~3h | 여러 파일 간 일관성 유지 |
+| 2026-02-26 | v3.3.1 200K Context 최적화 전체 (Phase A~D + 플러그인 비활성화 + hook + statusline + 리뷰 반영) | ~3h | 여러 파일 간 일관성 유지 |
 | 2026-02-27 | v3.3.1 일관성 감사 (80+ 파일 스캔 + 15건 수정 + 커밋+push) | ~1h | 코드 블록 내 텍스트 매칭 |
+| 2026-03-02 | PMCC_DETAIL_KO.md 전면 개정 (13개 지시 + 표현 평이화 + STATE.md 갱신) | ~1.5h | 표현 대안 탐색 반복 |
+| 2026-03-04 | E2EWorkflow 헤더/배경 분리 + Key Decisions sandbox 3종 제작 | ~1h | - |
+| 2026-03-03 | Auto Memory 개선 + .ctx 정리 + Playwright 활성화 (8개 작업) | ~1.5h | - |
 
 ---
 
@@ -112,5 +120,7 @@
 | 2026-02-25 | 7개 (v3.3 e2e 12시나리오 설계 + 1차·2차 실행 + 비교 분석 + 버그 3건 수정 + 에비던스 기록) | orchestration | 3개 |
 | 2026-02-26 | 26개 (v3.3.1 200K 최적화 Phase A~D + 플러그인 비활성화 + hook + statusline + 리뷰 반영) | orchestration/dev | 6개 |
 | 2026-02-27 | 15건 (전체 .md 일관성 감사 + context/ 경로 수정 + hook 패턴 수정 + 커밋+push) | orchestration | 2개 |
-
-| 2026-02-27 | (직접 검증+문서화) | v4.0 Living Docs 최신화 + e2e 8시나리오 | 5 | stale name 7건 수정, PostCompact 정리, 오탐 3건 확인 |
+| 2026-03-02 | 4개 (PMCC_DETAIL_KO.md 개정 + 표현 평이화 + TS 체크 + STATE.md 갱신) | portfolio | 3개 |
+| 2026-03-02 | 1개 (autocompact 50%→75% 설정 최적화) | orchestration | 1개 |
+| 2026-03-04 | 5개 (E2EWorkflow 배경 분리 + sandbox v1/v2/v3 제작 + STATE.md 갱신 + push) | portfolio | 2개 |
+| 2026-03-03 | 8개 (memory review + analyze-session + auto-promote + session hooks + .ctx 정리 + Playwright) | orchestration | 4개 |

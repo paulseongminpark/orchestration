@@ -1,10 +1,25 @@
 # Orchestration System Changelog
 
-> 최종 수정: 2026-02-27
+> 최종 수정: 2026-03-03
 
 ---
 
 ## v4.0 — Context as Currency (2026-02-27, 완료)
+
+### 후속 조정 (2026-03-03)
+- **Auto Memory 파이프라인 개선**
+  - analyze-session.sh: Patterns 섹션 제거(노이즈), Errors/Preferences Python 기반 감지 정확도 향상
+  - auto-promote.sh 신규: pending.md에서 에러 2회+ 항목 → MEMORY.md 자동 승격
+  - session-stop.sh: auto-promote.sh 자동 호출 추가
+  - session-start.sh: 미검토 선호도 알림 추가
+- **.ctx/ Cross-CLI 공유 메모리 폐기** — 실사용 없음, 복잡도만 추가하여 삭제
+- **Playwright MCP 플러그인 활성화** — 브라우저 자동 스크린샷/테스트용
+- **rulesync 역할 확정** — sandbox 세팅용으로만 유지 (프로덕션 미적용)
+
+### 후속 조정 (2026-03-02)
+- AUTOCOMPACT 임계값 50%→75% 상향 (settings.json `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`)
+  - 원인: 50%에서 compact 과다 발동 → 세션 중반부터 반복 compact로 맥락 손실
+  - 효과: 75% 소진까지 compact 안 함, 긴 작업 세션에 유리
 
 ### Phase 8: Living Docs + 최종 검증 + 인프라 정규화
 - STATE.md, CHANGELOG.md, KNOWLEDGE.md, REFERENCE.md, ROADMAP.md, HOME.md 일괄 v4.0 갱신

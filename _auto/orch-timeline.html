@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Orchestration Evolution — v0 → v4</title>
+<style>
+:root {
+  --bg: #07070f;
+  --surface: #0e0e1c;
+  --border: rgba(255,255,255,0.07);
+  --text: #c0c0d8;
+  --muted: #6060a0;
+  --accent: #5B8CFF;
+  --mono: 'SF Mono','Fira Code','Consolas',monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:var(--mono); font-size:13px; }
+
+/* ── Layout ── */
+.page { max-width: 960px; margin: 0 auto; padding: 60px 30px 120px; }
+header { margin-bottom: 60px; }
+header h1 { font-size: 22px; color: #fff; font-weight: 600; margin-bottom: 6px; }
+header p  { color: var(--muted); font-size: 11px; }
+
+/* ── Metrics bar ── */
+.metrics-row { display: flex; gap: 12px; margin-bottom: 60px; }
+.metric-card {
+  flex: 1; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 18px;
+}
+.metric-label { color: var(--muted); font-size: 10px; margin-bottom: 8px; letter-spacing: .06em; }
+.sparkline { display: flex; align-items: flex-end; gap: 4px; height: 32px; margin-bottom: 8px; }
+.bar {
+  flex: 1; border-radius: 2px 2px 0 0;
+  transition: opacity 0.2s;
+  cursor: default;
+  position: relative;
+}
+.bar:hover { opacity: 0.75 !important; }
+.metric-current { font-size: 20px; color: #fff; font-weight: 700; }
+.metric-delta { font-size: 10px; margin-left: 6px; }
+.delta-up   { color: #4CAF7D; }
+.delta-down { color: #FF6B9D; }
+
+/* ── Timeline ── */
+.timeline { position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 130px; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
+}
+
+.version-block { display: flex; gap: 0; margin-bottom: 2px; position: relative; }
+.version-block:last-child { margin-bottom: 0; }
+
+/* Left: version label */
+.v-label {
+  width: 130px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: flex-end;
+  padding-right: 28px; padding-top: 18px;
+}
+.v-tag {
+  font-size: 13px; font-weight: 700; color: #fff;
+  padding: 3px 8px; border-radius: 5px;
+  border: 1px solid var(--border);
+}
+.v-date { font-size: 9px; color: var(--muted); margin-top: 5px; }
+
+/* Dot on line */
+.v-dot {
+  position: absolute; left: 122px; top: 22px;
+  width: 17px; height: 17px; border-radius: 50%;
+  border: 2px solid var(--bg); z-index: 1;
+}
+
+/* Right: card */
+.v-card {
+  flex: 1; margin-left: 42px; margin-bottom: 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  cursor: pointer; transition: border-color 0.2s;
+}
+.v-card:hover { border-color: rgba(255,255,255,0.16); }
+.v-card.expanded .v-card-body { display: block; }
+
+.v-card-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+.v-card-title { font-size: 13px; color: #fff; font-weight: 600; }
+.v-card-sub   { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.v-card-chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.chip {
+  font-size: 9px; padding: 3px 8px; border-radius: 10px;
+  border: 1px solid; white-space: nowrap;
+}
+
+.v-card-body { display: none; padding: 0 20px 18px; border-top: 1px solid var(--border); margin-top: 0; }
+.v-section { margin-top: 14px; }
+.v-section-title { font-size: 9px; color: var(--muted); letter-spacing: .08em; margin-bottom: 8px; }
+.v-items { display: flex; flex-wrap: wrap; gap: 5px; }
+.v-item {
+  font-size: 10px; padding: 3px 9px; border-radius: 6px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  color: #a0a0c8;
+}
+.v-principle {
+  margin-top: 14px; padding: 12px 14px;
+  background: rgba(255,255,255,0.02); border-left: 2px solid;
+  border-radius: 0 6px 6px 0; font-size: 11px; color: #a0a0c8;
+  font-style: italic;
+}
+.toggle-icon { font-size: 11px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; margin-left: 12px; }
+.expanded .toggle-icon { transform: rotate(180deg); }
+
+/* ── Stat deltas table ── */
+.delta-table { margin-top: 60px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.delta-table table { width: 100%; border-collapse: collapse; }
+.delta-table th { background: var(--surface); padding: 10px 16px; text-align: left; font-size: 10px; color: var(--muted); letter-spacing: .06em; font-weight: 600; }
+.delta-table td { padding: 10px 16px; border-top: 1px solid var(--border); font-size: 11px; }
+.delta-table td:first-child { color: #fff; font-weight: 600; }
+.num-up   { color: #4CAF7D; }
+.num-down { color: #FF6B9D; }
+.num-same { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Orchestration Evolution</h1>
+  <p>v0.0 (2026-02 이전) → v4.0 (2026-02-27) · 클릭으로 펼치기</p>
+</header>
+
+<!-- ── Metrics Sparkline ────────────────────────────────────────── -->
+<div class="metrics-row">
+  <!-- Agents -->
+  <div class="metric-card">
+    <div class="metric-label">AGENTS</div>
+    <div class="sparkline" id="spark-agents"></div>
+    <div>
+      <span class="metric-current">15</span>
+      <span class="metric-delta delta-down">-9 from peak</span>
+    </div>
+  </div>
+  <!-- Skills -->
+  <div class="metric-card">
+    <div class="metric-label">SKILLS</div>
+    <div class="sparkline" id="spark-skills"></div>
+    <div>
+      <span class="metric-current">9</span>
+      <span class="metric-delta delta-down">-8 from peak</span>
+    </div>
+  </div>
+  <!-- Hooks -->
+  <div class="metric-card">
+    <div class="metric-label">HOOKS</div>
+    <div class="sparkline" id="spark-hooks"></div>
+    <div>
+      <span class="metric-current">9</span>
+      <span class="metric-delta delta-up">+9 from v0</span>
+    </div>
+  </div>
+  <!-- Days -->
+  <div class="metric-card">
+    <div class="metric-label">SPAN</div>
+    <div style="height:32px; display:flex; align-items:center;">
+      <div style="font-size:11px; color:var(--muted); line-height:1.6;">
+        2026-02-21<br>→ 2026-02-27
+      </div>
+    </div>
+    <div>
+      <span class="metric-current">6</span>
+      <span class="metric-delta" style="color:var(--muted)">days</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── Timeline ───────────────────────────────────────────────── -->
+<div class="timeline" id="timeline"></div>
+
+<!-- ── Delta Table ─────────────────────────────────────────────── -->
+<div class="delta-table" style="margin-top:48px;">
+  <table>
+    <thead>
+      <tr>
+        <th>버전</th>
+        <th>에이전트</th>
+        <th>스킬</th>
+        <th>훅</th>
+        <th>핵심 개념</th>
+      </tr>
+    </thead>
+    <tbody id="delta-tbody"></tbody>
+  </table>
+</div>
+
+</div><!-- /page -->
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────────────
+const VERSIONS = [
+  {
+    v: 'v0.0', date: '2026-02 이전', color: '#606080',
+    title: 'ai-config 초기',
+    sub: '별도 저장소에서 시작, orchestration으로 흡수',
+    agents: 0, skills: 0, hooks: 0,
+    changes: [],
+    principle: 'Claude Code + Obsidian + 외부 AI 분리 역할의 원형',
+    chips: [],
+  },
+  {
+    v: 'v1.0', date: '2026-02-21', color: '#8888FF',
+    title: '기준점 수립',
+    sub: '글로벌 설정, Auto Memory, 5개 스크립트',
+    agents: 1, skills: 11, hooks: 3,
+    changes: [
+      { section: '스킬 (11개)', items: ['morning','todo','sync-all','memory-review','docs-review','research','token-check','token-mode','verify','verify-project-rules','verify-log-format'] },
+      { section: '스크립트 (5개)', items: ['analyze-session.sh','sync-memory.sh','memory-review.sh','docs-review.sh','token-monitor.sh'] },
+      { section: '에이전트', items: ['orchestrator (멀티 프로젝트 동기화)'] },
+      { section: 'Auto Memory', items: ['SessionEnd → analyze-session.sh → pending.md','sync-all → MEMORY.md','/memory-review 주간 정리'] },
+    ],
+    principle: 'Claude Code = 유일한 쓰기 / GPT·Gemini·Perplexity = 읽기 / Obsidian = 뷰어',
+    chips: [{ label: 'Memory System', color: '#8888FF' }],
+  },
+  {
+    v: 'v2.0', date: '2026-02-21', color: '#4F7FFF',
+    title: '에이전트 시대 개막',
+    sub: '14개 에이전트, 7종 훅, Agent Teams 활성화',
+    agents: 14, skills: 17, hooks: 7,
+    changes: [
+      { section: '신규 에이전트 (14개)', items: ['code-reviewer [Opus]','commit-writer [Haiku]','orch-state [Sonnet]','compressor [Sonnet]','pf-context/pf-reviewer/pf-deployer','orch-doc-writer/orch-skill-builder','ml-experimenter/ml-porter','gemini-analyzer/security-auditor','morning-briefer [Haiku]'] },
+      { section: '훅 (7종)', items: ['Stop (미커밋 차단)','SessionStart (git status)','SessionEnd (/sync 권장)','PreToolUse (위험 명령 차단)','PostToolUse (context 수정 감지)','TeammateIdle','Notification'] },
+      { section: '신규 스킬', items: ['skill-creator','subagent-creator','hook-creator','catchup','gpt-review','commit-push-pr'] },
+    ],
+    principle: '에이전트가 역할을 분담, Claude는 설계/결정에 집중',
+    chips: [{ label: 'Agent Teams', color: '#4F7FFF' }, { label: '+14 Agents', color: '#3DBE7A' }],
+  },
+  {
+    v: 'v2.1', date: '2026-02-22', color: '#3B9EFF',
+    title: 'Gemini CLI 연동',
+    sub: 'Gemini CLI 설치, PreCompact hook 추가',
+    agents: 14, skills: 17, hooks: 8,
+    changes: [
+      { section: '추가', items: ['Gemini CLI (@google/gemini-cli v0.29.5)','gemini-analyzer 에이전트 연동 검증','PreCompact hook (compact 전 /verify 권장)','TaskCompleted hook (태스크 완료 알림)'] },
+      { section: '결정', items: ['GitHub App PR 리뷰 미설치','orchestrator 에이전트 비활성화 (Claude 직접 라우팅)','MCP 최소화 (CLI 대체)'] },
+    ],
+    principle: 'MCP는 최소, CLI 도구를 직접 연동',
+    chips: [{ label: 'Gemini', color: '#FF9A3C' }],
+  },
+  {
+    v: 'v2.2', date: '2026-02-22', color: '#2B8FEF',
+    title: 'System Overhaul',
+    sub: '죽은 자동화 수리, 불필요 제거, stale 문서 정리',
+    agents: 12, skills: 13, hooks: 6,
+    changes: [
+      { section: '수리 (Phase 1)', items: ['PostToolUse: CLAUDE_TOOL_RESULT → stdin JSON 파싱','SessionEnd: 상대경로 → 절대경로','analyze-session.sh: MSYS 호환 경로'] },
+      { section: '삭제 (Phase 2)', items: ['에이전트: codex-reviewer, pf-orchestrator','스킬: token-check, token-mode, verify-log-format, verify-project-rules','스크립트: token-monitor.sh','규칙 중복 파일 정리'] },
+    ],
+    principle: '동작하지 않는 자동화는 없는 것보다 해롭다',
+    chips: [{ label: 'Overhaul', color: '#FF6B9D' }],
+  },
+  {
+    v: 'v3.1', date: '2026-02-23', color: '#3DBE7A',
+    title: 'Agent Teams & Linker',
+    sub: '+7 에이전트 (→23), 팀 3개, live-context.md',
+    agents: 23, skills: 14, hooks: 9,
+    changes: [
+      { section: '신규 에이전트 (7개)', items: ['context-linker [Haiku, PROACTIVE]','project-linker [Sonnet, PROACTIVE]','meta-orchestrator [Sonnet]','inbox-processor [Haiku]','tr-monitor [Haiku]','tr-updater [Sonnet]','ai-synthesizer [Opus]'] },
+      { section: '팀 (3개)', items: ['tech-review-ops: tr-monitor→tr-updater→commit-writer','ai-feedback-loop: gemini+codex→ai-synthesizer','daily-ops: inbox-processor→orch-state→morning-briefer'] },
+      { section: '훅', items: ['PostToolUse: live-context.md 자동 append (0 토큰)'] },
+      { section: '체인 규칙 (5개 추가)', items: ['분석·tech-review·일일 운영·디스패치·프로젝트 연동'] },
+    ],
+    principle: '에이전트 간 실시간 맥락 공유 — live-context.md',
+    chips: [{ label: 'Agent Peak (23)', color: '#3DBE7A' }, { label: 'Teams x3', color: '#4F7FFF' }],
+  },
+  {
+    v: 'v3.3', date: '2026-02-25', color: '#BF6FFF',
+    title: 'Codex + Verify Barrier',
+    sub: 'Codex CLI 통합, 3중 검증 체계, 외부 CLI 역할 정의',
+    agents: 23, skills: 17, hooks: 9,
+    changes: [
+      { section: 'Codex CLI', items: ['instructions.md (글로벌 페르소나)','config.toml 프로필 3종 (review/extract/verify)','스킬 5종: state-reader, diff-only, review-checklist…'] },
+      { section: 'Gemini 강화', items: ['gemini-analyzer: 분석 → 벌크 추출기','커스텀 스킬 4종'] },
+      { section: 'Verify Barrier', items: ['외부 CLI 출력에 3단계 검증 (구조→스팟체크→반박)','_meta 블록: JSON 출력에 검증용 메타데이터 강제','ai-synthesizer → adversarial verifier 승격'] },
+    ],
+    principle: 'Claude = 유일한 설계/결정권자. 외부 CLI = 추출만, 해석 금지.',
+    chips: [{ label: 'Codex', color: '#BF6FFF' }, { label: 'Verify Barrier', color: '#FF9A3C' }],
+  },
+  {
+    v: 'v3.3.1', date: '2026-02-26~27', color: '#FF9A3C',
+    title: '200K Context 최적화',
+    sub: 'chain-temp 오프로딩, Flat Root, PreCompact 스냅샷',
+    agents: 24, skills: 17, hooks: 9,
+    changes: [
+      { section: '추가', items: ['.chain-temp/ 체인 공유 메모리','PreCompact hook (compact 전 스냅샷)','PostCompact hook (자동 Read 안내)','statusline.py: 세션 목표 🎯'] },
+      { section: 'Flat Root (2026-02-27)', items: ['Living Docs 12개 루트 이동','_history/, _prompts/, _auto/ 신설','context/, docs/, config/, logs/ 폴더 삭제'] },
+      { section: '토큰 절감', items: ['MEMORY.md ~700 tokens','CLAUDE.md ~400 tokens','session-start.sh ~1,000 tokens','Playwright/document-skills 비활성화 ~6,500 tokens'] },
+    ],
+    principle: '100K→compact 권장 / 120K→필수 / compact 전 스냅샷으로 맥락 보존',
+    chips: [{ label: '200K Context', color: '#FF9A3C' }, { label: 'chain-temp', color: '#FFD166' }],
+  },
+  {
+    v: 'v4.0', date: '2026-02-27', color: '#FF6B9D',
+    title: 'Context as Currency',
+    sub: '에이전트 24→15 · 스킬 14→9 · rulesync · Cross-CLI · Worktree',
+    agents: 15, skills: 9, hooks: 9,
+    changes: [
+      { section: 'Phase 1: 에이전트 통합 (24→15)', items: ['삭제 4개: ml-experimenter, ml-porter, orch-skill-builder, content-writer','병합 5개: tr-ops, daily-ops, linker, pf-ops, doc-ops','memory:user 3개: code-reviewer, meta-orchestrator, compressor'] },
+      { section: 'Phase 2: 스킬 최소화 (14→9)', items: ['삭제 9개: context-scan, cross-review, tr-verify, memory-review 등','disable-model-invocation: true (per-turn system-reminder 제거 ~8K 절감)','/compact 9단계 강화 (Attention Manipulation)'] },
+      { section: 'Phase 3: rulesync', items: ['.rulesync/rules/ SoT','CLAUDE.md + GEMINI.md + AGENTS.md 자동 생성'] },
+      { section: 'Phase 4-5: Codex/Gemini 세팅', items: ['Codex: implement 프로필, MCP context7','Gemini: modelRouting Pro↔Flash, tokenBudget'] },
+      { section: 'Phase 6: .ctx/ Cross-CLI 공유', items: ['shared-context.md (전 CLI 공유)','provenance.log (출처 추적)'] },
+      { section: 'Phase 7-8: Worktree + Living Docs', items: ['worktree-create.sh / worktree-cleanup.sh','/handoff 스킬 (CLI 간 위임)','전체 Living Docs v4.0 갱신'] },
+    ],
+    principle: 'Context = Currency. 빠지지 않는 것만 남기기. 모든 baseline 비용 최소화.',
+    chips: [{ label: 'Context=Currency', color: '#FF6B9D' }, { label: '-9 Agents', color: '#FF6B9D' }, { label: 'Cross-CLI', color: '#BF6FFF' }],
+  },
+];
+
+// ── Spark lines ──────────────────────────────────────────────────────────────
+function drawSpark(id, data, color) {
+  const el = document.getElementById(id);
+  const max = Math.max(...data);
+  data.forEach((val, i) => {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    const pct = max > 0 ? (val / max) * 100 : 5;
+    bar.style.cssText = `height:${pct}%; background:${color}; opacity:${0.3 + (i/(data.length-1))*0.7}`;
+    bar.title = `${VERSIONS[i].v}: ${val}`;
+    el.appendChild(bar);
+  });
+}
+drawSpark('spark-agents', VERSIONS.map(v=>v.agents), '#4F7FFF');
+drawSpark('spark-skills',  VERSIONS.map(v=>v.skills),  '#3DBE7A');
+drawSpark('spark-hooks',   VERSIONS.map(v=>v.hooks),   '#FF9A3C');
+
+// ── Timeline ─────────────────────────────────────────────────────────────────
+const tl = document.getElementById('timeline');
+VERSIONS.forEach((ver, i) => {
+  const block = document.createElement('div');
+  block.className = 'version-block';
+
+  // Dot
+  const dot = document.createElement('div');
+  dot.className = 'v-dot';
+  dot.style.background = ver.color;
+  dot.style.boxShadow = `0 0 8px ${ver.color}88`;
+
+  // Label
+  const label = document.createElement('div');
+  label.className = 'v-label';
+  label.innerHTML = `<div class="v-tag" style="color:${ver.color};border-color:${ver.color}44">${ver.v}</div><div class="v-date">${ver.date}</div>`;
+
+  // Card
+  const card = document.createElement('div');
+  card.className = 'v-card';
+
+  const chipsHtml = ver.chips.map(c =>
+    `<span class="chip" style="color:${c.color};border-color:${c.color}44;background:${c.color}11">${c.label}</span>`
+  ).join('');
+
+  const sectionsHtml = ver.changes.map(ch => `
+    <div class="v-section">
+      <div class="v-section-title">${ch.section}</div>
+      <div class="v-items">${ch.items.map(it => `<span class="v-item">${it}</span>`).join('')}</div>
+    </div>
+  `).join('');
+
+  card.innerHTML = `
+    <div class="v-card-header">
+      <div>
+        <div class="v-card-title">${ver.title}</div>
+        <div class="v-card-sub">${ver.sub}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="v-card-chips">${chipsHtml}</div>
+        <div class="toggle-icon">▾</div>
+      </div>
+    </div>
+    <div class="v-card-body">
+      ${sectionsHtml}
+      <div class="v-principle" style="border-color:${ver.color}66;color:${ver.color}cc">
+        "${ver.principle}"
+      </div>
+    </div>
+  `;
+  card.addEventListener('click', () => card.classList.toggle('expanded'));
+
+  // Auto-expand last version
+  if (i === VERSIONS.length - 1) card.classList.add('expanded');
+
+  block.appendChild(label);
+  block.appendChild(dot);
+  block.appendChild(card);
+  tl.appendChild(block);
+});
+
+// ── Delta Table ──────────────────────────────────────────────────────────────
+const tbody = document.getElementById('delta-tbody');
+VERSIONS.forEach((ver, i) => {
+  const prev = VERSIONS[i-1];
+  const dA = prev ? ver.agents - prev.agents : 0;
+  const dS = prev ? ver.skills - prev.skills : 0;
+  const dH = prev ? ver.hooks - prev.hooks : 0;
+  const fmt = (n, v) => {
+    if (!prev) return `<td class="num-same">${v}</td>`;
+    const cls = n > 0 ? 'num-up' : n < 0 ? 'num-down' : 'num-same';
+    const sign = n > 0 ? '+' : '';
+    return `<td class="${cls}">${v} <span style="font-size:9px">(${sign}${n})</span></td>`;
+  };
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="color:${ver.color}">${ver.v}</td>
+    ${fmt(dA, ver.agents)}
+    ${fmt(dS, ver.skills)}
+    ${fmt(dH, ver.hooks)}
+    <td style="color:var(--muted);font-size:10px">${ver.principle.slice(0,60)}…</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
