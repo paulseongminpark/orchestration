@@ -76,11 +76,14 @@
   - 11섹션: 시작→철학→토폴로지→결정6개→멀티AI→체인→Hooks→증거→진화→교훈→다음
   - 기존 v3.3.1 설계문서 전면 재작성 (24→15 에이전트, 15→9 스킬 반영)
   - 파일: docs/plans/2026-02-27-how-i-ai-design.md
-- **How I Operate 재작성** (2026-03-03)
-  - portfolio How I Operate 섹션: 추상 5카드 → 외부 메모리 4원칙 카드
-  - Direction B 확정: How I Operate(원칙) → HOW I AI(구현) 하나의 이야기
-  - mcp-memory v0.1.0 가동 확인, /checkpoint 4건 저장
-- **다음**: portfolio 모바일 반응형
+- **How I Work 4카드 + 섹션 구조 설계** (2026-03-04)
+  - 4카드 전면 재작성: Connection / Context as Currency / Structure over Willpower / Governance
+  - 타이틀 변경: "How I Operate" → "How I Work" + subtitle "그리고 왜 이 방식인가."
+  - 섹션 구조 확정 (미구현): 02 How I Think / 03 How I Build / 04 Work / 05 Writing(+TR) / 06 Contact
+  - 포트폴리오 전체 감사 문서 생성: docs/design/2026-03-04-portfolio-full-audit.md
+  - 설계 문서: docs/design/2026-03-04-section-structure-dialogue.md
+  - /checkpoint 10건 저장 (node #4050~#4059)
+- **다음**: 02·How I Think / 03·How I Build 분리 구현, TR→Writing 통합
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
