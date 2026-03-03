@@ -1,10 +1,14 @@
 # Orchestration System Changelog
 
-> 최종 수정: 2026-03-03
+> 최종 수정: 2026-03-03 (세션4)
 
 ---
 
 ## v4.0 — Context as Currency (2026-02-27, 완료)
+
+### 후속 조정 (2026-03-03, 세션4)
+- **mcp-memory v0.1.0 가동 확인** — 7개 MCP 도구, SQLite+FTS5+ChromaDB+NetworkX, settings.json 등록
+- **portfolio How I Operate 전면 재작성** — 추상 5카드 → 4원칙 카드, Direction B 확정
 
 ### 후속 조정 (2026-03-03)
 - **Auto Memory 파이프라인 개선**

@@ -76,6 +76,10 @@
   - 11섹션: 시작→철학→토폴로지→결정6개→멀티AI→체인→Hooks→증거→진화→교훈→다음
   - 기존 v3.3.1 설계문서 전면 재작성 (24→15 에이전트, 15→9 스킬 반영)
   - 파일: docs/plans/2026-02-27-how-i-ai-design.md
+- **How I Operate 재작성** (2026-03-03)
+  - portfolio How I Operate 섹션: 추상 5카드 → 외부 메모리 4원칙 카드
+  - Direction B 확정: How I Operate(원칙) → HOW I AI(구현) 하나의 이야기
+  - mcp-memory v0.1.0 가동 확인, /checkpoint 4건 저장
 - **다음**: portfolio 모바일 반응형
 
 ### monet-lab

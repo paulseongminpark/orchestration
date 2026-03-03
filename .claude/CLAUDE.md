@@ -26,6 +26,7 @@
 /verify: 통합 규칙 검증
 /todo: TODO 관리
 /compact: 세션 압축 (9단계, Attention Manipulation)
+/checkpoint: 미저장 기억 추출 → mcp-memory DB 저장 (4중 안전망 Layer 3)
 
 ## Pages URL
 https://paulseongminpark.github.io/orchestration/STATE.md

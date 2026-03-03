@@ -1,6 +1,6 @@
 # Decisions Log
 
-> 최종 수정: 2026-03-03
+> 최종 수정: 2026-03-03 (세션4)
 
 > 세션별 중요 결정 사항. compressor가 자동 append.
 > 태그: pf=portfolio, tr=tech-review, ml=monet-lab, orch=orchestration
@@ -8,6 +8,10 @@
 
 ## 미반영
 
+2026-03-03 [portfolio] How I Operate 전면 재작성 — 추상 5카드 → 외부 메모리 4원칙 카드 (Connection/Context as Currency/Structure over Willpower/Governance) | pf:✅
+2026-03-03 [portfolio] Direction B 확정: How I Operate(원칙) → HOW I AI(구현) 하나의 이야기 | pf:✅
+2026-03-03 [portfolio] "이색적인 접합" 4번 카드 제거 — show vs tell 원칙 | pf:✅
+2026-03-03 [orchestration] mcp-memory v0.1.0 가동 확인 — 7 MCP 도구, settings.json 등록됨 | orch:✅
 2026-03-04 [portfolio] HOW I AI Evolution 전면 재작성 — 인터뷰 기반 3주 타임라인, 질문 중심 UI, TimelineItem 타입 phase/question/body[] | pf:✅
 2026-03-04 [portfolio] 시스템에 대하여: opencode 삭제, 하네스 도구/agent engineering OS 맥락으로 재작성 | pf:✅
 2026-03-03 [orchestration] orch-graph 데이터 소스: CHANGELOG.md 직접 읽기 (QMD 미활용) | orch:✅
