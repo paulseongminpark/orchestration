@@ -8,6 +8,11 @@
 
 ## 미반영
 
+2026-03-04 [portfolio] HOW I AI Evolution 전면 재작성 — 인터뷰 기반 3주 타임라인, 질문 중심 UI, TimelineItem 타입 phase/question/body[] | pf:✅
+2026-03-04 [portfolio] 시스템에 대하여: opencode 삭제, 하네스 도구/agent engineering OS 맥락으로 재작성 | pf:✅
+2026-03-03 [orchestration] orch-graph 데이터 소스: CHANGELOG.md 직접 읽기 (QMD 미활용) | orch:✅
+2026-03-03 [orchestration] orch-graph 레이아웃: SAVED_POSITIONS로 사용자 정의 배치 저장 | orch:✅
+2026-03-03 [orchestration] QMD 한글 검색 불가 확인 — BM25 토크나이저 한글 미지원, get만 동작 | orch:❌
 2026-03-03 [orchestration] .ctx/ Cross-CLI 공유 메모리 폐기 — 실사용 없음, 복잡도만 추가 | orch:✅
 2026-03-03 [orchestration] rulesync sandbox 세팅용으로만 유지 (프로덕션 미적용) | orch:✅
 2026-03-03 [orchestration] Playwright MCP 플러그인 활성화 — 브라우저 자동 스크린샷/테스트용 | orch:✅

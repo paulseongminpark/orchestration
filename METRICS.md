@@ -36,6 +36,8 @@
 | 2026-03-02 | (직접 구현) | portfolio Obsidian/E2E/index 섹션 전면 리라이트| 5 | 구조 10→5단계, Bedford 다이어그램, vanilla.js 마이그레이션, 타이포그래피 위계, sticky 헤더. commit 9e47cda, fb291ef |
 | 2026-03-04 | (직접 구현) | portfolio E2EWorkflow 헤더/배경 분리 + Key Decisions sandbox 3종 | 5 | 헤더 흰색/파란배경 분리, v1(투톤)/v2(아코디언)/v3(내러티브) 제작. commit caca5a8 |
 | 2026-03-03 | (직접 개선) | Auto Memory 파이프라인 개선 + .ctx 정리 + Playwright 활성화 | 5 | analyze-session.sh Python 기반 개선, auto-promote.sh 신규, .ctx/ 폐기, Playwright MCP 활성화 |
+| 2026-03-04 | (직접 구현) | portfolio HOW I AI Evolution 전면 재작성 (3주 타임라인 + 질문 UI + 인터뷰 원본) | 5 | TimelineItem 타입 변경, 세로스택 UI, fetch .catch() 버그 수정. 커밋 e0b1c3c, f95e390 |
+| 2026-03-03 | (직접 구현) | QMD 설치 + D3.js 시각화 3종 (session-graph, orch-timeline, orch-graph) | 5 | 버전11+개념36 노드, 서브에이전트11개, SAVED_POSITIONS, 멀티셀렉트 필터. 커밋 1f1fe9e |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -95,6 +97,8 @@
 | 2026-03-02 | PMCC_DETAIL_KO.md 전면 개정 (13개 지시 + 표현 평이화 + STATE.md 갱신) | ~1.5h | 표현 대안 탐색 반복 |
 | 2026-03-04 | E2EWorkflow 헤더/배경 분리 + Key Decisions sandbox 3종 제작 | ~1h | - |
 | 2026-03-03 | Auto Memory 개선 + .ctx 정리 + Playwright 활성화 (8개 작업) | ~1.5h | - |
+| 2026-03-04 | HOW I AI Evolution 전면 재작성 (글+UI+인터뷰 원본+버그 수정) | ~1.5h | - |
+| 2026-03-03 | QMD 설치 + D3 시각화 3종 + orch-graph 반복 개선 | ~2h | QMD 한글 검색 불가 (BM25 토크나이저 한계) |
 
 ---
 
@@ -124,3 +128,5 @@
 | 2026-03-02 | 1개 (autocompact 50%→75% 설정 최적화) | orchestration | 1개 |
 | 2026-03-04 | 5개 (E2EWorkflow 배경 분리 + sandbox v1/v2/v3 제작 + STATE.md 갱신 + push) | portfolio | 2개 |
 | 2026-03-03 | 8개 (memory review + analyze-session + auto-promote + session hooks + .ctx 정리 + Playwright) | orchestration | 4개 |
+| 2026-03-04 | 6개 (aiWorkflowData+AiWorkflowSection 재작성 + 인터뷰 원본 + 버그 수정 + STATE 갱신 + push) | portfolio | 3개 |
+| 2026-03-03 | 7개 (QMD 설치 + D3 시각화 3종 + orch-graph 반복 개선 + CHANGELOG 실측 데이터 + STATE 갱신) | orchestration | 3개 |
