@@ -5,3 +5,5 @@ context/SNAPSHOT.txt
 .obsidian/
 t_v2*
 docs/ui-lab/
+_auto/.chain-temp/
+.chain-temp/
