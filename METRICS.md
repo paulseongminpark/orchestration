@@ -39,6 +39,8 @@
 | 2026-03-04 | (직접 구현) | portfolio HOW I AI Evolution 전면 재작성 (3주 타임라인 + 질문 UI + 인터뷰 원본) | 5 | TimelineItem 타입 변경, 세로스택 UI, fetch .catch() 버그 수정. 커밋 e0b1c3c, f95e390 |
 | 2026-03-03 | (직접 구현) | QMD 설치 + D3.js 시각화 3종 (session-graph, orch-timeline, orch-graph) | 5 | 버전11+개념36 노드, 서브에이전트11개, SAVED_POSITIONS, 멀티셀렉트 필터. 커밋 1f1fe9e |
 | 2026-03-03 | (직접 구현) | portfolio How I Operate 전면 재작성 + mcp-memory 확인 | 5 | 추상5카드→4원칙카드, parseSystemContent 제거, mcp-memory v0.1.0 확인+checkpoint 4건. 커밋 6fab97d, e0bf37a |
+| 2026-03-04 | (직접 설계) | portfolio 전체 섹션 구조 재편 설계 + audit 문서 | 5 | 6섹션 확정, 전체 코드베이스 파악, 416줄 audit, 4카드 타이틀 변경. 커밋 392e724, checkpoint #4057~#4059 |
+| 2026-03-04 | (3종 교차 리뷰+직접 수정) | mcp-memory v2.0 e2e 리뷰 3종 → 19개 Fix 통합 수정 | 5 | Sonnet(78)+Opus(B+)+Codex(48) 교차 리뷰, Tier 0-3 19개 Fix, 10파일 수정, 3중 검증 PASS. checkpoint #4082~#4086 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -101,6 +103,8 @@
 | 2026-03-04 | HOW I AI Evolution 전면 재작성 (글+UI+인터뷰 원본+버그 수정) | ~1.5h | - |
 | 2026-03-03 | QMD 설치 + D3 시각화 3종 + orch-graph 반복 개선 | ~2h | QMD 한글 검색 불가 (BM25 토크나이저 한계) |
 | 2026-03-03 | How I Operate 전면 재작성 + mcp-memory 확인 + checkpoint 4건 | ~1h | - |
+| 2026-03-04 | 전체 섹션 구조 재편 설계 + audit 416줄 + 4카드 타이틀 + checkpoint 3건 | ~1.5h | - |
+| 2026-03-04 | 3종 e2e 리뷰 실행 + 통합 분석 + 19개 Fix 수정 + 3중 검증 + 문서화 | ~2h | Codex CLI 모델명 설정 주의 |
 
 ---
 
@@ -133,3 +137,5 @@
 | 2026-03-04 | 6개 (aiWorkflowData+AiWorkflowSection 재작성 + 인터뷰 원본 + 버그 수정 + STATE 갱신 + push) | portfolio | 3개 |
 | 2026-03-03 | 7개 (QMD 설치 + D3 시각화 3종 + orch-graph 반복 개선 + CHANGELOG 실측 데이터 + STATE 갱신) | orchestration | 3개 |
 | 2026-03-03 | 6개 (How I Operate 재작성 + mcp-memory 확인 + checkpoint + CHANGELOG/HOME 갱신) | portfolio/orchestration | 4개 |
+| 2026-03-04 | 7개 (전체 코드베이스 파악 + audit 문서 생성 + 6섹션 구조 확정 + 4카드 타이틀 변경 + checkpoint 3건) | portfolio | 4개 |
+| 2026-03-04 | 19개 Fix (3종 e2e 리뷰 통합 → 10파일 수정 + 3중 검증 PASS + checkpoint 5건 + 리포트 문서화) | mcp-memory | 8개 |

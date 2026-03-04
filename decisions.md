@@ -8,6 +8,19 @@
 
 ## 미반영
 
+2026-03-04 [mcp-memory] graph_analyzer run_* 메서드에 limit 파라미터 추가 (F-1) | mem:✅
+2026-03-04 [mcp-memory] E7 ChromaDB 재임베딩을 node_enricher._apply()에서 직접 처리 (F-2) | mem:✅
+2026-03-04 [mcp-memory] _update_node() 즉시 commit 추가 — C6 atomicity (F-3) | mem:✅
+2026-03-04 [mcp-memory] 헤비안 학습 hybrid.py _hebbian_update() 구현 (F-4) | mem:✅
+2026-03-04 [mcp-memory] Principle→Philosophy 승격 경로 + PROMOTE_LAYER 추가 (F-7) | mem:✅
+2026-03-04 [mcp-memory] E24를 daily_enrich Phase 4에 연결 (F-8) | mem:✅
+2026-03-04 [mcp-memory] graph_analyzer._insert_edge에 direction/reason 저장 (F-9) | mem:✅
+2026-03-04 [mcp-memory] 복수 모델 교차 검증 패턴 확인 — 단일 리뷰 대비 커버리지 높음 | orch:✅
+2026-03-04 [mcp-memory] v2.1 defer: 시간 감쇠 스크립트, init_db v2, schema.yaml v2, relate/connect 도구 | mem:❌
+2026-03-04 [portfolio] 6섹션 구조 확정 — 01 About / 02 How I Think / 03 How I Build / 04 Work / 05 Writing (+TR) / 06 Contact | pf:❌
+2026-03-04 [portfolio] TR → Writing 섹션 이동 결정 | pf:❌
+2026-03-04 [portfolio] Obsidian 독립 섹션 → 03 How I Build 내 한 단락으로 축소 결정 | pf:❌
+2026-03-04 [portfolio] 온톨로지: 03 How I Build 내 자리 확보 (별도 설계 세션) | pf:❌
 2026-03-03 [portfolio] How I Operate 전면 재작성 — 추상 5카드 → 외부 메모리 4원칙 카드 (Connection/Context as Currency/Structure over Willpower/Governance) | pf:✅
 2026-03-03 [portfolio] Direction B 확정: How I Operate(원칙) → HOW I AI(구현) 하나의 이야기 | pf:✅
 2026-03-03 [portfolio] "이색적인 접합" 4번 카드 제거 — show vs tell 원칙 | pf:✅
