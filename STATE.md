@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 최종 수정: 2026-03-03 (QMD 설치 + 시각화 3종)
+> 최종 수정: 2026-03-04 (mcp-memory v2.0 수리+활성화)
 
 ## 현재 상태
 
@@ -84,6 +84,17 @@
   - 설계 문서: docs/design/2026-03-04-section-structure-dialogue.md
   - /checkpoint 10건 저장 (node #4050~#4059)
 - **다음**: 02·How I Think / 03·How I Build 분리 구현, TR→Writing 통합
+
+### mcp-memory
+- **v2.0 수리+활성화 완료** (2026-03-04)
+  - 버그 수정 8건 (temperature, json키워드, conn.close, SQL injection 등)
+  - schema.yaml v2.0: 50 node types, 48 relation types
+  - migrate_v2: nodes 15/15, edges 9/9, layer 98.8% READY
+  - enrich_node_combined(): 9 API→1 API (7x 속도)
+  - orchestration Stop hook → save_session() 자동화
+  - checkpoint 8건 (#4093-#4100)
+- **enrichment 실행 중**: daily_enrich.py Phase 1-5 (파워쉘)
+- **다음**: enrichment 완료 후 E14 엣지 재분류 (generic 95%→5%)
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
