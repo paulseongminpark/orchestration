@@ -8,6 +8,10 @@
 
 ## 미반영
 
+2026-03-04 [portfolio] .worktrees/03_claude (claude/portfolio 브랜치) 추가 — P1~P3 구조 실험 공간 | pf:✅
+2026-03-04 [portfolio] P1~P3 섹션 구조 변경 claude/portfolio 브랜치에서 실험 — 6섹션 구현, PR 5174 검토 중 | pf:❌
+2026-03-04 [portfolio] 미결 A~F audit doc 섹션 6에서 트래킹 | pf:❌
+2026-03-04 [portfolio] Windows native 폴더 삭제: cmd.exe rd /s /q 사용 (_sandbox node_modules 잠금 문제) | orch:✅
 2026-03-04 [mcp-memory] graph_analyzer run_* 메서드에 limit 파라미터 추가 (F-1) | mem:✅
 2026-03-04 [mcp-memory] E7 ChromaDB 재임베딩을 node_enricher._apply()에서 직접 처리 (F-2) | mem:✅
 2026-03-04 [mcp-memory] _update_node() 즉시 commit 추가 — C6 atomicity (F-3) | mem:✅

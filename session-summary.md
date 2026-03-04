@@ -6,43 +6,46 @@
 
 === 컨텍스트 압축 요약 (최신) ===
 
-세션 목표: mcp-memory v2.0 enrichment pipeline 3종 e2e 리뷰 → 19개 Fix 통합 수정 → 검증 PASS
+세션 목표: portfolio GitHub Actions/Vercel 빌드 수정 + .worktrees 재편 + P1~P3 섹션 구조 변경
 
 완료:
-  - [mcp-memory] 3종 e2e 리뷰 실행: Sonnet(78/100), Opus(B+), Codex gpt-5.3-codex xhigh(48/100)
-  - [mcp-memory] 3종 통합 분석 → 19개 Fix 도출 (F-1~F-25, Tier 0~3)
-  - [mcp-memory] 19개 Fix 즉시 수정 적용, 10개 파일 수정
-  - [mcp-memory] 구문(ast.parse) + 기능(assert) + 통합 검증 전부 PASS
-  - [mcp-memory] checkpoint 5건 저장 (#4082~#4086)
-  - [mcp-memory] data/reports/e2e-fix-summary.md 문서화 (103줄)
-  - [mcp-memory] data/reports/e2e-review-{sonnet,opus,codex}.md 3건
+  - [portfolio] GitHub Actions + Vercel 빌드 실패 수정 (SYSTEM_ITEMS list 데드코드 TS 에러 3개 제거, commit b0c3555)
+  - [portfolio] .worktrees 구조 재편: 03_claude(claude/portfolio 브랜치) 추가, codex/gemini master 동기화, _sandbox 정리
+  - [portfolio] P1~P3 섹션 구조 변경 (claude/portfolio 브랜치):
+      - 02·How I Think (4카드만)
+      - 03·How I Build (HOW I AI + Ontology placeholder + Obsidian placeholder)
+      - 04·Work / 05·Writing(TR통합) / 06·Contact
+      - Nav 6항목 정리, TOC 업데이트
+  - [portfolio] 미결 A~F 트래킹: docs/design/2026-03-04-portfolio-full-audit.md 섹션 6
+  - [mcp-memory] checkpoint 6건 저장 (node #4087~#4092)
+  - 세션 전환 체인 실행 완료
 
 현재 상태:
-  v2.0 enrichment pipeline Step 1-10 구현 + 19개 Fix 완료. 미커밋 ~15개 파일. 첫 실행 테스트 미실시.
+  claude/portfolio 브랜치에서 6섹션 구조 구현 완료. PR 5174 검토 중. 미결 A~F 트래킹 진행 중.
 
 실패 기록 (삭제 금지):
   - (이번 세션 실패 없음)
 
 다음 할 것:
-  1. 커밋 + push (미커밋 ~15개 파일)
-  2. enrichment pipeline 첫 실행 테스트 (--dry-run)
-  3. v2.1 defer 항목: 시간 감쇠 스크립트 (F-5)
-  4. v2.1 defer 항목: init_db v2 (F-10), schema.yaml v2 (F-11)
-  5. v2.1 defer 항목: relate/connect MCP 도구 (F-16)
+  1. PR 5174 검토 및 master 병합
+  2. 미결 A~F 항목 순차 해결 (audit doc 섹션 6 기준)
+  3. mcp-memory 커밋+push (미커밋 ~15개 파일)
+  4. mcp-memory enrichment pipeline 첫 실행 테스트 (--dry-run)
 
 열린 결정:
-  - F-19: phase_limit 변수 — 사용 or 제거 결정 필요
-  - F-22: 프롬프트 언어 통일 정책 (한국어/영어 혼재)
-  - 시간 감쇠 daily decay 스크립트 설계 방향 미정
+  - PR 5174 병합 타이밍 (검토 후)
+  - 미결 A~F 우선순위 결정
+  - mcp-memory F-19: phase_limit 변수 사용/제거
+  - mcp-memory F-22: 프롬프트 언어 통일 정책
 
 주의사항:
+  - portfolio: claude/portfolio 브랜치 = P1~P3 구조 변경 작업 공간
+  - portfolio: master 브랜치 = 안정 배포 브랜치
+  - _sandbox 폴더 node_modules 잠금 문제 — Windows native cmd.exe 필요
   - mcp-memory 경로: /c/dev/01_projects/06_mcp-memory/
-  - _session_state.md: /c/dev/01_projects/06_mcp-memory/scripts/enrich/_session_state.md (Step 1-10 전체 기록)
-  - e2e-fix-summary.md: /c/dev/01_projects/06_mcp-memory/data/reports/e2e-fix-summary.md (19개 Fix 상세)
-  - 주요 수정 파일: graph_analyzer.py, node_enricher.py, hybrid.py, daily_enrich.py, migrate_v2.py, config.py, relation_extractor.py, remember.py, get_becoming.py, 프롬프트 YAML 2개
-  - 복수 모델 교차 검증 패턴 확인 — 각 모델이 다른 시각으로 다른 문제 발견
+  - 미결 트래킹: /c/dev/01_projects/02_portfolio/docs/design/2026-03-04-portfolio-full-audit.md
 
-[재작성] 세션 목표: mcp-memory v2.0 e2e 리뷰 19개 Fix 완료 | 남은 할 것: 1. 커밋+push 2. --dry-run 첫 실행 3. v2.1 defer (감쇠/init_db/schema/relate도구)
+[재작성] 세션 목표: portfolio 빌드 수정 + .worktrees 재편 + P1~P3 구조 변경 | 남은 할 것: 1. PR 5174 병합 2. 미결 A~F 해결 3. mcp-memory 커밋+push+첫 실행
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
 
 ---
