@@ -42,6 +42,7 @@
 | 2026-03-04 | (직접 설계) | portfolio 전체 섹션 구조 재편 설계 + audit 문서 | 5 | 6섹션 확정, 전체 코드베이스 파악, 416줄 audit, 4카드 타이틀 변경. 커밋 392e724, checkpoint #4057~#4059 |
 | 2026-03-04 | (3종 교차 리뷰+직접 수정) | mcp-memory v2.0 e2e 리뷰 3종 → 19개 Fix 통합 수정 | 5 | Sonnet(78)+Opus(B+)+Codex(48) 교차 리뷰, Tier 0-3 19개 Fix, 10파일 수정, 3중 검증 PASS. checkpoint #4082~#4086 |
 | 2026-03-04 | (직접 구현) | portfolio 빌드 수정 + .worktrees 재편 + P1~P3 구조 변경 | 5 | TS6133 데드코드 3개 제거, 03_claude 브랜치 추가, 6섹션 구현, 미결 A-F 트래킹 audit doc, checkpoint #4087~#4092 |
+| 2026-03-04 | (직접 구현) | tech-review 아카이브 시스템 전체 구현 | 5 | taxonomy.json(tier1+tier2+fallback), extract-sections.js(36개 소급), remap-tags.js(18일치), topics.html(ko+en), H1 소급(16개), 비용 $3/월 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -107,6 +108,7 @@
 | 2026-03-04 | 전체 섹션 구조 재편 설계 + audit 416줄 + 4카드 타이틀 + checkpoint 3건 | ~1.5h | - |
 | 2026-03-04 | 3종 e2e 리뷰 실행 + 통합 분석 + 19개 Fix 수정 + 3중 검증 + 문서화 | ~2h | Codex CLI 모델명 설정 주의 |
 | 2026-03-04 | 빌드 수정 + .worktrees 재편 + P1~P3 구조변경 + 미결 A-F 트래킹 + 세션 전환 체인 | ~2h | _sandbox 폴더 Windows native 삭제 필요 |
+| 2026-03-04 | tech-review 아카이브 시스템 (taxonomy + extract-sections + remap-tags + topics + H1 소급 + 비용 분석) | ~2h | - |
 
 ---
 
@@ -142,3 +144,4 @@
 | 2026-03-04 | 7개 (전체 코드베이스 파악 + audit 문서 생성 + 6섹션 구조 확정 + 4카드 타이틀 변경 + checkpoint 3건) | portfolio | 4개 |
 | 2026-03-04 | 19개 Fix (3종 e2e 리뷰 통합 → 10파일 수정 + 3중 검증 PASS + checkpoint 5건 + 리포트 문서화) | mcp-memory | 8개 |
 | 2026-03-04 | 빌드 수정 + .worktrees 재편 + P1~P3 구조변경(claude/portfolio 브랜치) + 미결 A-F 트래킹 + checkpoint 6건 | portfolio | 4개 |
+| 2026-03-04 | tech-review 아카이브 구현 (taxonomy.json + extract-sections + remap-tags + topics.html + H1 소급 + 비용 분석) | tech-review | 5개 |

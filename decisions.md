@@ -8,6 +8,11 @@
 
 ## 미반영
 
+2026-03-04 [tech-review] tier1은 분류체계, 섹션 태그는 tier2만 사용 — tier1 너무 광범위 | tr:✅
+2026-03-04 [tech-review] source_type 필드로 다중 소스 통합 설계 (perplexity/twitter/threads/youtube) | tr:❌
+2026-03-04 [tech-review] 트위터 소스: following 피드 기준 + 280자+/스레드/외부링크 필터 (Playwright) | tr:❌
+2026-03-04 [tech-review] 유튜브 소스: AI Studio 무료 + youtube-sources.json URL 직접 관리 | tr:❌
+2026-03-04 [tech-review] max_tokens 10000→7500 축소 (월 ~$3, 예산 내) | tr:✅
 2026-03-04 [portfolio] .worktrees/03_claude (claude/portfolio 브랜치) 추가 — P1~P3 구조 실험 공간 | pf:✅
 2026-03-04 [portfolio] P1~P3 섹션 구조 변경 claude/portfolio 브랜치에서 실험 — 6섹션 구현, PR 5174 검토 중 | pf:❌
 2026-03-04 [portfolio] 미결 A~F audit doc 섹션 6에서 트래킹 | pf:❌
