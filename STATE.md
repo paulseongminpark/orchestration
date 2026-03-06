@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 최종 수정: 2026-03-04 (mcp-memory v2.0 수리+활성화)
+> 최종 수정: 2026-03-06 (mcp-memory v2.1 온톨로지 구현 완료)
 
 ## 현재 상태
 
@@ -86,15 +86,16 @@
 - **다음**: 02·How I Think / 03·How I Build 분리 구현, TR→Writing 통합
 
 ### mcp-memory
-- **v2.0 수리+활성화 완료** (2026-03-04)
-  - 버그 수정 8건 (temperature, json키워드, conn.close, SQL injection 등)
-  - schema.yaml v2.0: 50 node types, 48 relation types
-  - migrate_v2: nodes 15/15, edges 9/9, layer 98.8% READY
-  - enrich_node_combined(): 9 API→1 API (7x 속도)
-  - orchestration Stop hook → save_session() 자동화
-  - checkpoint 8건 (#4093-#4100)
-- **enrichment 실행 중**: daily_enrich.py Phase 1-5 (파워쉘)
-- **다음**: enrichment 완료 후 E14 엣지 재분류 (generic 95%→5%)
+- **v2.0 완료** (2026-03-04): 50 node types, 48 relation types, enrichment 99%
+- **v2.1 온톨로지 구현 완료** (2026-03-06)
+  - Phase 0: Foundation — config.py v2.1 상수 16개, validators type_defs 전환, goldset 25쿼리
+  - Phase 1: Core Replacement — action_log, hybrid(BCM+UCB), remember(classify→store→link), recall(mode+patch), access_control, similarity, drift
+  - Phase 2: Advanced Features — SPRT promotion candidate, 3-gate(SWR/Bayesian/MDL), analyze_signals v2, hub_monitor, pruning, daily_enrich Phase 6
+  - Phase 3: Validation — NDCG baseline(0.057), SPRT 파라미터 검증, drift threshold 검증, 117/117 테스트 PASS
+  - 변경: 21 new files, 13 modified, 5781 insertions / 165 deletions
+  - CX 검증 15회 PASS, GM 리뷰 4회 PASS (Codex + Gemini)
+  - Tech debt: sqlite_store.py init_db() v2.1 테이블 미포함 (마이그레이션으로 처리)
+- **다음**: goldset 튜닝 (NDCG 개선), init_db v2.1 동기화, 일상 운용
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
