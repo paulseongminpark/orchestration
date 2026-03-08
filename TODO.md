@@ -1,6 +1,15 @@
 # TODO — 앞으로 하고싶은것
 
-> 최종 수정: 2026-02-27
+> 최종 수정: 2026-03-09
+
+## 긴급 (2026-03-09)
+
+- [ ] **Codex/Gemini CLI 전략 수립** — 각 CLI 강점/약점 실측 기반 역할 재정의
+  - Codex: sandbox 경로 이슈, -o 불안정, pytest 실행 불가 (sandbox 격리)
+  - Gemini: .py 파일 읽기 차단, 디렉토리 접근 실패, .md만 읽기 가능
+  - 조사 필요: sandbox off 옵션, geminiignore 설정, workdir 매핑
+  - 목표: "이 작업은 Codex, 이 작업은 Gemini" 명확한 매트릭스
+  - mcp-memory #4323, #4324 참조
 
 ## 우선순위 높음
 - [x] daily-memo 파이프라인 문서화 완성
@@ -39,6 +48,44 @@
 - [ ] portfolio AI System 섹션 — 포트폴리오 디자인 실험 추가
   - monet-lab에서 실험한 디자인 컴포넌트 내용 포함
   - AI 방법론 섹션에 "디자인 실험" 파트로 삽입
+
+## 인박스 (2026-03-08)
+
+### AI CLI 도구 마스터리
+- [ ] Claude Code 고급 세팅 — CLAUDE.md IF-ELSE 디렉토리 패턴, TASK_CONTRACT.md, context bar 커스터마이징
+  - ref: https://github.com/ykdojo/claude-code-tips (45+ tips)
+  - ref: @sysls 트윗 (CLAUDE.md = IF-ELSE 디렉토리, 세션당 1계약)
+- [ ] Codex CLI 고급 활용 — skills 구조, curated skills 참고
+  - ref: https://github.com/openai/skills/tree/main/skills/.curated (35개 curated skills)
+  - ref: https://skills.sh/ (450K+ 설치, npx skillsadd 패턴)
+- [ ] Gemini CLI 활용 확장 — Claude Code fallback으로서의 역할 (Reddit 콘텐츠 등)
+- [ ] Google Workspace CLI (gws) 도입 검토 — Gmail/Calendar/Drive CLI 제어, JSON 출력, 에이전트 연동
+  - ref: https://github.com/googleworkspace/cli
+- [ ] Vercel CLI marketplace — discover→guide→add 3단계, JSON 에이전트 최적화
+  - ref: https://vercel.com/changelog/vercel-cli-for-marketplace-integrations-optimized-for-agents
+- [ ] 4 AI CLI 통합 대시보드 리서치
+  - ref: https://www.reddit.com/r/ClaudeAI/comments/1qsr6gr/built_a_unified_dashboard_for_4_ai_clis_claude/
+
+### AI 도구 + 개인 메모리 연결
+- [ ] mcp-memory recall 개선 — importance 가중치 추가 (similarity×w + recency×w + importance×w)
+  - ref: @joaomoura CrewAI 메모리 복합 스코어링
+- [ ] mcp-memory 메모리 충돌 감지 — 의미적 모순 자동 해소 (PostgreSQL→MySQL 패턴)
+- [ ] mcp-memory half-life 망각 — 중요도×시간 함수 기반 자연 감쇠
+- [ ] quirk store 패턴 — 사용자 수정사항을 "correction" 노드 타입으로 영구 저장
+  - ref: @jamesquint 시맨틱 레이어→컨텍스트 관리
+- [ ] Pal 아키텍처 참고 — Classify→Recall→Retrieve→Act→Learn 5단계 루프
+  - ref: https://github.com/agno-agi/pal
+- [ ] AgentOS 6기둥 체크리스트 — 내구성/격리/거버넌스/영속성/확장성/조합성
+  - ref: https://github.com/agno-agi/agentos-docker-template
+- [ ] Notion 에이전트 자동화 패턴 — 반복 업무 발견→에이전트 위임, 학습형 라우팅
+  - ref: https://maily.so/josh/posts/g0zmw2k3oql
+
+### 연구/읽기
+- [ ] Claude Cycles 논문 (Don Knuth, Stanford) — Claude Opus 4.6의 탐색 방법론 31 explorations
+  - file: C:/Users/pauls/OneDrive/문서/카카오톡 받은 파일/claude-cycles.pdf
+  - 핵심: plan.md 추적, SA→순수수학 전환, fiber decomposition 발견
+- [ ] 에이전트 스파 데이 — rules/skills 모순 주기적 정리
+- [ ] lessons.md 에이전트 자동 갱신 hook 설계
 
 ## 백로그
 - 2026-02-24 03:13 테크 리뷰 방식 자체를 바꿔야 하나 아키텍쳐를

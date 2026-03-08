@@ -134,6 +134,14 @@ meta-orchestrator (디스패치 허브, /dispatch)
 - 허용: Read, Edit, Bash (git/npm/npx)
 - 거부: .env*, .ssh/**, secrets/**, rm -rf, force push, curl/wget
 
+## 프롬프트 캐싱 (2026-03-08)
+
+- 순서: Static system prompt + Tools → CLAUDE.md → Session context → Messages
+- 금지: 시스템 프롬프트에 타임스탬프, mid-session 도구 추가/제거, 모델 변경
+- `<system-reminder>`로 업데이트 (시스템 프롬프트 변경 대신)
+- defer_loading: auto 모드 활성 (ENABLE_TOOL_SEARCH=auto), 58도구 → 3-5K 토큰
+- Compaction: 동일 system prompt + tools로 parent 캐시 재사용
+
 ## 참고
 
 - [PLANNING.md](./PLANNING.md): 아키텍처 결정
