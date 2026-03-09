@@ -204,7 +204,6 @@ Phase 2의 Warp-2 태스크를 확인하고 진행하라.
 - [x] Phase 4-02: 스킬 TRIGGER 패턴 5개 적용 완료 (2026-03-09)
 
 다음 할 일:
-1. 0-impl-phase1~4.md 작성 (원자 태스크 분해)
-2. Phase 1 실행 (이 세션)
-3. Warp-1, Warp-2에 프롬프트 전달 (Paul이 복붙)
-4. CX/GM 명령어 실행 (Paul이 WezTerm에서)
+1. Phase 3-04 Memory-Merger 구현 (설계 완료: 02_implementation/2026-03-09/0-design-memory-merger.md)
+2. Pre-flight Recall 실전 검증 (다음 세션에서 실제로 recall하며 작업)
+3. Phase 5 항목 (Discovery 패턴, Wave DAG, conflict detection — 선택)
