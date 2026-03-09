@@ -8,6 +8,30 @@
 
 ## 미반영
 
+2026-03-09 [orchestration] Memory-Merger: #4120 Signal→Pattern 승격 (마찰 제거 원칙) → KNOWLEDGE.md 반영 | orch:✅
+2026-03-09 [portfolio] Writing > Tech Review 전면 재설계: Problem→3Sources→실시간피드→수치→Design Decisions/Ongoing 구조 | pf:✅
+2026-03-09 [portfolio] StatsBar 라벨 변경: 100+Posts/3Sources/KO-EN/~$3 | pf:✅
+2026-03-09 [portfolio] TechReviewMultiSource @author 폰트 fontFamily: inherit | pf:✅
+2026-03-09 [portfolio] TR_SYSTEM_KO.md + TechReviewSystemSection.tsx 전면 재작성 | pf:✅
+2026-03-08 [tech-review] analyze-youtube.py: transcript 60K→100K, 섹션 10+, body 5문장, Codex 600초, utf-8 | tr:✅
+2026-03-08 [tech-review] validate_quotes(): transcript에 없는 fabricated quote 자동 제거 | tr:✅
+2026-03-08 [tech-review] apply_points {text, key} 스키마: key=true 최대 2개 파란 하이라이트 | tr:✅
+2026-03-08 [tech-review] youtube.html: blockquote PMCC blue, TOC child items, 섹션 01~12 번호 | tr:✅
+2026-03-08 [tech-review] 일론 머스크 인터뷰 12섹션 13,745자 확정판 (797d886) | tr:✅
+2026-03-08 [portfolio] TechReviewCards → TechReviewMultiSource (blog3+twitter3+youtube1 세로) | pf:✅
+2026-03-08 [portfolio] sources.json 공개 피드 (build-sources-feed.js) | pf:✅
+2026-03-08 [tech-review] add-bookmark.py: Claude Haiku → Codex gpt-5.4 교체 (mcp-memory recall 연동) | tr:✅
+2026-03-08 [tech-review] fetch-twitter.yml 삭제 — GitHub Actions Twitter 자동 수집 영구 중단, Task Scheduler로 전환 | tr:✅
+2026-03-08 [tech-review] Whisper GPU fallback 추가 — openai-whisper medium, torch+cu124, RTX 4060 | tr:✅
+2026-03-08 [tech-review] TechReview-TwitterBookmark Task Scheduler 3시간 간격 등록 | tr:✅
+2026-03-08 [tech-review] summary 구조 통일: why_watch → smart_brevity | tr:✅
+2026-03-08 [tech-review] highlights 규칙: body 그대로 인용 강제 (요약/변형 금지) | tr:✅
+2026-03-08 [mcp-memory] TYPE_BOOST additive → Typed Vector Channel (RRF 4번째 채널, weight=0.5) | mem:✅
+2026-03-08 [mcp-memory] MAX_TYPE_HINTS=2, _detect_type_hints dict→list 리팩터 | mem:✅
+2026-03-08 [mcp-memory] Goldset v2.2: q026-q075 Paul 수동 검증, also_relevant 축소 | mem:✅
+2026-03-05 [tech-review] Playwright Twitter 스크래핑 폐기 → Node.js https GraphQL 직접 호출 (bearer token+queryId 동적 추출) | tr:✅
+2026-03-05 [tech-review] Gemini AI Studio YouTube 요약 폐기 → yt-dlp transcript 전용 (AI 요약 불필요) | tr:✅
+2026-03-05 [tech-review] daily-digest 태그 카운트: 섹션 수 → 포스트(날짜) 수 기준으로 변경 | tr:✅
 2026-03-04 [tech-review] tier1은 분류체계, 섹션 태그는 tier2만 사용 — tier1 너무 광범위 | tr:✅
 2026-03-04 [tech-review] source_type 필드로 다중 소스 통합 설계 (perplexity/twitter/threads/youtube) | tr:❌
 2026-03-04 [tech-review] 트위터 소스: following 피드 기준 + 280자+/스레드/외부링크 필터 (Playwright) | tr:❌

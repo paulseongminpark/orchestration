@@ -11,16 +11,13 @@
   - 목표: "이 작업은 Codex, 이 작업은 Gemini" 명확한 매트릭스
   - mcp-memory #4323, #4324 참조
 
+
 ## 우선순위 높음
 - [x] daily-memo 파이프라인 문서화 완성
   - [x] architecture.md에 시스템 구조도 추가
   - [x] daily-workflow.md에 워크플로우 통합
   - [x] claude-code-guide.md에 SessionStart hook 예시
   - 완료: 2026-02-18
-
-- [ ] Warp와 Claude Code 키보드 바인딩 문제 해결
-  - 문제: Warp 터미널에서 Claude Code 단축키 충돌
-  - 목표: 원활한 키보드 워크플로우 구성
 
 ## 우선순위 높음 (2026-02-22 추가)
 - [x] CHANGELOG.md v2.0 내용 업데이트 + orchestration 커밋
@@ -38,16 +35,7 @@
   - orch-skill-builder가 생성 담당
   - 완료: 2026-02-24
 
-- [ ] [긴급] portfolio에 Tech Review 설계 로직 섹션 추가
-  - tech review 블로그의 설계 방법론을 포트폴리오에 스토리텔링으로 기록
-  - 포함 내용: Smart Brevity 도입 배경, 요일별 큐레이션 구조, keywords-log 중복 방지 설계, Perplexity 활용법
-  - Claude와 나눈 tech review 관련 대화 전체 긁어서 스토리 구성
-  - 위치: portfolio AI System 섹션 내 "Tech Review 설계 케이스스터디" 서브섹션
-
-## 내일 할 것 (2026-02-23)
-- [ ] portfolio AI System 섹션 — 포트폴리오 디자인 실험 추가
-  - monet-lab에서 실험한 디자인 컴포넌트 내용 포함
-  - AI 방법론 섹션에 "디자인 실험" 파트로 삽입
+## 백로그 (portfolio/tech-review — 별도 세션)
 
 ## 인박스 (2026-03-08)
 

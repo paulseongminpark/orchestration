@@ -142,6 +142,10 @@ meta-orchestrator (디스패치 허브, /dispatch)
 - defer_loading: auto 모드 활성 (ENABLE_TOOL_SEARCH=auto), 58도구 → 3-5K 토큰
 - Compaction: 동일 system prompt + tools로 parent 캐시 재사용
 
+## 설계 패턴
+
+- **마찰 제거 원칙**: 모든 접근을 단축키/스킬/hook으로 만들어 생각↔행동 간격을 최소화한다 (← Memory-Merger #4120, 2026-03-09)
+
 ## 참고
 
 - [PLANNING.md](./PLANNING.md): 아키텍처 결정
