@@ -62,7 +62,7 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 
 ## 현재 상태 (compact 후 이 섹션 먼저 확인)
 
-**세션 4 완료. 다음: Ontology v3 Ideation R2 심화.**
+**세션 5 완료. 다음: Phase 0 (R1 갭 보충) → R2 심화.**
 
 완료:
 - [x] Track A: Memory-Merger 구현 + CX 리뷰 + 수정 (aa0a66b, 3c47dd5)
@@ -77,14 +77,18 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 - [x] S4: OpenAI 무료 토큰 정보 기록 (#4376 + MEMORY.md)
 - [x] S4: STATE.md 갱신 + push (39f6e6f)
 - [x] S4: Ontology v3 Ideation R1 (4개 파일)
+- [x] S5: 전체 파이프라인 계획 문서화 (05_full-pipeline-plan.md)
+- [x] S5: NDCG 0.9 목표 설정 + 달성 전략 정리
+- [x] S5: R1 갭 분석 (80개 인사이트 미교차검증, Workflow 샘플 미검증)
 
 미결:
-- [ ] Ontology v3 Ideation R2 심화 (4개 주제)
-- [ ] 타입 계층 정리 (31→~15) 마이그레이션 계획
-- [ ] retrieval_hints 스키마 확정
-- [ ] co-retrieval 구현 (recall_log 1,567건 활용)
-- [ ] dispatch 컨텍스트화 구현 (impl-index 기반)
-- [ ] verify.py → recall() 기반 전환
+- [ ] Phase 0: R1 갭 보충 (80개 인사이트 필터링, Workflow 샘플, ZERO 10건)
+- [ ] Phase 1: Ideation R2 심화 (4개 주제 + Phase 0 반영)
+- [ ] Phase 2: Ideation R3 통합 (결정 확정, 우선순위)
+- [ ] Phase 3: Impl Design (코드 수준 스펙)
+- [ ] Phase 4: Impl Review (Codex/Gemini/직접)
+- [ ] Phase 5: 구현 (Step 1~4)
+- [ ] Phase 6: 검증 (NDCG 0.9 목표, 테스트, A/B)
 - [ ] 21개 unenriched 노드 남음
 
 ---
