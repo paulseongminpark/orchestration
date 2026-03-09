@@ -193,15 +193,15 @@ Phase 2의 Warp-2 태스크를 확인하고 진행하라.
 - [x] Phase 1 완료 (MEMORY.md 182→58줄, topic 파일 7개)
 - [x] Phase 2 Warp-1 완료 (composite scoring, NDCG 0.336→0.359 +6.8%)
 - [x] Phase 2 Warp-2 완료 (Correction top-inject)
-- [ ] Phase 2 CX 리뷰 대기
+- [x] Phase 2 CX 리뷰 완료 (2026-03-09, NO-GO: recall.py 버그 2건 → 별도 세션 수정 필요)
 - [x] Phase 3-01: TASK_CONTRACT 템플릿 생성 완료
 - [x] Phase 3-02: Learn 단계 초안 완료 (cx-learn-step-draft.md)
 - [x] Phase 3-03: lessons.md 생성 완료 (초기 3건)
-- [ ] Phase 3-02: compressor agent.md에 실제 적용 (다음 세션)
+- [x] Phase 3-02: compressor agent.md에 Learn 단계 10 적용 완료 (2026-03-09)
 - [ ] Phase 3-04: Memory-Merger (Phase 2 완료 후)
 - [x] Phase 4-01: governance-audit.sh 설치 완료
 - [x] Phase 4-02: KNOWLEDGE.md 캐싱 규칙 추가 완료
-- [ ] Phase 4-02: 스킬 TRIGGER 패턴 적용 (Gemini 초안 수신, 적용 대기)
+- [x] Phase 4-02: 스킬 TRIGGER 패턴 5개 적용 완료 (2026-03-09)
 
 다음 할 일:
 1. 0-impl-phase1~4.md 작성 (원자 태스크 분해)
