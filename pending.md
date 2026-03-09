@@ -10,6 +10,7 @@
 [패턴후보][gemini-analyzer] Gemini CLI 스킬에서 ~/ 경로 사용 금지. Gemini가 프로젝트 로컬 .claude/ 디렉토리를 우선 읽어 경로 오작동 발생. 절대 경로 /c/Users/pauls/ 필수.
 [패턴후보][compressor] 타임스탬프 LLM 추정 금지. 반드시 `date +%H:%M` 명령 실행 후 실제 시간 사용. 추정 시 수십 분 오차 발생.
 [패턴후보][compressor] 구현 완료 ≠ DONE. 반드시 Living Docs → 옵시디언 → 커밋 → push → compressor 체크리스트 통과 후 DONE 선언. 중간 단계 생략 시 다음 세션에서 불일치 발생.
+[패턴후보][tech-review] GitHub Actions HARD FAIL 사일런트 폐기: isRejected()가 형식 이탈 감지 → exit 0으로 종료 → Actions "성공"으로 표시 → 알림/재시도 없음 → 포스트 누락 수일간 미발견. 해결: exit 1 + 알림 메커니즘 필요.
 [패턴후보][orchestration] QMD BM25 한글 검색 미지원. get(ID)만 정상, search/query는 영어만 부분 동작. 한글 문서 검색 시 외부 토크나이저 필요하거나 영어 인덱싱 우회 필요.
 [패턴후보][code-reviewer] .chain-temp 오프로딩 패턴: 체인에서 에이전트 간 공유 메모리가 필요할 때 context에 직접 포함 대신 파일(_auto/.chain-temp/agent-name.md)로 전달. 메인 컨텍스트 절감 효과.
 

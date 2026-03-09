@@ -8,6 +8,8 @@
 
 ## 미반영
 
+2026-03-09 [portfolio] Twitter 카드: overlay 모달 → tech-review /lang/twitter/#bm-xxx 딥링크 전환 (UX 일관성) | pf:✅ tr:✅
+2026-03-09 [tech-review] parse-content.js: 인용 URL 제거 로직 추가 — (?<!\])(https?://...) + [미확인] 주석 자동 제거 | tr:✅
 2026-03-09 [orchestration] Memory-Merger: #4120 Signal→Pattern 승격 (마찰 제거 원칙) → KNOWLEDGE.md 반영 | orch:✅
 2026-03-09 [portfolio] Writing > Tech Review 전면 재설계: Problem→3Sources→실시간피드→수치→Design Decisions/Ongoing 구조 | pf:✅
 2026-03-09 [portfolio] StatsBar 라벨 변경: 100+Posts/3Sources/KO-EN/~$3 | pf:✅

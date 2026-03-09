@@ -159,3 +159,4 @@
 | 2026-03-08 s2 | 8개 (analyze-youtube.py 품질 강화 + youtube.html UI + 일론 머스크 확정 + TechReviewMultiSource + sources.json) | tech-review/portfolio | 7개 |
 | 2026-03-08 s3 | 9개 (v2.2.1 Typed Vector Channel + Goldset v2.2 q026-q075 검증 + 163 tests + Living Docs 갱신) | mcp-memory | 3개 |
 | 2026-03-09 | 6개 (Writing>TR 전면 재설계 + StatsBar + @author 폰트 + checkpoint 5건) | portfolio/tech-review | 4개 |
+| 2026-03-09 s8 | 4개 (Twitter 딥링크 전환 + 0307 복구 + 인용URL 제거 + save_session/checkpoint) | tech-review/portfolio | 2개 |
