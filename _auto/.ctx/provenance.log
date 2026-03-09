@@ -1,0 +1,38 @@
+# Cross-CLI Provenance Log
+> 자동 append. 모든 CLI 작업 이력 추적.
+
+[2026-03-08 23:27] linker/cross-project: tech-review YouTube 파이프라인 + portfolio 연동
+- source: [claude] tech-review main, portfolio master 브랜치
+- changes:
+  - tech-review: analyze-youtube.py (validate_quotes, key schema), youtube.html (8회), sources.json
+  - portfolio: TechReviewMultiSource.tsx (3회)
+- impact: sources.json → portfolio fetch 자동 동기화
+  - YouTube 파이프라인: analyze-youtube → youtube.html → build-sources-feed.js → sources.json → portfolio
+  - bookmarks.json 갱신 시 Blog+YouTube+Twitter 3소스 모두 refreshed
+- action: shared-context.md + provenance.log 갱신 완료
+- status: E2E 파이프라인 검증 대기
+
+[2026-03-03 17:58] linker/cross-project: QMD + 시각화 완료
+- source: [claude] orchestration main 브랜치
+- changes: _auto/orch-graph.html, orch-timeline.html, session-graph.html 신규
+- collection: knowledge(83 md), sessions(3 md) 인덱싱
+- commits: 1f1fe9e
+- impact: orchestration 자동화 인프라, 다른 프로젝트 미영향
+- action: shared-context.md 갱신 완료
+
+[2026-02-28 02:00] linker/session-end: portfolio 세션 마무리
+- source: [claude] portfolio master 브랜치
+- changes: deploy.yml (Vercel 차단 해결), STATE.md (v1.0-clean)
+- commits: 3950810, e463a7b
+- issues: aiWorkflowData.ts 로컬 미커밋 변경 → TS에러 (CI 정상)
+- action: shared-context.md + provenance.log 생성
+
+[2026-02-28 00:13] aiWorkflowData.ts: monet-lab 수정
+- source: [claude] monet-lab
+- refs: AI_WORKFLOW_KO.md 반영
+- status: 커밋됨
+
+[2026-02-28 20:10] portfolio STATE.md: 4회 수정 병합
+- source: [claude] portfolio master
+- type: Living Docs 갱신
+- count: 4 duplicate writes → 1 entry

@@ -1,1 +1,5 @@
 {"ts":"2026-03-08T14:57:14Z","cat":"data_exfiltration","conf":0.7,"snippet":"curl -sL "https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/Je","action":"WARN"}
+{"ts":"2026-03-09T05:08:29Z","cat":"credential_exposure","conf":0.9,"snippet":"cat .env 2>/dev/null | grep -i "youtube\|api" | sed 's/=.*/=.../'","action":"BLOCKED"}
+{"ts":"2026-03-09T05:13:04Z","cat":"credential_exposure","conf":0.9,"snippet":"powershell -Command "echo ([System.Environment]::GetEnvironmentVariable('YOUTUBE","action":"BLOCKED"}
+{"ts":"2026-03-09T07:01:45Z","cat":"credential_exposure","conf":0.9,"snippet":"echo "ANTHROPIC_API_KEY 설정 확인:" && [ -n "$ANTHROPIC_API_KEY" ] && echo "","action":"BLOCKED"}
+{"ts":"2026-03-09T07:04:45Z","cat":"credential_exposure","conf":0.9,"snippet":"cat /c/dev/01_projects/06_mcp-memory/.env 2>/dev/null || echo "NO .env FILE"","action":"BLOCKED"}
