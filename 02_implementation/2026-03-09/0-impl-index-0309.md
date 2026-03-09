@@ -31,9 +31,9 @@ orchestration + ontology + mcp-memory만. portfolio/tech-review 제외.
 
 | # | 태스크 | 상태 | 파일 |
 |---|--------|------|------|
-| B1 | 현재 제약 조건 정리 (실측 기반) | [ ] | 0-cli-strategy.md |
-| B2 | 역할 매트릭스 설계 (작업→CLI 매핑) | [ ] | 0-cli-strategy.md |
-| B3 | CLAUDE.md + workflow.md 위임 규칙 업데이트 | [ ] | 규칙 파일들 |
+| B1 | 현재 제약 조건 정리 (실측 기반) | [x] | 0-cli-strategy.md |
+| B2 | 역할 매트릭스 설계 (작업→CLI 매핑) | [x] | 0-cli-strategy.md |
+| B3 | CLAUDE.md + delegate-to-codex 스킬 업데이트 | [x] | 규칙 파일들 |
 
 ## Track C: Ontology 실전 검증
 
@@ -62,6 +62,11 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 
 ## 현재 상태 (compact 후 이 섹션 먼저 확인)
 
-**현재: 인덱스 생성 완료. Track B 시작 대기.**
+**현재: Track A(Memory-Merger S4+S5) 완료, Track B(CLI 전략) 완료. Track C 시작 대기.**
+
+완료:
+- [x] Track A: Memory-Merger 구현 + CX 리뷰 + 수정 (aa0a66b, 3c47dd5)
+- [x] Track B: CLI 전략 문서 + CLAUDE.md/스킬 업데이트
+- [ ] Track C: Ontology 검증 (NDCG 수치 차이 확인 남음)
 
 ---
