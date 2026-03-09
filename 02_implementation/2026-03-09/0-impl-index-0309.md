@@ -62,11 +62,19 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 
 ## 현재 상태 (compact 후 이 섹션 먼저 확인)
 
-**현재: Track A(Memory-Merger S4+S5) 완료, Track B(CLI 전략) 완료. Track C 시작 대기.**
+**세션 3 완료. 다음: enrichment 배치(193 노드) 또는 Phase 5 A8 Discovery.**
 
 완료:
 - [x] Track A: Memory-Merger 구현 + CX 리뷰 + 수정 (aa0a66b, 3c47dd5)
 - [x] Track B: CLI 전략 문서 + CLAUDE.md/스킬 업데이트 (0662ca6)
 - [x] Track C: NDCG 수치 차이 확인 (goldset 50→75개, STATE.md 수정)
+- [x] S3: CLI 플래그 실측 (Codex/Gemini, c129620)
+- [x] S3: goldset 5건 수정 + typed vector 동적 가중치 → NDCG 0.459→0.475 (f81d55f)
+- [x] S3: enrichment bias 발견 + 분석 (bc2bdee)
+
+미결:
+- [ ] 193개 unenriched 노드 enrichment 배치 (OpenAI API 필요)
+- [ ] Phase 5 A8 Discovery 패턴 (선택)
+- [ ] q059/q073 ZERO (enrichment 해결 후 자동 개선)
 
 ---
