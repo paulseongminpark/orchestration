@@ -43,6 +43,10 @@
 | 2026-03-04 | (3종 교차 리뷰+직접 수정) | mcp-memory v2.0 e2e 리뷰 3종 → 19개 Fix 통합 수정 | 5 | Sonnet(78)+Opus(B+)+Codex(48) 교차 리뷰, Tier 0-3 19개 Fix, 10파일 수정, 3중 검증 PASS. checkpoint #4082~#4086 |
 | 2026-03-04 | (직접 구현) | portfolio 빌드 수정 + .worktrees 재편 + P1~P3 구조 변경 | 5 | TS6133 데드코드 3개 제거, 03_claude 브랜치 추가, 6섹션 구현, 미결 A-F 트래킹 audit doc, checkpoint #4087~#4092 |
 | 2026-03-04 | (직접 구현) | tech-review 아카이브 시스템 전체 구현 | 5 | taxonomy.json(tier1+tier2+fallback), extract-sections.js(36개 소급), remap-tags.js(18일치), topics.html(ko+en), H1 소급(16개), 비용 $3/월 |
+| 2026-03-05 | (직접 구현) | tech-review 파이프라인 재설계 (Twitter+YouTube+daily-digest) | 5 | Playwright→GraphQL, Gemini→yt-dlp, digest 날짜별 그룹화, anchor 스크롤 JS, checkpoint 8건 |
+| 2026-03-08 s1 | (직접 구현) | tech-review YouTube/Twitter 파이프라인 전면 개선 | 5 | TOC, apply_points, Whisper GPU, Task Scheduler 3개, fetch-twitter.yml 삭제 |
+| 2026-03-08 s2 | (직접 구현) | tech-review YouTube 품질 강화 + Portfolio 멀티소스 전환 | 5 | validate_quotes, 100K transcript, 12섹션 일론 머스크, TechReviewMultiSource, sources.json |
+| 2026-03-08 s3 | (직접 구현) | mcp-memory v2.2.1 Typed Vector Channel + Goldset v2.2 검증 | 5 | additive→RRF채널, q026-q050 NDCG +0.396, 163 tests, 전체 NDCG@5=0.460 |
 
 **기준:**
 - 5: 직접 쓸 수 있는 결과물
@@ -109,6 +113,11 @@
 | 2026-03-04 | 3종 e2e 리뷰 실행 + 통합 분석 + 19개 Fix 수정 + 3중 검증 + 문서화 | ~2h | Codex CLI 모델명 설정 주의 |
 | 2026-03-04 | 빌드 수정 + .worktrees 재편 + P1~P3 구조변경 + 미결 A-F 트래킹 + 세션 전환 체인 | ~2h | _sandbox 폴더 Windows native 삭제 필요 |
 | 2026-03-04 | tech-review 아카이브 시스템 (taxonomy + extract-sections + remap-tags + topics + H1 소급 + 비용 분석) | ~2h | - |
+| 2026-03-05 | tech-review 파이프라인 재설계 (Twitter GraphQL + YouTube yt-dlp + daily-digest 개선 + post.html anchor) | ~2h | - |
+| 2026-03-08 s1 | tech-review YouTube/Twitter 파이프라인 전면 개선 (TOC + apply_points + Whisper GPU + Task Scheduler + 구조 통일) | ~2h | CUDA/PyTorch 설치 |
+| 2026-03-08 s2 | tech-review YouTube 품질 강화 + Portfolio 멀티소스 전환 (validate_quotes + 100K + UI + 일론 머스크 + MultiSource) | ~2h | git checkout 버전 복원 |
+| 2026-03-08 s3 | mcp-memory v2.2.1 Typed Vector Channel + Goldset v2.2 q026-q075 수동 검증 | ~2h | goldset ID 수동 매칭 |
+| 2026-03-09 | Writing>TR 전면 재설계 + StatsBar + @author 폰트 + TR_SYSTEM_KO + TechReviewSystemSection + checkpoint | ~1.5h | - |
 
 ---
 
@@ -145,3 +154,8 @@
 | 2026-03-04 | 19개 Fix (3종 e2e 리뷰 통합 → 10파일 수정 + 3중 검증 PASS + checkpoint 5건 + 리포트 문서화) | mcp-memory | 8개 |
 | 2026-03-04 | 빌드 수정 + .worktrees 재편 + P1~P3 구조변경(claude/portfolio 브랜치) + 미결 A-F 트래킹 + checkpoint 6건 | portfolio | 4개 |
 | 2026-03-04 | tech-review 아카이브 구현 (taxonomy.json + extract-sections + remap-tags + topics.html + H1 소급 + 비용 분석) | tech-review | 5개 |
+| 2026-03-05 | 6개 (Twitter GraphQL + YouTube yt-dlp + daily-digest 개선 + post.html anchor + Actions yml 수정 + checkpoint 8건) | tech-review | 3개 |
+| 2026-03-08 | 9개 (YouTube TOC + apply_points 개인화 + Haiku→Codex 교체 + Whisper GPU + Task Scheduler + fetch-twitter.yml 삭제 + summary 통일 + highlights 규칙 + CUDA 설치) | tech-review | 6개 |
+| 2026-03-08 s2 | 8개 (analyze-youtube.py 품질 강화 + youtube.html UI + 일론 머스크 확정 + TechReviewMultiSource + sources.json) | tech-review/portfolio | 7개 |
+| 2026-03-08 s3 | 9개 (v2.2.1 Typed Vector Channel + Goldset v2.2 q026-q075 검증 + 163 tests + Living Docs 갱신) | mcp-memory | 3개 |
+| 2026-03-09 | 6개 (Writing>TR 전면 재설계 + StatsBar + @author 폰트 + checkpoint 5건) | portfolio/tech-review | 4개 |

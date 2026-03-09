@@ -62,7 +62,7 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 
 ## 현재 상태 (compact 후 이 섹션 먼저 확인)
 
-**세션 3 완료. 다음: enrichment 배치(193 노드) 또는 Phase 5 A8 Discovery.**
+**세션 4 완료. 다음: Ontology v3 Ideation R2 심화.**
 
 완료:
 - [x] Track A: Memory-Merger 구현 + CX 리뷰 + 수정 (aa0a66b, 3c47dd5)
@@ -71,10 +71,20 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 - [x] S3: CLI 플래그 실측 (Codex/Gemini, c129620)
 - [x] S3: goldset 5건 수정 + typed vector 동적 가중치 → NDCG 0.459→0.475 (f81d55f)
 - [x] S3: enrichment bias 발견 + 분석 (bc2bdee)
+- [x] S4: Enrichment 배치 166개 (gpt-5-mini, 1.44M tokens, err=0)
+- [x] S4: NDCG 0.475→0.724 (+52%) — q059/q073 ZERO 해소
+- [x] S4: verify.py vs recall() 차이 원인 확인 (hybrid_search=0.390 vs recall+composite=0.724)
+- [x] S4: OpenAI 무료 토큰 정보 기록 (#4376 + MEMORY.md)
+- [x] S4: STATE.md 갱신 + push (39f6e6f)
+- [x] S4: Ontology v3 Ideation R1 (4개 파일)
 
 미결:
-- [ ] 193개 unenriched 노드 enrichment 배치 (OpenAI API 필요)
-- [ ] Phase 5 A8 Discovery 패턴 (선택)
-- [ ] q059/q073 ZERO (enrichment 해결 후 자동 개선)
+- [ ] Ontology v3 Ideation R2 심화 (4개 주제)
+- [ ] 타입 계층 정리 (31→~15) 마이그레이션 계획
+- [ ] retrieval_hints 스키마 확정
+- [ ] co-retrieval 구현 (recall_log 1,567건 활용)
+- [ ] dispatch 컨텍스트화 구현 (impl-index 기반)
+- [ ] verify.py → recall() 기반 전환
+- [ ] 21개 unenriched 노드 남음
 
 ---
