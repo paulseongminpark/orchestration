@@ -44,7 +44,7 @@ orchestration + ontology + mcp-memory만. portfolio/tech-review 제외.
 | C1 | get_becoming으로 현재 승격 후보 확인 | [ ] | — |
 | C2 | analyze_signals로 클러스터 분석 | [ ] | — |
 | C3 | Memory-Merger e2e: Signal→Pattern 1건 승격+파일 반영 | [ ] | = A4와 동일 |
-| C4 | NDCG 수치 차이 원인 확인 (STATE.md 0.460 vs 측정 0.353) | [ ] | — |
+| C4 | NDCG 수치 차이 원인 확인 (STATE.md 0.460 vs 측정 0.353) | [x] | goldset 50→75개 차이. STATE.md 수정. |
 
 ---
 
@@ -66,7 +66,7 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 
 완료:
 - [x] Track A: Memory-Merger 구현 + CX 리뷰 + 수정 (aa0a66b, 3c47dd5)
-- [x] Track B: CLI 전략 문서 + CLAUDE.md/스킬 업데이트
-- [ ] Track C: Ontology 검증 (NDCG 수치 차이 확인 남음)
+- [x] Track B: CLI 전략 문서 + CLAUDE.md/스킬 업데이트 (0662ca6)
+- [x] Track C: NDCG 수치 차이 확인 (goldset 50→75개, STATE.md 수정)
 
 ---

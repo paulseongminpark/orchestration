@@ -95,7 +95,11 @@
   - 변경: 21 new files, 13 modified, 5781 insertions / 165 deletions
   - CX 검증 15회 PASS, GM 리뷰 4회 PASS (Codex + Gemini)
   - Tech debt: sqlite_store.py init_db() v2.1 테이블 미포함 (마이그레이션으로 처리)
-- **다음**: goldset 튜닝 (NDCG 개선), init_db v2.1 동기화, 일상 운용
+- **v2.2.1 검색 품질** (2026-03-08): goldset 75개 기준 NDCG@5=0.359, NDCG@10=0.401, hit_rate=0.627, 169 tests PASS
+  - 참고: 이전 기록 0.460은 goldset 50개(q026-q075) 기준. 75개(q001-q075)로 통일.
+  - Phase 2 composite scoring 적용: 0.336→0.359 (+6.8%)
+- **Memory-Merger** (2026-03-09): session-start.sh 알림 + /merge 스킬 + skip_gates 보안 가드
+- **다음**: q001-q025 NDCG 개선, init_db v2.1 동기화, SWR 점수 자연 축적 (Pre-flight Recall)
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
