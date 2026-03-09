@@ -81,3 +81,27 @@
 | 나머지 | q061 (1건) | 쿼리 너무 구체적, 한계 |
 
 goldset 수정 3건 + 쿼리 정규화 2건만으로 q051-q075 NDCG@5 **0.227 → ~0.30-0.35** 예상.
+
+---
+
+## 5. enrichment bias 발견 (2026-03-09 추가)
+
+### 근본 원인
+q059, q073은 goldset 오류가 아닌 **enrichment bias** 버그:
+- #4235 (q059): 벡터 rank 1, FTS rank 1, RRF rank 1 → 그런데 최종 결과 top-50 밖!
+- 원인: enriched Principle 노드(tier=0, qs=0.92)의 보너스 합계 0.432 >> RRF 1위 0.105
+
+| 구성요소 | enriched (#222) | unenriched (#4235) |
+|---------|-----------------|-------------------|
+| RRF score | ~0.030 | 0.105 |
+| enrichment bonus | 0.282 | 0.000 |
+| tier bonus | 0.150 | 0.000 |
+| **합계** | **0.462** | **0.105** |
+
+### 실험 결과
+cap 적용 시: q051-q075 +0.163 but q001-q025 -0.156, q026-q050 -0.168 → 트레이드오프
+
+### 해결 방향
+**근본 해결**: 193개 unenriched 노드에 enrichment 배치 실행 (OpenAI API 필요)
+- 실행 시 `scripts/enrich/node_enricher.py` 사용
+- UNENRICHED_DEFAULT_QS 상수를 참조값으로 추가해둠
