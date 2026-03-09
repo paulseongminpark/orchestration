@@ -204,6 +204,9 @@ Phase 2의 Warp-2 태스크를 확인하고 진행하라.
 - [x] Phase 4-02: 스킬 TRIGGER 패턴 5개 적용 완료 (2026-03-09)
 
 다음 할 일:
-1. Phase 3-04 Memory-Merger 구현 (설계 완료: 02_implementation/2026-03-09/0-design-memory-merger.md)
+1. Phase 3-04 Memory-Merger 구현 (설계: 02_implementation/2026-03-09/0-design-memory-merger.md)
 2. Pre-flight Recall 실전 검증 (다음 세션에서 실제로 recall하며 작업)
-3. Phase 5 항목 (Discovery 패턴, Wave DAG, conflict detection — 선택)
+3. NDCG 수치 차이 원인 확인 (STATE.md 0.460 vs 측정 0.353)
+4. Phase 5 항목 (Discovery 패턴, Wave DAG — 선택)
+
+0309 작업 기록: 02_implementation/2026-03-09/work-log-0309.md
