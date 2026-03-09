@@ -205,9 +205,9 @@ Phase 2의 Warp-2 태스크를 확인하고 진행하라.
 
 다음 할 일:
 1. Phase 5 항목 (Discovery 패턴, Wave DAG — 선택)
-2. Codex full-auto 플래그 실측 (CLI 전략 미결)
-3. Gemini .geminiignore 실측
-4. q001-q025 NDCG 개선
+2. ~~Codex full-auto 플래그 실측~~ ✅ `--full-auto` = workspace-write + on-request (2026-03-09)
+3. ~~Gemini .geminiignore 실측~~ ✅ .py 읽기 정상 작동 (2026-03-09)
+4. ~~q001-q025 NDCG 개선~~ → **q051-q075 NDCG 개선** (실제 병목: 0.227, 5단계 파이프라인 대상)
 
 0309 세션1 기록: 02_implementation/2026-03-09/work-log-0309.md
 0309 세션2 기록: 02_implementation/2026-03-09/work-log-0309-s2.md

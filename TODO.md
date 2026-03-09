@@ -4,12 +4,15 @@
 
 ## 긴급 (2026-03-09)
 
-- [ ] **Codex/Gemini CLI 전략 수립** — 각 CLI 강점/약점 실측 기반 역할 재정의
-  - Codex: sandbox 경로 이슈, -o 불안정, pytest 실행 불가 (sandbox 격리)
-  - Gemini: .py 파일 읽기 차단, 디렉토리 접근 실패, .md만 읽기 가능
-  - 조사 필요: sandbox off 옵션, geminiignore 설정, workdir 매핑
-  - 목표: "이 작업은 Codex, 이 작업은 Gemini" 명확한 매트릭스
-  - mcp-memory #4323, #4324 참조
+- [x] **Codex/Gemini CLI 전략 수립** — 실측 완료 (2026-03-09)
+  - Codex: `--full-auto` = workspace-write + on-request. 프롬프트 스코프 제한.
+  - Gemini: .py 읽기 정상 확인. `.geminiignore` 불필요.
+  - 문서: 02_implementation/2026-03-09/0-cli-strategy.md
+
+- [ ] **mcp-memory NDCG 개선** — q051-q075 병목 (NDCG@5=0.227, hit_rate=24%)
+  - q001-q025: 0.604 (양호), q026-q050: 0.546, q051-q075: 0.227 (심각)
+  - 원인: 긴 서술형 쿼리 + low-ID 노드 매칭 실패
+  - 5단계 파이프라인 대상 (ideation부터)
 
 
 ## 우선순위 높음

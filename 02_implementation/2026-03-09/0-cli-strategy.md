@@ -1,7 +1,7 @@
 # CLI 전략 — 멀티 AI 역할 매트릭스
 
 > 작성: 2026-03-09
-> 상태: 초안. 실행 플래그 실측 필요.
+> 상태: Codex 플래그 실측 완료 (2026-03-09). Gemini 미결.
 
 ---
 
@@ -44,7 +44,7 @@
 - 역할: 벌크 분석기 + 2nd opinion
 - 권한: `-o` 출력 전용 (현행 유지)
 - 강점: 1M 컨텍스트, .md 대량 분석, 웹 검색
-- 실측 제약: .py 읽기 차단, 디렉토리 접근 실패
+- 실측 제약: 디렉토리 접근 실패 (일부 환경). .py 읽기는 정상 확인 (2026-03-09)
 - 비용: AI Pro $20/월
 
 ### Perplexity (sonar-deep-research)
@@ -115,10 +115,28 @@ Claude 검증 (ai-synthesizer verify barrier)
 
 ---
 
-## 미결 (실측 필요)
+## 실측 결과
 
-- [ ] Codex full-auto 정확한 플래그 확인 (`--full-auto` vs `--dangerously-bypass-approvals-and-sandbox`)
-- [ ] Codex sandbox off 시 `.claude/` 접근 가능한지
-- [ ] Gemini `.geminiignore` 로 .py 차단 해제 가능한지
+### Codex 플래그 (2026-03-09 실측)
+
+| 플래그 | 승인 정책 (`-a`) | 샌드박스 (`-s`) | 용도 |
+|--------|-----------------|----------------|------|
+| `--full-auto` | `on-request` (모델 판단) | `workspace-write` | **기본 사용** — workspace 내 파일 생성+분석 |
+| `--dangerously-bypass-approvals-and-sandbox` | 없음 | 없음 | 외부 격리 환경 전용. **사용 금지.** |
+| `-s read-only` | 수동 | read-only | 간단 분석. 쓰기 불가. |
+| `-s danger-full-access` | 수동 | 없음 | 전체 파일시스템 접근. 위험. |
+
+**결론**: `--full-auto --ephemeral` 기본. workspace 밖 쓰기 필요 시 `--add-dir {경로}`.
+
+### 추가 발견
+- `-a on-request`: 모델이 승인 필요 시 스스로 판단 (사용자에게 묻기 vs 바로 실행)
+- `-a never`: 무조건 자동 실행 (exec 비대화식에 적합)
+- `--add-dir`: workspace 밖 추가 쓰기 디렉토리 지정
+
+---
+
+## 미결
+
+- [x] Gemini .py 읽기: **정상 작동** (2026-03-09 실측). `.geminiignore` 불필요.
 - [ ] Codex 5시간 롤링 정확한 제한 (회수? 토큰?)
 - [ ] Perplexity CLI 존재 여부

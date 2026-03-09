@@ -99,7 +99,8 @@
   - 참고: 이전 기록 0.460은 goldset 50개(q026-q075) 기준. 75개(q001-q075)로 통일.
   - Phase 2 composite scoring 적용: 0.336→0.359 (+6.8%)
 - **Memory-Merger** (2026-03-09): session-start.sh 알림 + /merge 스킬 + skip_gates 보안 가드
-- **다음**: q001-q025 NDCG 개선, init_db v2.1 동기화, SWR 점수 자연 축적 (Pre-flight Recall)
+- **세그먼트 NDCG** (2026-03-09 실측): q001-q025=0.604, q026-q050=0.546, q051-q075=0.227
+- **다음**: q051-q075 NDCG 개선 (실제 병목), init_db v2.1 동기화, SWR 점수 자연 축적 (Pre-flight Recall)
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
