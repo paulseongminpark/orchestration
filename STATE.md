@@ -101,7 +101,9 @@
 - **Memory-Merger** (2026-03-09): session-start.sh 알림 + /merge 스킬 + skip_gates 보안 가드
 - **세그먼트 NDCG** (2026-03-09): q001-q025=0.609, q026-q050=0.558, q051-q075=0.258
 - **NDCG 개선** (2026-03-09): goldset 수정 5건 + typed vector 동적 가중치 → 전체 0.459→0.475 (+3.5%)
-- **다음**: q051-q075 추가 개선 (ZERO 6건 남음), init_db v2.1 동기화, SWR 점수 자연 축적
+- **Enrichment 배치** (2026-03-09): 166개 unenriched 노드 enriched (gpt-5-mini, 1.44M tokens). enrichment bias 해소.
+- **NDCG 대폭 개선** (2026-03-09): 0.475→0.724 (+52%). q001-q025=0.860, q026-q050=0.829, q051-q075=0.485. ZERO 10건 (verify.py 기준 0.390 — 차이 원인 미확인).
+- **다음**: verify.py vs recall() NDCG 차이 디버깅, Phase 5 A8 Discovery, init_db v2.1 동기화
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
