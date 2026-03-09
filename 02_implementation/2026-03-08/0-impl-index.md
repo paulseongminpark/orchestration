@@ -198,15 +198,17 @@ Phase 2의 Warp-2 태스크를 확인하고 진행하라.
 - [x] Phase 3-02: Learn 단계 초안 완료 (cx-learn-step-draft.md)
 - [x] Phase 3-03: lessons.md 생성 완료 (초기 3건)
 - [x] Phase 3-02: compressor agent.md에 Learn 단계 10 적용 완료 (2026-03-09)
-- [ ] Phase 3-04: Memory-Merger (Phase 2 완료 후)
+- [x] Phase 3-04: Memory-Merger 구현 완료 (2026-03-09, session-start.sh + /merge 스킬 + skip_gates + CX R1)
 - [x] Phase 4-01: governance-audit.sh 설치 완료
 - [x] Phase 4-02: KNOWLEDGE.md 캐싱 규칙 추가 완료
 - [x] Phase 4-02: 스킬 TRIGGER 패턴 5개 적용 완료 (2026-03-09)
 
 다음 할 일:
-1. Phase 3-04 Memory-Merger 구현 (설계: 02_implementation/2026-03-09/0-design-memory-merger.md)
-2. Pre-flight Recall 실전 검증 (다음 세션에서 실제로 recall하며 작업)
-3. NDCG 수치 차이 원인 확인 (STATE.md 0.460 vs 측정 0.353)
-4. Phase 5 항목 (Discovery 패턴, Wave DAG — 선택)
+1. Phase 5 항목 (Discovery 패턴, Wave DAG — 선택)
+2. Codex full-auto 플래그 실측 (CLI 전략 미결)
+3. Gemini .geminiignore 실측
+4. q001-q025 NDCG 개선
 
-0309 작업 기록: 02_implementation/2026-03-09/work-log-0309.md
+0309 세션1 기록: 02_implementation/2026-03-09/work-log-0309.md
+0309 세션2 기록: 02_implementation/2026-03-09/work-log-0309-s2.md
+0309 세션2 인덱스: 02_implementation/2026-03-09/0-impl-index-0309.md
