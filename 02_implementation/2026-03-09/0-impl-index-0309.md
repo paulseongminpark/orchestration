@@ -62,7 +62,7 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 
 ## 현재 상태 (compact 후 이 섹션 먼저 확인)
 
-**세션 5 완료. 다음: Phase 0 (R1 갭 보충) → R2 심화.**
+**세션 6 완료. 다음: Impl Design v2 (Codex/Gemini 피드백 반영) → Phase 5 구현.**
 
 완료:
 - [x] Track A: Memory-Merger 구현 + CX 리뷰 + 수정 (aa0a66b, 3c47dd5)
@@ -80,13 +80,21 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 - [x] S5: 전체 파이프라인 계획 문서화 (05_full-pipeline-plan.md)
 - [x] S5: NDCG 0.9 목표 설정 + 달성 전략 정리
 - [x] S5: R1 갭 분석 (80개 인사이트 미교차검증, Workflow 샘플 미검증)
+- [x] S6: Phase 0 완료 (Codex 16건 추출, Workflow 47% archived, ZERO 10건 분류, goldset 2건 수정)
+- [x] S6: Phase 1 R2 완료 (4파일: 타입마이그레이션/L3자율성/co-retrieval실측/dispatch스펙)
+- [x] S6: Phase 2 R3 완료 (17개 결정 V3-01~V3-17, 구현 우선순위 P1~P4)
+- [x] S6: Phase 3 Impl Design 완료 (D-1~D-7 코드 수준 스펙)
+- [x] S6: Phase 4 Impl Review — Codex Critical 3/High 4/Medium 4, Gemini 4건
 
 미결:
-- [ ] Phase 0: R1 갭 보충 (80개 인사이트 필터링, Workflow 샘플, ZERO 10건)
-- [ ] Phase 1: Ideation R2 심화 (4개 주제 + Phase 0 반영)
-- [ ] Phase 2: Ideation R3 통합 (결정 확정, 우선순위)
-- [ ] Phase 3: Impl Design (코드 수준 스펙)
-- [ ] Phase 4: Impl Review (Codex/Gemini/직접)
+- [x] Phase 0: R1 갭 보충 완료
+- [x] Phase 1: Ideation R2 심화 완료
+- [x] Phase 2: Ideation R3 통합 완료 (17개 결정)
+- [x] Phase 3: Impl Design 완료
+- [x] Phase 4: Impl Review 완료 (Critical 3건 발견 — 설계 수정 필요)
+- [ ] **Impl Design v2**: Codex/Gemini 피드백 반영 (Critical 3 + High 4 + Gemini 4)
+- [ ] **51개 전타입 매핑표**: 누락 20개 타입 경로 확정
+- [ ] **classifier.py import 복구**: 선행 작업
 - [ ] Phase 5: 구현 (Step 1~4)
 - [ ] Phase 6: 검증 (NDCG 0.9 목표, 테스트, A/B)
 - [ ] 21개 unenriched 노드 남음
