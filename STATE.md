@@ -103,7 +103,13 @@
 - **NDCG 개선** (2026-03-09): goldset 수정 5건 + typed vector 동적 가중치 → 전체 0.459→0.475 (+3.5%)
 - **Enrichment 배치** (2026-03-09): 166개 unenriched 노드 enriched (gpt-5-mini, 1.44M tokens). enrichment bias 해소.
 - **NDCG 대폭 개선** (2026-03-09): 0.475→0.724 (+52%). q001-q025=0.860, q026-q050=0.829, q051-q075=0.485. ZERO 10건 (verify.py 기준 0.390 — 차이 원인 미확인).
-- **다음**: verify.py vs recall() NDCG 차이 디버깅, Phase 5 A8 Discovery, init_db v2.1 동기화
+- **Ontology v3 Phase 5 Step 0~2 완료** (2026-03-11)
+  - 타입 51→15 축소 (Tier1:7+Tier2:5+Tier3:3+Unclassified)
+  - DB 마이그레이션: merge=506, edge=46, Workflow 재분류=532 (61 archived), leaked=0
+  - retrieval_hints 2927/2947 완료 (99.3%, gpt-5-mini 배치 20/호출)
+  - classifier 15타입 프롬프트 + type_filter canonicalization + recall_id
+  - 169 tests PASS
+- **다음**: hints err 20 재생성 → re-embed(2.5) → co-retrieval(3) → dispatch(4) → NDCG 0.9(6)
 
 ### monet-lab
 - PMCC 상세페이지 완성 (Visual Cues + Activity Gallery)
