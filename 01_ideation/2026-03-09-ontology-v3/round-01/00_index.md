@@ -84,3 +84,4 @@ dispatch 컨텍스트화 (세션별 작업 분리)
 | 03 | discovery-pattern.md | 완료 |
 | 04 | dispatch-context.md | 완료 |
 | 05 | full-pipeline-plan.md | 완료 |
+| 06 | phase0-results.md | 완료 |
