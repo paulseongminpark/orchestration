@@ -62,41 +62,44 @@ Track A와 C3는 동일 태스크 (Memory-Merger 검증 = 승격 e2e).
 
 ## 현재 상태 (compact 후 이 섹션 먼저 확인)
 
-**세션 6 완료. 다음: Impl Design v2 (Codex/Gemini 피드백 반영) → Phase 5 구현.**
+**세션 7 완료. Phase 5 Step 0~2 구현, hints 배치 백그라운드 실행 중.**
 
 완료:
-- [x] Track A: Memory-Merger 구현 + CX 리뷰 + 수정 (aa0a66b, 3c47dd5)
-- [x] Track B: CLI 전략 문서 + CLAUDE.md/스킬 업데이트 (0662ca6)
-- [x] Track C: NDCG 수치 차이 확인 (goldset 50→75개, STATE.md 수정)
-- [x] S3: CLI 플래그 실측 (Codex/Gemini, c129620)
-- [x] S3: goldset 5건 수정 + typed vector 동적 가중치 → NDCG 0.459→0.475 (f81d55f)
-- [x] S3: enrichment bias 발견 + 분석 (bc2bdee)
-- [x] S4: Enrichment 배치 166개 (gpt-5-mini, 1.44M tokens, err=0)
-- [x] S4: NDCG 0.475→0.724 (+52%) — q059/q073 ZERO 해소
-- [x] S4: verify.py vs recall() 차이 원인 확인 (hybrid_search=0.390 vs recall+composite=0.724)
-- [x] S4: OpenAI 무료 토큰 정보 기록 (#4376 + MEMORY.md)
-- [x] S4: STATE.md 갱신 + push (39f6e6f)
-- [x] S4: Ontology v3 Ideation R1 (4개 파일)
-- [x] S5: 전체 파이프라인 계획 문서화 (05_full-pipeline-plan.md)
-- [x] S5: NDCG 0.9 목표 설정 + 달성 전략 정리
-- [x] S5: R1 갭 분석 (80개 인사이트 미교차검증, Workflow 샘플 미검증)
-- [x] S6: Phase 0 완료 (Codex 16건 추출, Workflow 47% archived, ZERO 10건 분류, goldset 2건 수정)
-- [x] S6: Phase 1 R2 완료 (4파일: 타입마이그레이션/L3자율성/co-retrieval실측/dispatch스펙)
-- [x] S6: Phase 2 R3 완료 (17개 결정 V3-01~V3-17, 구현 우선순위 P1~P4)
-- [x] S6: Phase 3 Impl Design 완료 (D-1~D-7 코드 수준 스펙)
-- [x] S6: Phase 4 Impl Review — Codex Critical 3/High 4/Medium 4, Gemini 4건
+- [x] Track A~C, S3~S6 (이전 세션 — 상세 생략)
+- [x] S7: Impl Design v2 작성 (02_impl-design-v2.md, 15건 피드백 반영)
+- [x] S7: Step 0 — classifier.py import 복구, recall_id, edges index, retrieval_hints 컬럼
+- [x] S7: Step 1 — DB 백업 + sync_schema C1 fix + 전타입 마이그레이션 (506 merge + 46 edge, leaked=0)
+- [x] S7: Step 1.5 — PROMOTE_LAYER/RELATION_RULES/VALID_PROMOTIONS v3 + 테스트 적응 (169 pass)
+- [x] S7: Step 2 코드 — classifier 15개 프롬프트, Workflow 532개 재분류(61 archived), hints plumbing, type_filter canonicalization
+- [x] S7: Step 3 코드 준비 — co_retrieval.py, type_filter canonicalization
 
 미결:
-- [x] Phase 0: R1 갭 보충 완료
-- [x] Phase 1: Ideation R2 심화 완료
-- [x] Phase 2: Ideation R3 통합 완료 (17개 결정)
-- [x] Phase 3: Impl Design 완료
-- [x] Phase 4: Impl Review 완료 (Critical 3건 발견 — 설계 수정 필요)
-- [ ] **Impl Design v2**: Codex/Gemini 피드백 반영 (Critical 3 + High 4 + Gemini 4)
-- [ ] **51개 전타입 매핑표**: 누락 20개 타입 경로 확정
-- [ ] **classifier.py import 복구**: 선행 작업
-- [ ] Phase 5: 구현 (Step 1~4)
-- [ ] Phase 6: 검증 (NDCG 0.9 목표, 테스트, A/B)
-- [ ] 21개 unenriched 노드 남음
+- [~] **hints 배치** 실행 중 (task bc9ebakoj, ~100/2947 시점에서 세션 종료). 완료 확인 필요.
+- [ ] Step 2.5: ChromaDB re-embed (hints 완료 후)
+- [ ] Step 3: co-retrieval 실행 (co_retrieval.py 준비 완료)
+- [ ] Step 4: dispatch + L3 자율성
+- [ ] Phase 6: NDCG 0.9 검증
+- [ ] edges co_retrieval_count/boost 컬럼 추가 (라이브 DB)
+- [ ] schema.yaml v3 업데이트 (deprecated 타입 제거)
+
+gpt-5-mini 참고:
+- reasoning 모델 — max_completion_tokens 크게 (2000+), temperature/max_tokens 미지원
+- 배치 20개/호출 최적 (reasoning tokens 포함 ~3000-6000 토큰/배치)
+
+수정 파일 (mcp-memory, 미커밋):
+- ontology/validators.py: get_valid_node_types() 추가
+- storage/sqlite_store.py: retrieval_hints 컬럼, recall_id 마이그레이션, sync_schema C1 fix, insert_node hints 파라미터
+- tools/recall.py: recall_id 생성, type_filter canonicalization (H1)
+- tools/remember.py: retrieval_hints 체인 (server→remember→store→insert_node)
+- server.py: remember() retrieval_hints 파라미터
+- enrichment/classifier.py: v3 15개 타입 프롬프트
+- config.py: PROMOTE_LAYER/RELATION_RULES/VALID_PROMOTIONS v3
+- tests/: test_correction, test_remember_v2, test_schema_consistency 적응
+- scripts/migrate_v3.py (신규): Step 1 마이그레이션
+- scripts/migrate_workflow.py (신규): Workflow LLM 재분류
+- scripts/enrich/hints_generator.py (신규): retrieval_hints 배치 생성
+- scripts/enrich/co_retrieval.py (신규): co-retrieval 계산
+
+---
 
 ---
