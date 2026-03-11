@@ -5,6 +5,8 @@
 
 ## 최근 교훈
 
+- [2026-03-11] 08 시스템 미준수 근본: Claude의 기본 행동이 "문제 해결"을 우선하여 /pipeline을 바이패스. 유기적 전환("논의→고치자→코드")은 트리거 목록으로 잡히지 않음. 해법은 행동 감지 Hook(Edit/Write 시 pipeline 체크).
+- [2026-03-11] compact 후 복구에 2레이어 필요: 장기 기억(DB, get_context/recall) + 단기 작업 상태(파이프라인 index). save_session() active_pipeline으로 연결.
 - [2026-03-11] index-system v1: Code Review R1에서 Critical 버그 4개(경로, 순환참조, 인코딩, edge 중복) 발견. R1 없이 배포 불가. 리뷰 2라운드(R1:버그, R2:검증)가 최적.
 - [2026-03-11] 라운드 방향성(Diverge/Cross/Converge)은 권장 패턴이지 강제 순서 아님 — 고정하면 사고 제약. foundation 3축은 Ideation 완료 시 한꺼번에 생성.
 - [2026-03-11] Opus는 merged만 읽어야 한다. 개별 라운드 파일을 읽으면 컨텍스트 낭비 + 편향 발생.
