@@ -114,9 +114,45 @@ ontology_review 1회차 (2026-03-11):
 - 마이그레이션 결과 정합 확인
 - 남은: 다음 2~3세션에서 auto_remember 실시간 TYPE_MAP 매칭 관찰
 
+## Phase 6: active_pipeline + /restore ✅
+
+> compact 후 정보 손실 문제 분석 → 복구 경로에 단기 작업 상태(파이프라인 index)가 누락된 것 발견.
+> 두 레이어(DB 장기 기억 + 파일 단기 상태) 통합 복구 구현.
+
+**P6-1. sessions 테이블 active_pipeline 컬럼**
+- 파일: `06_mcp-memory/storage/sqlite_store.py` L100
+- 변경: `active_pipeline TEXT DEFAULT ''` 컬럼 추가
+- DB: `ALTER TABLE sessions ADD COLUMN active_pipeline` 실행
+
+**P6-2. save_session() active_pipeline 파라미터**
+- 파일: `06_mcp-memory/tools/save_session.py`, `06_mcp-memory/server.py`
+- 변경: `active_pipeline: str = ""` 파라미터 + INSERT/UPSERT 반영
+
+**P6-3. get_context() active_pipeline 반환**
+- 파일: `06_mcp-memory/tools/get_context.py`
+- 변경: 최근 세션에서 active_pipeline 조회 → 반환 dict에 포함
+
+**P6-4. compressor.md 연동**
+- 파일: `~/.claude/agents/compressor.md`
+- 변경: save_session 데이터에 `active_pipeline` 필드 추가
+
+**P6-5. /restore 스킬 생성**
+- 파일: `~/.claude/skills/restore/SKILL.md` (신규)
+- 기능: get_context() → active_pipeline index 읽기 → recall() → 복구 보고
+- 트리거: "복구해줘", "이전 세션", "이어서", `/restore`
+
+**P6-6. workflow.md + rules/workflow.md 갱신**
+- workflow.md: compact 후 복구 프롬프트 섹션 추가
+- rules/workflow.md: 세션 복구 → /restore 스킬 위임
+
+**검증**: 169 unit tests PASS, save_session+get_context E2E 확인
+**커밋**: `42d8a58` (mcp-memory), `7820709` (orchestration)
+
 ## 커밋 이력
 
 | 커밋 | 레포 | 내용 |
 |------|------|------|
 | `ea6cb1d` | mcp-memory | config.py, save_session.py, 마이그레이션/렌더 스크립트 |
 | `199f5ee` | orchestration | sync SKILL.md, 00_index.md |
+| `42d8a58` | mcp-memory | save_session active_pipeline + get_context 반환 |
+| `7820709` | orchestration | workflow.md compact 후 복구 + /restore 연동 |

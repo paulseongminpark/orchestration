@@ -102,3 +102,37 @@ ontology_review (2026-03-11):
 | Unclassified | 38 (1%) | 대부분 라이선스/frontmatter 노이즈 |
 
 **판단**: 정상. 다음 2~3세션에서 auto_remember 실시간 매칭 관찰 후 Phase 1.5 종료.
+
+---
+
+## 4. compact 후 정보 손실 분석 (Phase 6 근거)
+
+### 발단
+다른 Claude 세션에서 `/session-end` → `/compact` → "복구해줘" 시도.
+Claude가 get_context()도 recall()도 호출하지 않고 파일 3개만 읽음. 복구 실패.
+
+### 근본 원인 분석 (Ultrathink)
+
+**정보의 두 종류 식별:**
+| 종류 | 저장 위치 | 복구 수단 |
+|------|-----------|-----------|
+| 장기 기억 (Decision/Question/Insight) | mcp-memory DB | get_context() + recall() |
+| 단기 작업 상태 (현재 Phase, 파일 위치) | 08 documentation 00_index.md | 파일 읽기 |
+
+**발견한 3가지 근본 원인:**
+1. **복구 절차 미집행**: rules/workflow.md에 규칙 없었음. "복구해줘"가 강제 트리거로 연결 안 됨.
+2. **단기 작업 상태 누락**: get_context()/recall()은 DB만 조회. 파이프라인 index(00_index.md)의 ✅/⬜ 정보는 DB에 없음.
+3. **active index 경로 미기록**: compact 후 새 Claude가 어떤 00_index.md가 활성인지 모름. 경로가 어디에도 안 남아있음.
+
+### 해결 방향 검토
+
+| 접근 | 장점 | 단점 | 채택 |
+|------|------|------|------|
+| STATE.md에 경로 추가 | 즉시 가용 | 관리 부담, SoT 성격 불일치 | ❌ |
+| session-start.sh find 스캔 | 관리 0 | Windows 느림, 시간 기준 자의적, 노이즈 | ❌ |
+| save_session() active_pipeline | DB SoT, 정확, 노이즈 없음 | 코드 수정 필요 | ✅ |
+| /restore 스킬 | 강제 실행 | 스킬 생성 | ✅ |
+
+### 결론
+save_session()에 active_pipeline 저장 → get_context()가 반환 → /restore 스킬이 index 읽기.
+두 레이어(DB + 파일)를 하나의 복구 경로로 통합.

@@ -20,6 +20,7 @@
 | E2E 테스트 16건 | ✅ | 40_review/04_review-log.md §2 |
 | 마이그레이션 47세션 | ✅ | 30_impl/03_impl-log.md Phase 2 |
 | Phase 1.5 모니터링 | ⬜ | 40_review/04_review-log.md §3 (1회차 완료) |
+| Phase 6: active_pipeline + /restore | ✅ | 30_impl/03_impl-log.md Phase 6 |
 
 ## 폴더 구조
 
@@ -49,3 +50,5 @@
 | `199f5ee` | orchestration | sync SKILL, 00_index |
 | `40c3177` | orchestration | impl-log, review-log, plan |
 | `8b29ff3` | orchestration | foundation/ 3축 문서화 |
+| `42d8a58` | mcp-memory | save_session active_pipeline + get_context 반환 |
+| `7820709` | orchestration | workflow.md compact 후 복구 + /restore 연동 |
