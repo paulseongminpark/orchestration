@@ -6,27 +6,18 @@
 
 === 컨텍스트 압축 요약 (최신) ===
 
-세션 목표: compact 후 정보 손실 문제 해결 + 08_documentation-system 미준수 근본 원인 분석
+## 23:24 [dev] wezterm config + session-end
+
+세션 목표: wezterm config 관리 + 세션 종료 정리
 
 완료:
-  - [mcp-memory] save_session() active_pipeline 파라미터 추가 → get_context() 반환 (42d8a58)
-  - [orchestration] workflow.md compact 후 복구 프롬프트 + /restore 연동 (7820709)
-  - [orchestration] Phase 6 문서화 — active_pipeline + /restore 구현/리뷰 기록 (4f0f3de)
-  - [orchestration] lessons.md — index-system R1 Critical 버그 교훈 추가 (7714466)
-  - [orchestration] 08 시스템 미준수 근본 원인 분석 — 옆 Opus와 협업
-  - [orchestration] 21_ideation-r2/ 시스템 브리핑 문서 (외부 AI용 전체 컨텍스트)
-  - [orchestration] 01_dialogue.md Exchange 12~14 추가 (compact 손실, 문서화 누락, 근본 원인)
-
-확정된 결정:
-  1. 복구 2레이어: 장기 기억(mcp-memory DB) + 단기 작업 상태(파이프라인 00_index.md)
-  2. save_session() active_pipeline → get_context()가 반환 → /restore에서 index 읽기
-  3. 08 시스템이 운영체제가 아니라 참조 자료로 기능 — 이것이 문서화 누락의 근본 원인
-  4. 해법 방향: 행동 감지 Hook (Edit/Write 시 pipeline 체크) — 미확정
+  - [dev] wezterm config 백업 — 03_wezterm 폴더 생성, thin loader, Ctrl+Shift+S 저장 통합 (55bbee5)
+  - [dev] HOME.md orchestration v4.1 반영 + wezterm config 업데이트 (66c8f86)
 
 현재 상태:
-  orchestration main up to date. mcp-memory main up to date.
-  orchestration 미커밋: dialogue.md 변경 + ideation-r2 briefing 신규.
-  dev/ 미커밋: 04_memory_export submodule dirty.
+  orchestration main up to date (live-context.md만 dirty, 커밋 불필요).
+  mcp-memory main up to date (dashboard.html, ontology-review.md dirty — 자동 생성 파일).
+  dev/ main up to date (04_memory_export submodule dirty).
 
 실패 기록 (삭제 금지):
   - [시도] TYPE_BOOST additive 0.03 → [실패] enrichment 격차 대비 무효 → [원인] additive boost가 RRF 스코어 차이를 뒤집기엔 너무 작음 → Typed Vector Channel (RRF 채널)로 교체
@@ -50,8 +41,22 @@
   - index-system: master 브랜치 (orchestration: main, portfolio: master)
   - mcp-memory checkpoint 전 다른 pane 작업 여부 확인 (DB 충돌 방지)
 
-[재작성] 세션 목표: compact 후 복구 + 08 시스템 미준수 분석 | 남은 할 것: 1. 08 행동 감지 Hook 구현 2. index-system v2 3. phase-guide 구체화 4. mcp-memory ingest 정리 5. Ontology v3 Phase 2.5~6
+[재작성] 세션 목표: wezterm config 관리 | 남은 할 것: 1. 08 행동 감지 Hook 구현 2. index-system v2 3. phase-guide 구체화 4. mcp-memory ingest 정리 5. Ontology v3 Phase 2.5~6
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
+
+---
+
+=== 이전 세션 (2026-03-11 compact+08분석) ===
+
+세션 목표: compact 후 정보 손실 문제 해결 + 08_documentation-system 미준수 근본 원인 분석
+
+완료:
+  - [mcp-memory] save_session() active_pipeline 파라미터 추가 → get_context() 반환 (42d8a58)
+  - [orchestration] workflow.md compact 후 복구 프롬프트 + /restore 연동 (7820709)
+  - [orchestration] Phase 6 문서화 — active_pipeline + /restore 구현/리뷰 기록 (4f0f3de)
+  - [orchestration] lessons.md — index-system R1 Critical 버그 교훈 추가 (7714466)
+  - [orchestration] 08 시스템 미준수 근본 원인 분석 — 옆 Opus와 협업
+  - [orchestration] 21_ideation-r2/ 시스템 브리핑 문서 (외부 AI용 전체 컨텍스트)
 
 ---
 
