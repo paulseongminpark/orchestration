@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 최종 수정: 2026-03-06 (mcp-memory v2.1 온톨로지 구현 완료)
+> 최종 수정: 2026-03-11 (세션 체인 v4.1 재설계)
 
 ## 현재 상태
 
@@ -83,6 +83,13 @@
   - 포트폴리오 전체 감사 문서 생성: docs/design/2026-03-04-portfolio-full-audit.md
   - 설계 문서: docs/design/2026-03-04-section-structure-dialogue.md
   - /checkpoint 10건 저장 (node #4050~#4059)
+- **세션 체인 v4.1 재설계** (2026-03-11)
+  - 세션 종료 체인 11단계→5단계 (compressor Opus→Sonnet)
+  - auto_remember: FILE_TYPE_MAP(11) + BASH_SIGNAL_MAP(9) 온톨로지 타입 매핑
+  - save_session(): Narrative+Decision+Question 노드 생성 + 명시적 edge
+  - 47세션 마이그레이션 완료, E2E 16건 통과
+  - 폐기: analyze-session.sh, auto-promote.sh, sync-memory.sh, session-stop.sh, /sync all
+  - 설계 문서: 01_ideation/2026-03-11-session-chain-redesign/ (foundation 3축 포함)
 - **다음**: 02·How I Think / 03·How I Build 분리 구현, TR→Writing 통합
 
 ### mcp-memory
@@ -137,7 +144,7 @@
 ### Agents (15개, v4.0)
 **build 팀**: code-reviewer[Opus,memory:user], commit-writer[Haiku], pf-ops[Sonnet,review+deploy], security-auditor[Sonnet]
 **verify 팀**: ai-synthesizer[Opus,adversarial-verify], gemini-analyzer[Sonnet,벌크추출], codex-reviewer[Sonnet,정밀검증]
-**maintain 팀**: compressor[Opus,memory:user], doc-ops[Sonnet,verify+write], linker[Haiku,cross-project+cross-session+cross-cli], daily-ops[Haiku,morning+inbox], tr-ops[Sonnet,monitor+update]
+**maintain 팀**: compressor[Sonnet,memory:user], doc-ops[Sonnet,verify+write], linker[Haiku,cross-project+cross-session+cross-cli], daily-ops[Haiku,morning+inbox], tr-ops[Sonnet,monitor+update]
 **크로스팀 유틸리티**: orch-state[Sonnet], project-context[Sonnet]
 **디스패치 허브**: meta-orchestrator[Opus,memory:user]
 
@@ -148,7 +155,7 @@
 - **허브**: meta-orchestrator (/dispatch)
 
 ### Skills (9개, v4.0)
-- 운영: /morning, /sync (sync all 포함), /todo, /dispatch, /compact
+- 운영: /morning, /sync, /todo, /dispatch, /compact
 - 검증: /verify
 - 분석: /session-insights
 - 로컬(orchestration): /handoff, /status
@@ -175,7 +182,7 @@
 
 ### Hooks (8종)
 - SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + 미검토 선호도 알림 + 스냅샷 알림)
-- SessionEnd: 미커밋 현황 + MEMORY.md 경고
+- SessionEnd: 미커밋 현황 + MEMORY.md 경고 (session-stop.sh 제거됨)
 - PreToolUse: 위험 명령 차단
 - PostToolUse: *.md 감지 + _auto/live-context.md auto-append + auto-trim
 - PreCompact: pre-compact.sh (스냅샷 생성 + 미커밋 경고)

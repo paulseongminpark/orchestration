@@ -1,6 +1,37 @@
 # Orchestration System Changelog
 
-> 최종 수정: 2026-03-03 (세션4)
+> 최종 수정: 2026-03-11
+
+---
+
+## v4.1 — Session Chain Redesign (2026-03-11)
+
+### 세션 체인 단순화
+- 세션 종료 체인 11단계 → 5단계: LOG → Living Docs → Commit → save_session → Learn
+- compressor 모델 Opus → Sonnet (실행이지 설계가 아님)
+- 세션 전환: verify → /sync all → /session-end → /compact → linker → 2단계: /session-end → /compact
+
+### 온톨로지 타입 매핑
+- auto_remember.py: FILE_TYPE_MAP(11개) + BASH_SIGNAL_MAP(9개) + CONFIDENCE_BY_LAYER
+- 이전: 모든 기록 Observation(L0) → 이후: 파일명/시그널이 타입 결정 (Decision, Principle, Pattern 등)
+
+### save_session() 그래프 통합
+- sessions 테이블 저장 + Narrative/Decision/Question 노드 생성 + 명시적 edge
+- config.py RELATION_RULES +3: (Narrative,Decision):contains, (Narrative,Question):contains, (Decision,Question):led_to
+- 47세션 마이그레이션 완료 (migrate_sessions_to_nodes.py)
+
+### 폐기
+- 파일: analyze-session.sh, auto-promote.sh, sync-memory.sh, session-stop.sh
+- 기능: /sync all, pending.md 수동 검증, decisions.md append
+- settings.json: SessionEnd에서 session-stop.sh 제거
+
+### 신규 스크립트
+- render_memory_md.py: DB → MEMORY.md 자동 렌더링 (DYNAMIC_MARKER 기반)
+- migrate_sessions_to_nodes.py: sessions 테이블 + lessons.md → 노드 변환
+
+### 검증
+- E2E 16건 전부 통과, 169 unit tests 통과
+- ontology_review: 4008 노드, Observation 3%, 고립 4%
 
 ---
 
