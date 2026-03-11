@@ -6,6 +6,28 @@
 - session-start.sh가 미커밋 현황 + 미반영 결정 알려줌
 - Claude가 recall()로 이전 세션 맥락 가져옴 (이제 Decision/Question 노드로 검색됨)
 
+### compact 후 복구 프롬프트
+
+compact 직후 새 세션을 시작할 때 Claude에게 이렇게 말한다:
+
+```
+이전 세션 복구해줘. [작업 키워드]
+```
+
+예시:
+```
+이전 세션 복구해줘. mcp-memory 온톨로지 작업.
+이전 세션 복구해줘. portfolio 레이아웃 결정.
+```
+
+Claude가 하는 것:
+1. `get_context()` — 최근 저장된 세션 요약 + 미결 질문 가져옴
+2. `recall("[작업 키워드]")` — 관련 Decision/Question 노드 검색
+3. 복구된 내용 요약 후 "이어서 진행할까요?" 확인
+
+**키워드 없이 그냥 "복구해줘"도 됨** — get_context()로 최근 세션 맥락은 자동으로 가져옴.
+키워드를 주면 해당 작업의 Decision/Question 노드까지 정확히 검색됨.
+
 ## 세션 중
 
 ### 자동 (신경 안 써도 됨)
