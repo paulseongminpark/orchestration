@@ -48,31 +48,6 @@ model: haiku
 
 5. git add STATE.md _history/logs/ && git commit -m "[orchestration] STATE+LOG 갱신" && git push
 
-### `/sync all` (모든 프로젝트 — sync-all 통합)
-
-1. **각 프로젝트별로**:
-   - orchestration (main), portfolio (master), dev-vault (main) 순서
-   - 변경된 파일 확인 (git status)
-   - STATE.md 있으면 읽기 → 최근 작업 반영
-   - 적절한 커밋 메시지: "[project] 한줄 설명"
-   - git add + commit + push
-
-2. **메모리 동기화**:
-   ```bash
-   bash /c/Users/pauls/.claude/scripts/sync-memory.sh
-   ```
-   - pending.md → MEMORY.md 4기준 검증 후 반영
-   - 에이전트 학습 패턴 검증 (선택)
-
-3. **보고**:
-   ```
-   DONE:
-   - orchestration: [커밋 메시지]
-   - portfolio: [커밋 메시지]
-   - dev-vault: [커밋 메시지]
-   - memory: [채택 N개 / 보류 N개 / 삭제 N개]
-   ```
-
 ## LOG 규칙
 - 읽기 절대 금지 (토큰 보호). echo append만.
 - 태그: [orchestration], [portfolio], [cowork]
