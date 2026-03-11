@@ -31,6 +31,9 @@
 | `02_impl-design.md` | 6 Phase 실행 계획 + Impl Review 반영 |
 | `03_impl-log.md` | 구현 기록 (Phase 0~5, 커밋, 변경 파일) |
 | `04_review-log.md` | Ultrathink 점검 + E2E 검증 + Phase 1.5 모니터링 |
+| `foundation/principles.md` | 7개 원칙: 기계/해석 분리, 노드화, 타입 결정론 등 |
+| `foundation/philosophy.md` | 세션은 사라지지만 결정은 남는다, 두 가지 눈, 뷰=파생 |
+| `foundation/workflow.md` | 자동 기록 → 수동 관찰 → 5단계 체인 → 모니터링 |
 
 ## 커밋
 
