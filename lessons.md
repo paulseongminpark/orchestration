@@ -5,6 +5,7 @@
 
 ## 최근 교훈
 
+- [2026-03-11] index-system v1: Code Review R1에서 Critical 버그 4개(경로, 순환참조, 인코딩, edge 중복) 발견. R1 없이 배포 불가. 리뷰 2라운드(R1:버그, R2:검증)가 최적.
 - [2026-03-11] 라운드 방향성(Diverge/Cross/Converge)은 권장 패턴이지 강제 순서 아님 — 고정하면 사고 제약. foundation 3축은 Ideation 완료 시 한꺼번에 생성.
 - [2026-03-11] Opus는 merged만 읽어야 한다. 개별 라운드 파일을 읽으면 컨텍스트 낭비 + 편향 발생.
 - [2026-03-08] Codex CLI: -p extract는 read-only sandbox → 파일 생성 시 반드시 -p implement 사용
