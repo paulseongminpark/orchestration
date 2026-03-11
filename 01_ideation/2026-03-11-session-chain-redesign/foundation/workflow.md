@@ -1,103 +1,79 @@
-# 워크플로우 — 세션 체인 실행
+# 워크플로우 — 세션 체인 v4.1 사용자 가이드
 
-## 세션 중: 자동 기록
+## 세션 시작
 
+바뀐 것 없음. 평소대로 시작.
+- session-start.sh가 미커밋 현황 + 미반영 결정 알려줌
+- Claude가 recall()로 이전 세션 맥락 가져옴 (이제 Decision/Question 노드로 검색됨)
+
+## 세션 중
+
+### 자동 (신경 안 써도 됨)
+- 파일 수정하면 auto_remember가 타입 매핑해서 DB에 저장
+  - STATE.md 수정 → Decision, CLAUDE.md 수정 → Principle, 등
+- Bash에서 FAIL/PASS 나오면 Failure/Experiment로 자동 저장
+- 이전: 전부 Observation으로 뭉뚱그려 저장 → 이제: 파일명이 타입을 결정
+
+### 수동 (/checkpoint)
+- 이전과 동일. Claude가 대화 중 메타 관찰해서 기억 저장
+- 이것은 기계적 auto_remember와 다른 종류의 정보 — 둘 다 필요
+
+## 세션 종료
+
+### 이전 (11단계 + 사전/사후 작업)
 ```
-[PostToolUse Hook — auto_remember.py]
-
-Write/Edit 감지
-  → 파일명이 FILE_TYPE_MAP에 있으면:
-    → 타입+레이어 결정 (STATE.md → Decision L1)
-    → confidence = CONFIDENCE_BY_LAYER[layer]
-    → remember() 호출
-  → 없으면: 무시
-
-Bash 감지
-  → 출력에 BASH_SIGNAL_MAP 시그널 있으면:
-    → Failure 우선 매칭
-    → get_project(cmd)로 프로젝트 감지
-    → remember() 호출
-  → BASH_TRIGGER_ONLY ("테스트", "완료")만 있으면:
-    → Observation L0으로 기록
-  → 없으면: 무시
-```
-
-이것은 완전 자동. Claude도 Paul도 관여하지 않는다.
-
-## 세션 중: 수동 관찰
-
-```
-[/checkpoint — Claude 판단]
-
-Claude가 대화 중 메타적으로 관찰:
-  → Paul의 사고 패턴, 선호, 행동
-  → 기술적 발견, 실패에서 배운 것
-  → remember() 호출 (type은 Claude가 판단)
-```
-
-이것은 수동. Claude가 적절한 시점에 실행한다.
-
-## 세션 종료: 5단계 체인
-
-```
-/session-end 호출
-  → compressor(Sonnet) 에이전트 가동
-
-1. LOG
-   - session-summary.md 갱신 (최근 3개 유지)
-   - _history/logs/YYYY-MM-DD.md에 append
-   - 타임스탬프: `date +%H:%M` (LLM 추정 금지)
-
-2. Living Docs
-   - STATE.md 갱신 (이번 세션 주 프로젝트)
-   - CHANGELOG.md 갱신
-
-3. Commit
-   - 변경된 프로젝트 전부 git add → commit → push
-   - 메시지: "[project] 한줄 설명"
-
-4. save_session 데이터 반환
-   - compressor → lead agent(Opus)에게 전달:
-     summary, decisions[], unresolved[], project
-   - lead agent가 save_session() MCP 호출
-   - → Narrative + Decision + Question 노드 생성
-   - → 명시적 edge (contains) 연결
-
-5. Learn
-   - Discovery / Lesson / Improvement / Paul 관찰 (4줄)
-   - lead agent가 remember(type="Insight") MCP 호출
-   - lessons.md에 append (20개 FIFO)
-
-→ lead agent: /compact 진행
+verify → /sync all → /session-end → compressor(Opus) 11단계:
+  1. session-summary.md
+  2. LOG append
+  3. STATE.md
+  4. decisions.md
+  5. METRICS.md
+  6. pending.md (선택)
+  7. MEMORY.md (선택)
+  8. doc-ops
+  9. doc-ops verify
+  10. Learn
+  11. save_session 데이터 전달
+→ /compact → linker → "새 세션 준비 완료"
 ```
 
-## 세션 전환
-
+### 지금 (2단계)
 ```
-이전: verify → /sync all → /session-end → /compact → linker → "준비 완료"
-이후: /session-end → /compact
+/session-end → /compact
 ```
 
-6단계 → 2단계. verify, /sync all, linker 제거.
+끝. 내부에서 일어나는 것:
+1. compressor(Sonnet)가 LOG + Living Docs + Commit + Learn 처리
+2. Claude(Opus)가 save_session() 호출 → Decision/Question이 그래프 노드로 저장
+3. /compact로 세션 전환
 
-## 모니터링 (Phase 1.5)
+**없어진 것:**
+- `/sync all` — 필요 없음. compressor가 commit+push 함
+- `verify` — 세션 전환 전에 별도로 안 돌려도 됨
+- `linker` — 세션 전환 후 별도 호출 불필요
+- `pending.md` — 에이전트 학습 후보 수집 폐기. DB 노드가 대체
+- `decisions.md append` — save_session()이 Decision 노드로 저장
+- `METRICS.md` — 별도 저장 불필요
+- `doc-ops verify` — compressor 검증으로 통합
 
-```
-구현 후 2~3세션 동안:
-  → ontology_review 실행
-  → 확인: Observation 비율이 다시 높아지지 않는지
-  → 확인: save_session edge가 정상 생성되는지
-  → 확인: auto_remember TYPE_MAP 매칭 정확도
-  → 문제 발견 시: TYPE_MAP 또는 SIGNAL_MAP 수정
-```
+## MEMORY.md
 
-## 렌더링 (선택적)
+### 이전
+- Claude가 수동으로 갱신
+- analyze-session.sh + auto-promote.sh + /sync all이 반자동 갱신
 
-```
-python scripts/render_memory_md.py
-  → DB 쿼리: L3 전체, L2 상위 15, 최근 Decision 5, Question 전체, Failure 3
-  → MEMORY.md의 DYNAMIC_MARKER 이후를 교체
-  → 200줄 이내 보장
-```
+### 지금
+- 고정 섹션: 직접 수정 (System Version, User Preferences 등)
+- 동적 섹션: `python render_memory_md.py`로 DB에서 자동 생성
+- `<!-- DYNAMIC -->` 마커 아래는 스크립트가 덮어씀
+- 아직 수동 실행. 필요할 때 돌리면 됨.
 
-자동 실행 아님. 필요할 때 수동 또는 cron.
+## 요약: Paul이 달라지는 것
+
+| 항목 | 이전 | 지금 |
+|------|------|------|
+| 세션 종료 | `/sync all` → `/session-end` → `/compact` + 후처리 | `/session-end` → `/compact` |
+| pending.md | 가끔 확인, /sync all 때 검증 | 없음. DB 노드로 대체 |
+| decisions.md | compressor가 append | save_session()이 노드로 저장 |
+| MEMORY.md 갱신 | Claude 수동 | 스크립트 또는 Claude |
+| 세션 맥락 복구 | MEMORY.md 읽기 + recall | recall()만 (노드가 더 풍부) |
