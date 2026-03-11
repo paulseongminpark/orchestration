@@ -16,10 +16,13 @@
 | Phase | 상태 | 폴더 |
 |-------|------|------|
 | 전체 시스템 감사 | ✅ 완료 | (세션 내) |
-| Ideation R1 대담 | ✅ 진행 중 | 01_dialogue.md |
-| Ideation R2 구체화 | ⬜ | - |
-| Impl Design | ⬜ | - |
-| 구현 | ⬜ | - |
+| Ideation R1 대담 | ✅ 완료 | 01_dialogue.md (Exchange 1-6) |
+| Ideation R2 구체화 | ✅ 완료 | 01_dialogue.md (Exchange 7-9) |
+| Ideation 최종 점검 | ✅ 완료 | 01_dialogue.md (Exchange 10-11) |
+| Impl Design | ✅ 완료 | 02_impl-design.md |
+| Impl Review R1 (세부) | ✅ 완료 | 02_impl-design.md (8건 반영) |
+| Impl Review R2 (전체) | ✅ 완료 | 02_impl-design.md (4건 확인) |
+| 구현 | ⬜ Phase 0부터 | - |
 
 ## 핵심 파일
 - `01_dialogue.md` — Paul × Claude 대담 원문 (이 설계의 근거)

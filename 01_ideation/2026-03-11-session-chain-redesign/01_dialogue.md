@@ -905,4 +905,455 @@ pending.md라는 중간 저장소가 필요 없어진다. mcp-memory 자체가 "
 
 ---
 
+---
+
+## Exchange 7 — R2: 초기 설계
+
+### Paul
+
+ideation r2 로 넘어가서 해야할 것 해보자.
+
+### Claude
+
+R2 시작. 현재 코드(`auto_remember.py`, `save_session.py`, `config.py`, `compressor.md`)를 다시 읽고 세 가지를 구체화한다.
+
+---
+
+### 1. auto_remember.py TYPE_MAP
+
+현재: `handle_write_edit()`과 `handle_bash()` 모두 `type="Observation"` 하드코딩. v3 active 타입 15개(PROMOTE_LAYER):
+
+```
+L0: Observation, Narrative, Question
+L1: Decision, Experiment, Failure, Signal, Goal, Tool, Project
+L2: Pattern, Insight, Framework
+L3: Principle, Identity
+```
+
+#### FILE_TYPE_MAP (Write/Edit 대상)
+
+| 파일 | → 타입 | 레이어 | 근거 |
+|------|--------|--------|------|
+| `STATE.md` | Decision | L1 | 시스템 인벤토리 변경 = 운영 결정 |
+| `decisions.md` | Decision | L1 | 명시적 결정 기록 |
+| `CHANGELOG.md` | Decision | L1 | 변경 사유 = 결정의 결과 |
+| `CLAUDE.md` | Principle | L3 | 규칙/원칙 정의 |
+| `GEMINI.md` | Framework | L2 | AI 행동 구조 프레임 |
+| `AGENTS.md` | Framework | L2 | 에이전트 아키텍처 |
+| `schema.yaml` | Framework | L2 | 온톨로지 스키마 |
+| `config.py` | Tool | L1 | 도구 설정 |
+
+#### BASH_TYPE_MAP (신호 패턴 매칭)
+
+| 신호 | → 타입 | 레이어 | 근거 |
+|------|--------|--------|------|
+| PASS, ✅, 완료, 테스트 성공 | Experiment | L1 | 실험 결과 기록 |
+| FAIL, ERROR, ❌, 실패, error: | Failure | L1 | 실패 기록 |
+| NDCG, hit_rate | Experiment | L1 | 메트릭 결과 |
+
+**효과:** `link()`가 `infer_relation(Decision, Failure)` → `resulted_in`, `infer_relation(Framework, Principle)` → `governed_by` 등 RELATION_RULES 25개가 즉시 활성화됨.
+
+### 2. save_session() 확장
+
+현재: `sessions` 테이블에만 INSERT. 그래프 밖.
+
+확장: `remember()`로 노드 생성 → `link()`가 자동 edge.
+- Narrative(L0) 노드 = 세션 자체
+- Decision(L1) 노드 = 각 결정
+- Question(L0) 노드 = 각 미결 사항
+
+RELATION_RULES 추가 필요:
+```python
+("Narrative", "Decision"): "contains",
+("Narrative", "Question"): "contains",
+("Decision", "Question"): "led_to",
+```
+
+### 3. 세션 종료 체인 5단계
+
+| # | 단계 | 내용 | 현재 대응 |
+|---|------|------|---------|
+| 1 | LOG | session-summary.md + LOG append | 현재 1+2 통합 |
+| 2 | Living Docs | STATE.md + CHANGELOG.md 갱신 | 현재 3+8 통합 |
+| 3 | Commit | git commit+push (변경 프로젝트 전부) | 현재 /sync all에서 분리 |
+| 4 | save_session() | Narrative + Decision + Question 노드 | 현재 11 확장 |
+| 5 | Learn | Insight 노드 + lessons.md | 현재 10 유지 |
+
+제거: decisions.md(→노드), METRICS.md(→파생), pending.md(→제거), MEMORY.md 수동갱신(→렌더링), doc-ops verify(→별도)
+
+---
+
+## Exchange 8 — R2: 누락 점검
+
+### Paul
+
+좋다. 빠진거없이 너가 확인한거지?
+
+### Claude
+
+다시 교차 점검했다. **빠진 것 7개:**
+
+1. **relay.py** — 여전히 `type="Observation"`. → `Narrative`로 변경 필요
+2. **제거 대상 구체 명세** — session-stop.sh, analyze-session.sh, auto-promote.sh, sync-memory.sh 각각의 처리 방식
+3. **MEMORY.md 렌더링 스크립트** — 시점, 쿼리, 포맷, 수동 섹션 처리
+4. **claude.md 공식 체인 정의 변경** — `verify→/sync all→/session-end→/compact→linker` → `/session-end→/compact`
+5. **session-end/SKILL.md ↔ compressor.md 통합 방식** — 합칠 건지, 하나 폐기할 건지
+6. **Bash project 추론** — `handle_bash()` `project="dev"` 하드코딩 → `get_project()` 적용
+7. **confidence 차등** — L3 Principle은 0.65보다 높아야
+
+③과 ⑤가 설계상 가장 중요.
+
+---
+
+### MEMORY.md 렌더링 설계
+
+하이브리드 구조:
+- **Fixed** (수동): System Version, 프로젝트 구조, 환경, API 리소스
+- **Rendered** (자동): mcp-memory에서 추출
+  - L3 (Principle, Identity) — 전체
+  - L2 (Pattern, Insight, Framework) — quality_score 상위 15개
+  - 최근 7일 Decision — 최신 5개
+  - 미해결 Question — 전체
+  - 최근 Failure — 최신 3개
+
+실행 시점: `/session-end` 마지막(Learn 후). Python 스크립트(`render_memory_md.py`)로 처리 → AI 토큰 0.
+
+### session-end ↔ compressor 통합
+
+skill(trigger) + agent(실행) 구조 유지. 5단계로 줄이되 둘의 역할 분리는 유지.
+
+---
+
+## Exchange 9 — R2: 모델 할당 + 최종 명세
+
+### Paul
+
+좋다. 근데 메인 claude 는 opus 이지만, 간단한 실행은 sonnet , haiku 를 우리는 적극활용할 수 있지 않나. 꼭 모든 걸 opus 가 할 필요는 없다, 이런 체인들에서. 이 관점도 적용해라.
+
+### Claude
+
+맞다. 5단계 모델 할당:
+
+| # | 단계 | 모델 | 근거 |
+|---|------|------|------|
+| 1 | LOG + session-summary | Haiku 수준 | 템플릿 채우기, 추론 불필요 |
+| 2 | STATE.md + CHANGELOG | Sonnet | 맥락 파악 필요하지만 구조적 |
+| 3 | git commit+push | Haiku 수준 | commit-writer가 이미 Haiku |
+| 4 | save_session() | Sonnet | 세션에서 의미 추출 |
+| 5 | Learn | Sonnet | 반성적 요약, Opus까진 불필요 |
+| +α | MEMORY.md 렌더링 | Python | AI 토큰 0 |
+
+**Opus가 필요한 건 하나도 없다.** compressor agent: `model: opus` → `model: sonnet`.
+
+Sonnet agent 하나가 5단계 전부 처리 — 단계마다 별도 agent 띄우면 오버헤드가 더 큼.
+
+### Paul
+
+구체적인 설계, 시스템 적인 측면은 너가 생각하기에 가장 효율적이고 탁월한 방식을 해라. 나는 큰 지점에서 이야기해줄 뿐이다. 지금처럼, 맥락을 내가 추가해주는거다. 이 방향 맞다.
+
+### Claude
+
+확인. 최종 R2 명세를 확정한다.
+
+---
+
+## R2 최종 명세 — Session Chain + Ontology Redesign
+
+### A. auto_remember.py 변경
+
+```python
+# 파일 → 타입 매핑
+FILE_TYPE_MAP = {
+    "STATE.md":     ("Decision",  1),
+    "decisions.md": ("Decision",  1),
+    "CHANGELOG.md": ("Decision",  1),
+    "CLAUDE.md":    ("Principle", 3),
+    "GEMINI.md":    ("Framework", 2),
+    "AGENTS.md":    ("Framework", 2),
+    "schema.yaml":  ("Framework", 2),
+    "config.py":    ("Tool",      1),
+}
+
+# Bash 신호 → 타입 매핑 (우선순위: Failure > Experiment)
+BASH_SIGNAL_MAP = {
+    "FAIL":     ("Failure",    1),
+    "ERROR":    ("Failure",    1),
+    "error:":   ("Failure",    1),
+    "❌":       ("Failure",    1),
+    "실패":     ("Failure",    1),
+    "PASS":     ("Experiment", 1),
+    "✅":       ("Experiment", 1),
+    "완료":     ("Experiment", 1),
+    "NDCG":     ("Experiment", 1),
+    "hit_rate": ("Experiment", 1),
+    "테스트":   ("Experiment", 1),
+}
+
+# 레이어별 confidence
+CONFIDENCE_BY_LAYER = {
+    3: 0.85,  # Principle — 의도적 규칙 변경
+    2: 0.75,  # Framework — 구조적 변경
+    1: 0.70,  # Decision/Experiment/Failure — 운영
+    0: 0.65,  # Observation/Narrative — 기본
+}
+
+# handle_bash에도 get_project() 적용 (명령어 경로에서 추론)
+```
+
+### B. save_session.py 변경
+
+```python
+def save_session(session_id, summary, decisions, unresolved, project):
+    # 1. 기존: sessions 테이블 (하위 호환 유지)
+    conn.execute("INSERT INTO sessions ...")
+
+    # 2. 신규: Narrative 노드 (세션 자체)
+    from tools.remember import remember
+    remember(
+        content=f"[Session] {session_id}: {summary}",
+        type="Narrative", project=project,
+        tags=f"session,{session_id}",
+        source="save_session", confidence=0.7,
+    )
+
+    # 3. 신규: 각 Decision → 노드
+    for d in (decisions or []):
+        remember(
+            content=f"[Decision] {d}",
+            type="Decision", project=project,
+            tags=f"session-decision,{session_id}",
+            source="save_session", confidence=0.75,
+        )
+
+    # 4. 신규: 각 Unresolved → 노드
+    for q in (unresolved or []):
+        remember(
+            content=f"[Unresolved] {q}",
+            type="Question", project=project,
+            tags=f"session-question,{session_id}",
+            source="save_session", confidence=0.6,
+        )
+```
+
+### C. config.py RELATION_RULES 추가
+
+```python
+# save_session() 노드 간 관계
+("Narrative", "Decision"): "contains",
+("Narrative", "Question"): "contains",
+("Decision", "Question"): "led_to",
+```
+
+### D. 세션 종료 체인
+
+**공식 체인:** `/session-end` → `/compact` (2단계)
+
+**compressor agent (model: sonnet, 5단계):**
+
+| # | 단계 | 내용 | 산출물 |
+|---|------|------|--------|
+| 1 | LOG | session-summary.md 갱신 + LOG append | 파일 2개 |
+| 2 | Living Docs | STATE.md + CHANGELOG.md 갱신 | 파일 2개 |
+| 3 | Commit | git commit+push (변경 프로젝트 전부) | git |
+| 4 | save_session() | MCP 호출 → Narrative + Decision + Question 노드 | DB 노드 |
+| 5 | Learn | Insight 노드(mcp-memory) + lessons.md append | DB + 파일 |
+
+**Post-chain:** `render_memory_md.py` 실행 → MEMORY.md 갱신 (Python, AI 토큰 0)
+
+### E. relay.py 변경
+
+`type="Observation"` → `type="Narrative"`, `confidence=0.5` (스냅샷이므로 낮게)
+
+### F. 제거 대상
+
+| 파일 | 처리 | 이유 |
+|------|------|------|
+| `analyze-session.sh` | 삭제 | mcp-memory Signal→Pattern으로 대체 |
+| `auto-promote.sh` | 삭제 | mcp-memory promote_node()로 대체 |
+| `sync-memory.sh` | 삭제 | pending.md 경로 자체가 사라짐 |
+| `pending.md` | 삭제 | 중간 저장소 불필요 |
+| `session-stop.sh` | 수정 | analyze/promote 호출 제거, git status만 유지 |
+
+### G. MEMORY.md 렌더링 (render_memory_md.py)
+
+**구조:**
+```markdown
+# Auto Memory (자동 생성 — 수동 편집 금지)
+
+## System (Fixed)
+[수동 관리 영역 — 시스템 버전, 경로, 환경, API]
+
+## Core (L3 — Principle, Identity)
+[mcp-memory L3 전체 노드]
+
+## Patterns (L2 — Pattern, Insight, Framework)
+[quality_score 상위 15개]
+
+## Recent Decisions (최근 7일)
+[최신 5개]
+
+## Open Questions
+[미해결 전체]
+
+## Recent Failures (최근 3개)
+[학습용]
+```
+
+**실행:** `/session-end` 5단계 완료 후. `session_context.py`와 동일한 방식으로 DB 직접 쿼리.
+
+### H. 파일 변경 요약
+
+| 파일 | 변경 |
+|------|------|
+| `auto_remember.py` | FILE_TYPE_MAP + BASH_SIGNAL_MAP + CONFIDENCE + get_project() |
+| `save_session.py` | remember() 호출 추가 (Narrative + Decision + Question) |
+| `config.py` | RELATION_RULES 3개 추가 |
+| `compressor.md` | model: opus→sonnet, 11단계→5단계 |
+| `session-end/SKILL.md` | 5단계로 동기화 |
+| `claude.md` (rules) | 체인: `/session-end → /compact` |
+| `relay.py` | type: Observation→Narrative |
+| `session-stop.sh` | analyze/promote 호출 제거 |
+| **신규** `render_memory_md.py` | MEMORY.md 자동 렌더링 |
+| **삭제** `analyze-session.sh` | - |
+| **삭제** `auto-promote.sh` | - |
+| **삭제** `sync-memory.sh` | - |
+| **삭제** `pending.md` | - |
+
+변경 8개, 신규 1개, 삭제 4개 = 총 13건.
+
+---
+
+---
+
+## Exchange 10 — Ideation 최종 점검
+
+### Paul
+
+ideation 끝난거냐. ultrathink 해서, ideation 에서 빠진것 없는지 다 점검해라. 08,09,10 system 폴더의 principles 규칙들도 확인해서, 지금 우리가 하고 있는 것 통합적으로 점검해라.
+
+### Claude
+
+08/09/10 foundation 전체(principles, philosophy, workflow × 3시스템 = 9문서)를 읽고 R2 명세와 교차 검증했다.
+
+#### 정합 확인 (문제 없음)
+
+| 원칙 | 우리 설계 |
+|------|----------|
+| 08: "정보는 삭제가 아니라 압축" | "다 저장해라. 주의를 관리해라" |
+| 09: "요약 금지, 추출만" | auto_remember = 타입 추출 (판단 아님) |
+| 09: "판단 계층 (비싼 모델=판단, 싼 모델=기계적)" | compressor Opus→Sonnet 다운그레이드 |
+| 10: "그래프 > 문서" | pending.md(문서) → mcp-memory(그래프) |
+| 10: "INDEX.md = graph.json의 뷰" | MEMORY.md = mcp-memory의 뷰 — 동일 패턴 |
+| 10: "파생 > 원본" | MEMORY.md가 파생 데이터로 전환 |
+
+#### 누락 3건 발견
+
+**① 마이그레이션 계획 없음** — 기존 데이터 전환 방식 미정
+**② `/sync all` 폐기 여부 미정** — `/session-end`에 흡수
+**③ auto_remember ↔ /checkpoint 관계 미명시** — 자동(기계적) vs 수동(판단적) 보완
+
+---
+
+## Exchange 11 — 최종 확정 + Paul 관찰 트랙 강화
+
+### Paul (2026-03-11 18:24)
+
+3개 확정. pending.md 마이그레이션 한다. memory.md 수동 섹션 확인한다. 테이블 데이터 conversation 노드로 소급 변환, lessons.md 마이그레이션.
+
+sync all 폐기.
+
+checkpoint 관계 좋다. auto_remember 에, 너의 판단도 지금 들어가있지 않나. 너와 내가 세션에서 대화 하면서, 너가 나를 지속적으로 메타적으로 이해하지 않나. 아 이런 대화를 하는걸 보니 이렇구나, 지금 이게 계속 발동되고있는걸로 안다. 이것 매우 중요, 계속 한다. 강화한다.
+
+### Claude
+
+확인. 두 트랙이 명확히 구분된다:
+
+**트랙 1: auto_remember — 기계적 추출 (판단 없음)**
+- 파일 수정 → TYPE_MAP으로 타입 결정
+- Bash 결과 → SIGNAL_MAP으로 타입 결정
+- 외부 행위 기록. Claude의 판단 안 들어감.
+
+**트랙 2: Claude의 메타 관찰 — 판단 있음 (핵심)**
+- 대화 중 Paul의 사고 패턴, 선호, 연결 방식을 읽는 것
+- "이런 식으로 질문하는 걸 보니 bottom-up 사고", "추상화 수준에 민감하다", "결합형 사고를 한다"
+- 기계적 추출 불가. Claude의 해석이 들어간다.
+- 현재 경로: `/checkpoint` (수동) → Layer B → Observation/Signal → promote → Pattern
+
+**트랙 2가 가장 가치있는 데이터.** 시스템 설정값은 재현 가능하지만, Paul에 대한 이해는 대화에서만 나온다.
+
+**강화 방향:**
+- Learn 단계(5단계)에 Paul 관찰 항목 추가: "이 세션에서 Paul에 대해 알게 된 것"
+- `/checkpoint`는 세션 중간에도 수시로 — 메타 관찰 포착 시마다
+- auto_remember(기계적)와 checkpoint(판단적)는 병렬 파이프라인 — 대체 불가
+
+---
+
+## R2 최종 명세 — 추가 확정 항목
+
+### I. 마이그레이션 계획
+
+| 대상 | 방식 |
+|------|------|
+| `pending.md` | 내용을 mcp-memory에 적절한 타입으로 마이그레이션 후 파일 삭제 |
+| MEMORY.md 수동 섹션 | mcp-memory 노드 존재 여부 확인 → 없는 것만 remember()로 저장 |
+| `sessions` 테이블 기존 데이터 | Narrative(Conversation) 노드로 소급 변환 스크립트 |
+| `lessons.md` | 각 항목을 Insight(L2) 노드로 마이그레이션 후 파일은 유지(append용) |
+
+### J. /sync all 폐기
+
+- `/sync` → 유지 (세션 중간 상태 저장, orchestration만)
+- `/sync all` → **폐기** (`/session-end` 3단계에 commit+push 통합)
+- `sync/SKILL.md` 수정: `/sync all` 섹션 제거
+
+### K. auto_remember ↔ /checkpoint 병렬 구조
+
+```
+[자동] auto_remember (PostToolUse Hook)
+  ├── 감지: 파일 수정, Bash 결과
+  ├── 방식: 기계적 TYPE_MAP 매칭
+  ├── 판단: 없음
+  ├── confidence: 0.65~0.85 (레이어별)
+  └── 용도: 외부 행위 기록 (무엇이 일어났나)
+
+[수동] /checkpoint (사용자/Claude 판단)
+  ├── 감지: 대화 중 메타 관찰, 중요 결정
+  ├── 방식: Claude의 해석적 판단
+  ├── 판단: 있음 (핵심 가치)
+  ├── confidence: 0.7~0.9 (타입별)
+  └── 용도: Paul 이해 심화 (왜 그렇게 하는가)
+
+[세션 종료] Learn (compressor 5단계)
+  ├── 기술적 Insight: Discovery, Lesson, Improvement
+  ├── Paul 관찰: "이 세션에서 Paul에 대해 알게 된 것" ← 신규
+  └── 둘 다 Insight(L2) 노드로 저장
+```
+
+### 최종 변경 요약 (R2 전체)
+
+**변경 9개:**
+1. `auto_remember.py` — TYPE_MAP + SIGNAL_MAP + confidence 차등
+2. `save_session.py` — Narrative + Decision + Question 노드 생성
+3. `config.py` — RELATION_RULES 3개 추가
+4. `compressor.md` — model: sonnet, 11→5단계, Learn에 Paul 관찰 추가
+5. `session-end/SKILL.md` — 5단계 동기화
+6. `claude.md` (rules) — 체인: `/session-end → /compact`
+7. `relay.py` — type: Narrative
+8. `session-stop.sh` — analyze/promote 호출 제거
+9. `sync/SKILL.md` — `/sync all` 제거
+
+**신규 2개:**
+1. `render_memory_md.py` — MEMORY.md 자동 렌더링
+2. 마이그레이션 스크립트 (sessions→nodes, pending→nodes, lessons→nodes)
+
+**폐기 5개:**
+1. `analyze-session.sh`
+2. `auto-promote.sh`
+3. `sync-memory.sh`
+4. `pending.md`
+5. `/sync all` 경로
+
+총 16건.
+
+---
+
 *이 문서는 설계가 진행됨에 따라 append된다. Paul 요청 시 새 Exchange 추가.*
