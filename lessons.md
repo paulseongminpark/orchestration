@@ -5,6 +5,8 @@
 
 ## 최근 교훈
 
+- [2026-03-11] 라운드 방향성(Diverge/Cross/Converge)은 권장 패턴이지 강제 순서 아님 — 고정하면 사고 제약. foundation 3축은 Ideation 완료 시 한꺼번에 생성.
+- [2026-03-11] Opus는 merged만 읽어야 한다. 개별 라운드 파일을 읽으면 컨텍스트 낭비 + 편향 발생.
 - [2026-03-08] Codex CLI: -p extract는 read-only sandbox → 파일 생성 시 반드시 -p implement 사용
 - [2026-03-08] Codex CLI: cd로 workdir 변경 시 PowerShell이 /c/ 경로를 C:\c\로 이중 변환 — workdir 기본값 유지하거나 Windows 경로 사용
 - [2026-03-08] Gemini -o 플래그는 output-format용, 파일 저장은 > 리다이렉트 사용
