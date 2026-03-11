@@ -1,36 +1,33 @@
 # 세션 요약
 
-> 최종 수정: 2026-03-09
+> 최종 수정: 2026-03-11 (20:45)
 
 > compressor 에이전트가 자동 업데이트합니다.
 
 === 컨텍스트 압축 요약 (최신) ===
 
-세션 목표: 08_documentation-system에 라이프사이클 방법론 추가
+세션 목표: index-system v1 완성 — 설계→구현→리뷰→패치→sandbox 테스트 + wezterm config
 
 완료:
-  - [documentation-system] 01_lifecycle-methodology_0311 파이프라인 생성 + R1→R2→R3→merged 완료
-  - [documentation-system] foundation/phase-guide.md 신규 생성
-    - 라운드 방향성 (Diverge/Cross/Converge, 유동적)
-    - Phase별 내용 방법론 (Research/Ideation/Impl/Review)
-    - Phase 간 연결 (merged → context.md)
-    - foundation/ 3축 생성 시점 정의
-  - [documentation-system] 커밋 e366600 (push 완료)
-  - [orchestration] 세션 체인 v4.1 재설계 구현 + Living Docs 갱신 (eaff304)
-  - [mcp-memory] checkpoint #4450~#4457 (결정 3개 + Paul 패턴 5개)
+  - [index-system] v1 초기 구현 — 에코시스템 그래프 + CLI (12a9d07)
+  - [index-system] Code Review R1 → Critical 버그 4개 패치 (7d4b2e4)
+  - [index-system] Code Review R2 → 검증 완료 (babece6)
+  - [index-system] v1.1 Major 4개 패치 M1~M4+M5 (e3b16d4)
+  - [index-system] sandbox 실전 테스트 + views self-loop 수정 (dbcfd0c)
+  - [index-system] config 원복 — SCAN_ROOTS dev/ + ~/.claude (92b69ea)
+  - [index-system] pending.md — v2 방향 + sandbox 테스트 기록 (8d2bd25)
+  - [dev] CLAUDE.md — 10_index-system 추가, Index System 섹션 (ef8293e)
+  - [dev] wezterm config 백업 — 03_wezterm 폴더 생성 (55bbee5)
+  - [dev] HOME.md — mcp-memory v3.0.0-rc 반영 (94b8e66)
 
 확정된 결정:
-  1. phase-guide.md 신규 추가 (principles.md 수정 없음)
-  2. 라운드 유동적 — 방향성이지 고정 순서 아님
-  3. foundation/ 3축 — Ideation 완료 시점, 구현 전, 3개 한꺼번에
-  4. 50대역 없음. 40-49 안에서 번호 구분
-  5. 같은 lifecycle = 같은 파이프라인 폴더 번호 이어감
-  6. Phase 간: merged/confirmed-decisions → 다음 Phase 02_context.md
-  7. Opus는 merged만 읽는다
-  8. Cascade = 범용 도구
+  1. index-system은 Python CLI — `python -m src.cli scan/refs/deps/impact/topology`
+  2. views/INDEX.md = 전체 에코시스템 정적 지도 (세션 시작 시 참조용)
+  3. SCAN_ROOTS = [dev/, ~/.claude] (sandbox 테스트 후 원복)
+  4. v2 방향: SQLite 캐시 (노드 900+ 시), Provider 패턴 분리, asyncio
 
 현재 상태:
-  documentation-system e366600 push 완료. orchestration main eaff304 push 완료. mcp-memory checkpoint 저장.
+  index-system master 92b69ea (push 필요). dev/ main 55bbee5. wezterm.lua + HOME.md 미커밋 변경 있음.
 
 실패 기록 (삭제 금지):
   - [시도] TYPE_BOOST additive 0.03 → [실패] enrichment 격차 대비 무효 → [원인] additive boost가 RRF 스코어 차이를 뒤집기엔 너무 작음 → Typed Vector Channel (RRF 채널)로 교체
@@ -39,21 +36,35 @@
   - [시도] 0307 포스트 자동 생성 → [실패] HARD FAIL로 자동 폐기 → [원인] sonar-deep-research가 "Today in One Line" 형식 이탈, isRejected 감지 → 알림 없이 사일런트 폐기
 
 다음 할 것:
-  1. phase-guide.md 원자 단위 구체화
-  2. mcp-memory ingest 노드 정리 (SQLite 스크립트)
-  3. /pipeline 스킬에 phase-guide 내용 반영
-  4. mcp-memory Ontology v3 Phase 2.5~6 (re-embed → co-retrieval → dispatch → NDCG 0.9)
+  1. index-system v2 — SQLite 캐시 + Provider 패턴 (노드 900+ 시)
+  2. phase-guide.md 원자 단위 구체화
+  3. mcp-memory ingest 노드 정리 (SQLite 스크립트)
+  4. /pipeline 스킬에 phase-guide 내용 반영
+  5. mcp-memory Ontology v3 Phase 2.5~6 (re-embed → co-retrieval → dispatch → NDCG 0.9)
 
 열린 결정:
   - mcp-memory #4444~4449 잘못 저장된 노드 정리 방법 (ingest-cleanup-0311.md 참조)
+  - index-system v2 착수 시점 (현재 노드 25개, 900+ 기준)
 
 주의사항:
-  - documentation-system은 orchestration과 별도 git repo
+  - dev/ 미커밋: wezterm.lua, HOME.md
+  - index-system: master 브랜치 (orchestration: main, portfolio: master)
   - mcp-memory checkpoint 전 다른 pane 작업 여부 확인 (DB 충돌 방지)
-  - orchestration: main 브랜치, portfolio: master 브랜치
 
-[재작성] 세션 목표: documentation-system 라이프사이클 방법론 추가 | 남은 할 것: 1. phase-guide 원자 단위 구체화 2. mcp-memory ingest 정리 3. /pipeline 스킬 반영 4. Ontology v3 Phase 2.5~6
+[재작성] 세션 목표: index-system v1 완성 + wezterm config | 남은 할 것: 1. index-system v2 (SQLite) 2. phase-guide 구체화 3. mcp-memory ingest 정리 4. /pipeline 반영 5. Ontology v3 Phase 2.5~6
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
+
+---
+
+=== 이전 세션 (2026-03-11 documentation-system) ===
+
+세션 목표: 08_documentation-system에 라이프사이클 방법론 추가
+
+완료:
+  - [documentation-system] 01_lifecycle-methodology_0311 파이프라인 생성 + R1→R2→R3→merged 완료
+  - [documentation-system] foundation/phase-guide.md 신규 생성
+  - [orchestration] 세션 체인 v4.1 재설계 구현 + Living Docs 갱신 (eaff304)
+  - [mcp-memory] checkpoint #4450~#4457
 
 ---
 
