@@ -1,4 +1,4 @@
-<!-- pipeline: cross-session-cleanup | type: custom | mode: lightweight | status: ACTIVE -->
+<!-- pipeline: cross-session-cleanup | type: custom | mode: lightweight | status: DONE -->
 <!-- phase: implementation | updated: 2026-03-13T03:30 -->
 <!-- current_task: 완료 (경량 — DONE gate 면제 대상) | next: — -->
 

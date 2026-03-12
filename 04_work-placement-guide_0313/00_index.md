@@ -1,4 +1,4 @@
-<!-- pipeline: work-placement-guide | type: ideation | status: ACTIVE -->
+<!-- pipeline: work-placement-guide | type: ideation | mode: lightweight | status: DONE -->
 <!-- phase: ideation | updated: 2026-03-13T00:30 -->
 <!-- current_task: 산출물 CLAUDE.md 반영 완료 | next: index-system 인프라 통합 (별도) -->
 

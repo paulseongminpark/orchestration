@@ -11,6 +11,7 @@
 - 08_documentation-system: v2.1 (T1+경량+Living Docs) 4파일
 - dev-vault: AGENTS.md T1 갱신 + HOME.md user-guide 추가
 - Hook 버그: pre-tool-use.sh C1/C2/C3가 독립 프로젝트 repo에서 HOME.md 부재로 false positive → GIT_ROOT 존재 체크 추가
+- DONE gate 경량 면제: validate_output.py lightweight → G1~G5 skip (3개 파이프라인 DONE 처리)
 - 파이프라인: 05_cross-session-cleanup_0313 (경량)
 
 ---

@@ -113,6 +113,8 @@
   - 08_documentation-system 4파일 커밋 (v2.1 T1+경량+Living Docs)
   - dev-vault 커밋 (AGENTS.md+HOME.md)
   - Hook 버그 수정: pre-tool-use.sh C1/C2/C3 독립 프로젝트 repo false positive
+  - DONE gate 경량 면제: validate_output.py lightweight → G1~G5 전체 skip
+  - 파이프라인 3개 DONE: 04_work-placement-guide, 05_cross-session-cleanup, tech-review/01_youtube-playlist-sync
   - 파이프라인: 01_orchestration/05_cross-session-cleanup_0313/
 - **10_index-system edge 4종 구현 완료** (2026-03-12)
   - syncs-to (3): rulesync.jsonc → .claude/.gemini/.codex
