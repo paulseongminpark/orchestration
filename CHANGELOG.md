@@ -1,6 +1,23 @@
 # Orchestration System Changelog
 
-> 최종 수정: 2026-03-11
+> 최종 수정: 2026-03-12
+
+---
+
+## Claude OS Audit (2026-03-12)
+
+### 감사 결과
+- 15개 gap 발견: Critical 1(G16), Warning 8, Info 3
+- 시스템 성숙도: 설계 전 완성, 구현은 08/Claude OS만 완성, 연결은 문서 레벨만
+
+### 수정 완료
+- **G16**: validate_pipeline.py + validate_output.py — custom/code-review 타입 파이프라인 R1/G1 체크 면제
+- **relay.py**: MSYS 경로 버그 수정 → pre-compact mcp-memory 자동 저장 복구
+
+### 미결
+- G8: MEMORY.md 버전 드리프트 (v2.2.1 표기 vs 실제 v3.0.0-rc)
+- G17: N17 훅 체크 미구현
+- 10 index-system edge 4종
 
 ---
 
