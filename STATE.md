@@ -93,11 +93,12 @@
 - **Claude OS Audit 완료** (2026-03-12)
   - 감사 대상: 08/09/10 + mcp-memory(06) + Claude OS 레이어 (hooks/settings)
   - Cascade Tier 1 실전 (Codex xhigh 파일 선별 + 3회전 추출)
-  - 발견: 15개 gap (Critical 1, Warning 8, Info 3) → 수정 완료 1 (G16)
+  - 발견: 15개 gap (Critical 1, Warning 8, Info 3) → 수정 완료 3 (G16/G8/G17)
   - G16: validate_pipeline.py + validate_output.py 파이프라인 타입 분기 추가 (custom/code-review 면제)
+  - G8: MEMORY.md v2.2.1 → v3.0.0-rc 수정
+  - G17: N17 Phase 전환 체크 validate_pipeline.py 추가
   - relay.py MSYS 경로 버그 수정 (`/c/dev/` → `C:/dev/`)
   - 산출물: 03_claude-os-audit-0312/90_output/ (final-output + handoff)
-  - 미결: G8(MEMORY.md 버전), G17(N17 훅 체크)
 - **10_index-system edge 4종 구현 완료** (2026-03-12)
   - syncs-to (3): rulesync.jsonc → .claude/.gemini/.codex
   - delegates-to (4): 08/09 → codex-cli/gemini-cli
@@ -106,7 +107,7 @@
   - --diff 플래그 추가 (scan --diff)
   - move_check 출력 개선 (context + update hint)
   - 총 edge: 764→780 (+16)
-- **다음**: G8/G17 수정, 02·How I Think / 03·How I Build
+- **다음**: 02·How I Think / 03·How I Build
 
 ### mcp-memory
 - **v2.0 완료** (2026-03-04): 50 node types, 48 relation types, enrichment 99%
