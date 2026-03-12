@@ -1,6 +1,6 @@
 # Orchestration STATE
 
-> 최종 수정: 2026-03-12 (Claude OS Audit 완료)
+> 최종 수정: 2026-03-13 (Auto-Completion Fix)
 
 ## 현재 상태
 
@@ -124,6 +124,11 @@
   - --diff 플래그 추가 (scan --diff)
   - move_check 출력 개선 (context + update hint)
   - 총 edge: 764→780 (+16)
+- **Auto-Completion Fix** (2026-03-13)
+  - 문제: Claude가 구현 완료 후 Living Docs → 커밋 → push를 자동 이어가지 않음 (3/12~13 3회 재현)
+  - 해결: pipeline-watch.py 역할 4 추가 — 프로젝트 파일 3개+ 수정 후 STATE.md 미편집 시 리마인드 (180초 쿨다운)
+  - settings.json Bash hook: git commit 시 .project-dirty 클리어 추가
+  - 파이프라인: 06_auto-completion-fix_0313 (경량)
 - **다음**: 02·How I Think / 03·How I Build
 
 ### mcp-memory
@@ -218,7 +223,7 @@
 - SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + 미검토 선호도 알림 + 스냅샷 알림 + stale dirty 마커 정리)
 - SessionEnd: 미커밋 현황 + MEMORY.md 경고 + ~/.claude/ mtime Living Docs 경고
 - PreToolUse: 위험 명령 차단 + C1/C2/C3 Commit Gate (파이프라인+시스템파일+dirty마커)
-- PostToolUse: *.md 감지 + live-context auto-append + auto-trim + ~/.claude/ dirty 마커 추적 + git commit 후 마커 삭제
+- PostToolUse: *.md 감지 + live-context auto-append + auto-trim + ~/.claude/ dirty 마커 추적 + **Living Docs 완료 리마인드** (.project-dirty 3개+ 임계값, 180초 쿨다운) + git commit 후 마커 삭제
 - PreCompact: pre-compact.sh (스냅샷 생성 + 미커밋 경고)
 - TeammateIdle: 팀원 유휴 알림
 - TaskCompleted: 태스크 완료 알림 + .ctx/shared-context.md 자동 갱신 + provenance.log 기록

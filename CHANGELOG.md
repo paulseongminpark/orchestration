@@ -1,6 +1,16 @@
 # Orchestration System Changelog
 
-> 최종 수정: 2026-03-12
+> 최종 수정: 2026-03-13
+
+---
+
+## Auto-Completion Fix — Living Docs 갱신 자동 리마인드 (2026-03-13)
+- 문제: Claude가 코드 구현 완료 후 Living Docs → 커밋 → push를 자동으로 이어가지 않음 (3회 재현)
+- pipeline-watch.py 역할 4 추가: 프로젝트 파일 3개+ 수정 후 STATE.md 미편집 시 리마인드 (180초 쿨다운)
+- 메커니즘: .project-dirty 마커 파일 → 임계값 초과 시 경고 출력 → STATE.md 편집 또는 git commit 시 클리어
+- settings.json Bash PostToolUse: git commit 시 .project-dirty + .project-dirty.last 클리어 추가
+- 제외: ~/.claude/, .ctx/, 00_index.md (각각 별도 추적 또는 불필요)
+- 파이프라인: 06_auto-completion-fix_0313 (경량)
 
 ---
 
