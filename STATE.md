@@ -97,8 +97,16 @@
   - G16: validate_pipeline.py + validate_output.py 파이프라인 타입 분기 추가 (custom/code-review 면제)
   - relay.py MSYS 경로 버그 수정 (`/c/dev/` → `C:/dev/`)
   - 산출물: 03_claude-os-audit-0312/90_output/ (final-output + handoff)
-  - 미결: G8(MEMORY.md 버전), G17(N17 훅 체크), 10 edge 4종 구현
-- **다음**: G8/G17 수정, 10_index-system edge 구현 로드맵, 02·How I Think / 03·How I Build
+  - 미결: G8(MEMORY.md 버전), G17(N17 훅 체크)
+- **10_index-system edge 4종 구현 완료** (2026-03-12)
+  - syncs-to (3): rulesync.jsonc → .claude/.gemini/.codex
+  - delegates-to (4): 08/09 → codex-cli/gemini-cli
+  - git-remote (6): project → GitHub URL
+  - skill-of (15): skills/{name}/SKILL.md → project or .claude
+  - --diff 플래그 추가 (scan --diff)
+  - move_check 출력 개선 (context + update hint)
+  - 총 edge: 764→780 (+16)
+- **다음**: G8/G17 수정, 02·How I Think / 03·How I Build
 
 ### mcp-memory
 - **v2.0 완료** (2026-03-04): 50 node types, 48 relation types, enrichment 99%

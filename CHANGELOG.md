@@ -4,6 +4,22 @@
 
 ---
 
+## 10_index-system edge 4종 구현 (2026-03-12)
+
+### 추가
+- **syncs-to**: rulesync.jsonc targets → .claude/.gemini/.codex (3 edges)
+- **delegates-to**: foundation/workflow.md 내 Codex/Gemini 감지 (4 edges)
+- **git-remote**: project node.meta["git_remote"] → Edge 변환 (6 edges)
+- **skill-of**: ~/.claude/skills/{name}/SKILL.md 스캔, 프로젝트 path-ref로 귀속 (15 edges)
+- **--diff 플래그**: `scan --diff` — 이전 graph.json 대비 node/edge 변경 출력
+- **move_check 개선**: context 라인 + `→ update:` hint 출력
+
+### 통계
+- edge 764 → 780 (+16 신규 타입 포함)
+- 기존 테스트 19/20 통과 (1 기존 실패 `test_estimate_tokens` 유지)
+
+---
+
 ## Claude OS Audit (2026-03-12)
 
 ### 감사 결과
