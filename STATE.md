@@ -97,6 +97,13 @@
   - G16: validate_pipeline.py + validate_output.py 파이프라인 타입 분기 추가 (custom/code-review 면제)
   - G8: MEMORY.md v2.2.1 → v3.0.0-rc 수정
   - G17: N17 Phase 전환 체크 validate_pipeline.py 추가
+- **새 작업 배치 가이드** (2026-03-13)
+  - Paul × Claude 대담으로 독립 프로젝트 정의 + 판단 흐름도 도출
+  - OS 비유: orchestration=커널, 06/08/09/10=서비스, 나머지=앱
+  - CLAUDE.md 프로젝트 구조: scope + 계층 명시, 배치 규칙 + 생성 절차 추가
+  - 파이프라인 위치 검증: 08→01 번복 (scope 기반 판단 실전 적용)
+  - index-system gap 발견: CLI만 존재, 인프라 통합 미완 (별도 진행)
+  - 파이프라인: 01_orchestration/04_work-placement-guide_0313/
   - relay.py MSYS 경로 버그 수정 (`/c/dev/` → `C:/dev/`)
   - 산출물: 03_claude-os-audit-0312/90_output/ (final-output + handoff)
 - **10_index-system edge 4종 구현 완료** (2026-03-12)
@@ -198,10 +205,10 @@
   - -m gemini-3.1-pro-preview 필수
 
 ### Hooks (8종)
-- SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + 미검토 선호도 알림 + 스냅샷 알림)
-- SessionEnd: 미커밋 현황 + MEMORY.md 경고 (session-stop.sh 제거됨)
-- PreToolUse: 위험 명령 차단
-- PostToolUse: *.md 감지 + _auto/live-context.md auto-append + auto-trim
+- SessionStart: session-start.sh (미커밋 + ❌결정 5건 + live-context 5줄 + 미검토 선호도 알림 + 스냅샷 알림 + stale dirty 마커 정리)
+- SessionEnd: 미커밋 현황 + MEMORY.md 경고 + ~/.claude/ mtime Living Docs 경고
+- PreToolUse: 위험 명령 차단 + C1/C2/C3 Commit Gate (파이프라인+시스템파일+dirty마커)
+- PostToolUse: *.md 감지 + live-context auto-append + auto-trim + ~/.claude/ dirty 마커 추적 + git commit 후 마커 삭제
 - PreCompact: pre-compact.sh (스냅샷 생성 + 미커밋 경고)
 - TeammateIdle: 팀원 유휴 알림
 - TaskCompleted: 태스크 완료 알림 + .ctx/shared-context.md 자동 갱신 + provenance.log 기록

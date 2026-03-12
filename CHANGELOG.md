@@ -4,6 +4,52 @@
 
 ---
 
+## 새 작업 배치 가이드 — 프로젝트 scope 정의 + 판단 흐름도 (2026-03-13)
+
+### CLAUDE.md 프로젝트 구조 개편
+- 프로젝트 구조: 평면 목록 → 커널/서비스/앱 계층 분류 + scope 명시
+- 새 작업 배치 규칙 섹션 신설: Q1→Q2→Q3 판단 흐름도
+- 새 독립 프로젝트 생성 절차 7단계
+- 누락 프로젝트 추가: 07_essay, 11_user-guide
+
+### 핵심 결정
+- 독립 프로젝트 기준: (1) 독립 산출물 (2) 자체 생명주기 (3) 목적 종속 ≠ 구조 종속
+- OS 비유: orchestration=커널(조율), 06/08/09/10=서비스(모듈), 나머지=앱(산출물)
+- 폴더 재배치 불필요 — 논리적 계층과 물리적 구조는 별개, index-system이 관계 추적
+- index-system gap 발견 — 인프라 통합 별도 진행 예정
+
+### 파이프라인
+- 01_orchestration/04_work-placement-guide_0313/ (ideation 경량)
+- 위치 번복: 08→01 (scope 검증 결과)
+
+---
+
+## 08_documentation-system v2.1 — T1 phase-conditional + Living Docs enforcement (2026-03-13)
+
+### T1 merged 패턴 phase별 분기
+- **원인**: MERGE 모드에서 모든 phase merged에 동일 파일(orchestrator-final+confirmed-decisions) 적용 → impl-merged에 잘못된 파일 생성
+- phase-rules.json T1: `all_files_exist` → `phase_conditional_files`
+- SKILL.md MERGE 모드: 단일 패턴 → phase별 테이블
+- validate_pipeline.py + validate_merged.py: T1 phase-conditional 체크 추가
+- phase-guide.md: "merged: 고정" 오해 문구 → phase별 테이블
+- pipeline-watch.py D19 자동전파: T1 텍스트 갱신
+- pipeline-rules.md + AGENTS.md: T1 설명 갱신
+
+### Living Docs 갱신 강제 (C1/C2/C3 범위 확장)
+- **원인**: 3/12 5개 세션 중 1개만 Living Docs 갱신. C1/C2/C3가 파이프라인 폴더 내 파일만 감지, 시스템 파일은 blind spot.
+- pre-tool-use.sh: Check B(시스템 파일 staged) + Check C(dirty 마커) 추가
+- pipeline-watch.py: ~/.claude/ Write/Edit → `.ctx/.system-dirty` 마커 기록
+- settings.json: PostToolUse Bash(마커 삭제) + SessionEnd(mtime 경고) 추가
+- session-start.sh: stale 마커 정리
+
+### 수정 파일 (13개)
+- phase-rules.json, SKILL.md, validate_pipeline.py, validate_merged.py, pipeline-watch.py
+- phase-guide.md, pipeline-rules.md, AGENTS.md
+- pre-tool-use.sh, settings.json, session-start.sh
+- memory 2개 (pipeline-t1-fix.md, living-docs-enforcement.md)
+
+---
+
 ## 10_index-system edge 4종 구현 (2026-03-12)
 
 ### 추가
