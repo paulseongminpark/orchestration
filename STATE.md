@@ -106,6 +106,14 @@
   - 파이프라인: 01_orchestration/04_work-placement-guide_0313/
   - relay.py MSYS 경로 버그 수정 (`/c/dev/` → `C:/dev/`)
   - 산출물: 03_claude-os-audit-0312/90_output/ (final-output + handoff)
+- **교차 세션 미커밋 정리** (2026-03-13)
+  - 4개 병렬 Opus 세션 미커밋 변경 검증·수정·커밋
+  - 11_user-guide git init + initial commit (19파일)
+  - ~/.claude 10파일 커밋 (T1+lightweight+Living Docs enforcement+C1/C2/C3 hook 수정)
+  - 08_documentation-system 4파일 커밋 (v2.1 T1+경량+Living Docs)
+  - dev-vault 커밋 (AGENTS.md+HOME.md)
+  - Hook 버그 수정: pre-tool-use.sh C1/C2/C3 독립 프로젝트 repo false positive
+  - 파이프라인: 01_orchestration/05_cross-session-cleanup_0313/
 - **10_index-system edge 4종 구현 완료** (2026-03-12)
   - syncs-to (3): rulesync.jsonc → .claude/.gemini/.codex
   - delegates-to (4): 08/09 → codex-cli/gemini-cli

@@ -4,6 +4,17 @@
 
 ---
 
+## 교차 세션 미커밋 정리 (2026-03-13)
+- 4개 병렬 Opus 세션(User Guide, 배치 가이드, Lightweight, T1+Living Docs) 변경사항 통합
+- 11_user-guide: git init + initial commit (ideation→impl merged 19파일)
+- ~/.claude: T1 phase-conditional + Living Docs enforcement + 경량 분기 + C1/C2/C3 독립 repo 수정
+- 08_documentation-system: v2.1 (T1+경량+Living Docs) 4파일
+- dev-vault: AGENTS.md T1 갱신 + HOME.md user-guide 추가
+- Hook 버그: pre-tool-use.sh C1/C2/C3가 독립 프로젝트 repo에서 HOME.md 부재로 false positive → GIT_ROOT 존재 체크 추가
+- 파이프라인: 05_cross-session-cleanup_0313 (경량)
+
+---
+
 ## 새 작업 배치 가이드 — 프로젝트 scope 정의 + 판단 흐름도 (2026-03-13)
 
 ### CLAUDE.md 프로젝트 구조 개편
