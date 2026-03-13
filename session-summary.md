@@ -1,23 +1,33 @@
 # 세션 요약
 
-> 최종 수정: 2026-03-11 (22:40)
+> 최종 수정: 2026-03-13 (14:56)
 
 > compressor 에이전트가 자동 업데이트합니다.
 
 === 컨텍스트 압축 요약 (최신) ===
 
-## 23:24 [dev] wezterm config + session-end
+## 14:56 [orchestration] 03-13 대규모 정리 + Auto-Completion Fix
 
-세션 목표: wezterm config 관리 + 세션 종료 정리
+세션 목표: 교차 세션 미커밋 정리 + 새 작업 배치 가이드 + Auto-Completion Fix + index-system hooks
 
 완료:
-  - [dev] wezterm config 백업 — 03_wezterm 폴더 생성, thin loader, Ctrl+Shift+S 저장 통합 (55bbee5)
-  - [dev] HOME.md orchestration v4.1 반영 + wezterm config 업데이트 (66c8f86)
+  - [orchestration] Auto-Completion Fix — pipeline-watch.py 역할 4: 프로젝트 파일 3개+ 수정 후 STATE.md 미편집 시 리마인드 (b016fba)
+  - [orchestration] 교차 세션 미커밋 정리 — 4개 병렬 Opus 세션 통합 (8d54ddb, 752f66a, 51ac18f)
+  - [orchestration] 새 작업 배치 가이드 — 커널/서비스/앱 계층 + Q1→Q3 흐름도 (e8e577b)
+  - [orchestration] DONE gate 경량 면제 — 04/05 파이프라인 DONE
+  - [dev] CLAUDE.md scope+계층 명시 + 새 작업 배치 규칙 추가 (b5d5ece)
+  - [dev] AGENTS.md T1 phase-conditional + HOME.md user-guide (17dca5d)
+  - [dev] HOME.md orchestration Auto-Completion Fix + index-system infra hooks (ac46919, 3941820)
+  - [dev] HOME.md user-guide v1.0 완료 + documentation-system 경량 DONE gate (a3ca278)
+  - [~/.claude] T1 phase-conditional + Living Docs enforcement + 경량 분기 + C1/C2/C3 독립 repo 수정
+  - [08_documentation-system] v2.1 (T1+경량+Living Docs) 4파일
+  - [11_user-guide] git init + initial commit (19파일)
+  - [10_index-system] infra hooks — PostToolUse impact + SessionStart scan
 
 현재 상태:
-  orchestration main up to date (live-context.md만 dirty, 커밋 불필요).
-  mcp-memory main up to date (dashboard.html, ontology-review.md dirty — 자동 생성 파일).
-  dev/ main up to date (04_memory_export submodule dirty).
+  orchestration main pushed (live-context.md만 dirty).
+  mcp-memory main pushed (dashboard.html, ontology-review.md dirty — 자동 생성 파일).
+  dev/ main — HOME.md 미커밋 변경 (index-system edge-4 review DONE 반영).
 
 실패 기록 (삭제 금지):
   - [시도] TYPE_BOOST additive 0.03 → [실패] enrichment 격차 대비 무효 → [원인] additive boost가 RRF 스코어 차이를 뒤집기엔 너무 작음 → Typed Vector Channel (RRF 채널)로 교체
@@ -27,10 +37,10 @@
 
 다음 할 것:
   1. 08 시스템 미준수 해법 구현 — 행동 감지 Hook (Ideation R2 진행)
-  2. index-system v2 — SQLite 캐시 + Provider 패턴 (노드 900+ 시)
-  3. phase-guide.md 원자 단위 구체화
+  2. index-system 03 Review → DONE, M1/M2 수정
+  3. mcp-memory Ontology v3 Phase 2.5~6 (re-embed → co-retrieval → dispatch → NDCG 0.9)
   4. mcp-memory ingest 노드 정리 (SQLite 스크립트)
-  5. mcp-memory Ontology v3 Phase 2.5~6 (re-embed → co-retrieval → dispatch → NDCG 0.9)
+  5. portfolio 02·How I Think / 03·How I Build
 
 열린 결정:
   - 08 시스템 행동 감지 Hook: 경고 vs 차단, 경로 필터, Layer 2 이탈 방지 방법
@@ -41,8 +51,15 @@
   - index-system: master 브랜치 (orchestration: main, portfolio: master)
   - mcp-memory checkpoint 전 다른 pane 작업 여부 확인 (DB 충돌 방지)
 
-[재작성] 세션 목표: wezterm config 관리 | 남은 할 것: 1. 08 행동 감지 Hook 구현 2. index-system v2 3. phase-guide 구체화 4. mcp-memory ingest 정리 5. Ontology v3 Phase 2.5~6
+[재작성] 세션 목표: 03-13 대규모 정리 + Auto-Completion Fix | 남은 할 것: 1. 08 행동 감지 Hook 2. index-system 03 Review 3. mcp-memory v3 Phase 2.5~6 4. mcp-memory ingest 정리 5. portfolio How I Think/Build
 === 이 내용을 새 세션 시작 시 붙여넣으세요 ===
+
+---
+
+=== 이전 세션 (2026-03-11 wezterm+session-end) ===
+
+세션 목표: wezterm config 관리 + 세션 종료 정리
+완료: [dev] 03_wezterm 폴더 생성 (55bbee5), HOME.md v4.1 반영 (66c8f86)
 
 ---
 
