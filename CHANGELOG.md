@@ -1,6 +1,17 @@
 # Orchestration System Changelog
 
-> 최종 수정: 2026-03-13
+> 최종 수정: 2026-03-16
+
+---
+
+## Auto-Iterate — 시스템 건강 측정 + iterate 방법론 (2026-03-16)
+- 파이프라인: 09_auto-iterate_0315 (DONE)
+- Karpathy autoresearch 분석 → 현실적 적응: 측정 자동, 수정은 세션에서
+- validate_pipeline.py bootstrap exempt 수정 4곳 (N17, I1, P1/F1, R2)
+- test_pipeline_rules.py: 37 scenarios, F1=1.0
+- 12_auto-iterate 독립 프로젝트 생성 (measure.py → HEALTH.md)
+- session-start.sh에 System Health 표시 추가
+- 확정 결정: 무인 수정 금지, Opus 소비 0, 테스트는 실경험에서만
 
 ---
 
