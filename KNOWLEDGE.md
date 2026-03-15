@@ -40,23 +40,23 @@ orchestration/
 └── scripts/          # 훅 스크립트
 ```
 
-## 토큰 관리 (200K Context, v3.3.1)
+## 토큰 관리 (1M Context, CE v1.0)
 
-- 1세션=1목표
-- **100K → compact 권장, 120K → compact 필수** (150K auto-compact은 최후 방어선)
-- compact 요약: 200자 이내, 파일명+결정 위주, 대화 반복 금지
+- 1세션=1목표 (완화 가능: 1M이면 멀티태스크 허용)
+- **Compact 점진화**: 500K checkpoint 권장 / 700K compact 필수 / 900K 세션교체
+- **Progressive Reading**: 전문 바로 읽지 않음. index → Serena 시그니처 → 필요한 본문만
+- **Gate 자동 판단**: ≤300K 직접 / 300-800K Codex 정찰 / 800K+ 분산 추출
 - compact 전 스냅샷 → compact 후 자동 Read → 맥락 보존
 - 읽기 금지: node_modules/, .git/, dist/, build/, logs/
-- 서브에이전트: Haiku(요약) / Sonnet(분석) / Opus(설계)
+- 서브에이전트: Haiku(요약) / Sonnet(분석) / Opus(설계) — 또는 1M이면 Opus 직접
 
-## .chain-temp 패턴 (v3.3.1)
+## .chain-temp 패턴 (Gate B/C에서만)
 
-체인 에이전트 결과를 파일로 오프로딩, 메인 context에 1줄 요약만 반환:
-- `code-reviewer` → `.chain-temp/review-{date}.md`, 메인에 "3 RED, 2 YELLOW"
-- `gemini-analyzer` → `.chain-temp/gemini-{date}.txt`, 메인에 "추출 N건"
-- `codex-reviewer` → `.chain-temp/codex-{date}.txt`, 메인에 요약 1줄
-- `ai-synthesizer` → `.chain-temp/synthesis-{date}.md`, 메인에 GO/NO-GO
-- `compressor` → `.chain-temp/docs-{date}.md` (doc-ops 결과)
+대규모 작업(Gate B/C)에서 에이전트 결과 오프로딩. Gate A에서는 불필요:
+- `code-reviewer` → `.chain-temp/review-{date}.md`
+- `gemini-analyzer` → `.chain-temp/gemini-{date}.txt`
+- `codex-reviewer` → `.chain-temp/codex-{date}.txt`
+- `ai-synthesizer` → `.chain-temp/synthesis-{date}.md`
 - 다음 체인 에이전트는 `.chain-temp/` 파일을 직접 Read
 
 ## 200K 세션 운영 (v3.3.1)

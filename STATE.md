@@ -230,7 +230,7 @@
 - Notification: 시스템 알림
 
 ### Cross-CLI 인프라 (v4.0, 축소)
-- **.ctx/ 폐기** (2026-03-03): 실사용 없어 삭제. Cross-CLI 공유 메모리 비활성.
+- **.ctx/ 런타임 상태 폴더** (2026-03-03 폐기 선언 → 2026-03-16 취소): hook 7개가 실제 사용 중 (.project-dirty, .system-dirty 마커, provenance.log). Cross-CLI 공유 메모리는 비활성이나, 런타임 마커로 활용.
 - **Worktree**: /c/dev/scripts/worktree-create.sh, worktree-cleanup.sh
   - 경로: /c/dev/01_projects/.worktrees/{cli}-{task}
 - **rulesync**: sandbox 세팅용으로만 유지 (프로덕션 미적용)

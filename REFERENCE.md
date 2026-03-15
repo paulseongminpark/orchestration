@@ -92,16 +92,18 @@ linker            → 크로스세션 맥락 기록
 | /handoff | CLI 간 작업 위임 (.ctx/ 갱신) | 필요 시 |
 | /status | 현재 시스템 상태 | 필요 시 |
 
-### 200K Context 운영 (v3.3.1)
+### 1M Context 운영 (CE v1.0)
 
 | 임계값 | 조치 |
 |--------|------|
-| ~42K | baseline (고정) |
-| 100K | compact 권장 |
-| 120K | compact 필수 |
-| 150K | auto-compact (최후 방어선) |
+| ~15K | baseline (고정) |
+| 500K | checkpoint 권장 |
+| 700K | compact 필수 |
+| 900K | 세션 교체 |
 
-- **.chain-temp/**: 에이전트 체인 결과 파일 오프로딩 → 메인 context에 1줄 요약만
+- **Gate 자동 판단**: ≤300K 직접 / 300-800K Codex 정찰 / 800K+ 분산 추출
+- **Progressive Reading**: index → 시그니처 → 필요한 본문만
+- **.chain-temp/**: Gate B/C에서만 에이전트 결과 오프로딩
 - compact 전 스냅샷 → compact 후 자동 Read → 맥락 보존
 
 ---
